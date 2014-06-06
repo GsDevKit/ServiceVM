@@ -1,0 +1,16 @@
+{
+	"category" : "Pharo-Future",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "",
+	"instvars" : [
+		"futureValue",
+		"exception",
+		"lock" ],
+	"name" : "PharoFuture",
+	"pools" : [
+		 ],
+	"super" : "Object",
+	"type" : "normal" }
