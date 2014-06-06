@@ -1,0 +1,19 @@
+TDStringLeafNode{#name:'README.md',#contents:'
+* register the web server with WAGemStoneRunSmalltalkServer at tODE command line:
+
+  ```Shell
+  ./webServer --register=zinc --port=8383 
+  ```
+
+* start the web server:
+
+  ```Shell
+  ./webServer --start
+  ```
+
+* stop the web server:
+
+  ```Shell
+  ./webServer --start
+  ```
+',#creationTime:DateAndTime['2014-06-06T15:47:15.7579469680786-07:00'],#modificationTime:DateAndTime['2014-06-06T15:50:39.1118109226226-07:00']}

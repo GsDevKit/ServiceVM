@@ -5,6 +5,7 @@ cmd := command command.
 command
   getOptsMixedLongShort:
     {#(\'help\' $h #\'none\').
+    #(\'register\' nil #\'required\').
     #(\'port\' nil #\'required\').
     #(\'start\' nil #\'none\').
     #(\'stop\' nil #\'none\').
@@ -67,4 +68,4 @@ EXAMPLES
   ./webServer --status
   ./webServer --stop
 \'
-      topez: topez ] ]',#creationTime:DateAndTime['2014-06-06T15:24:28.3991000652313-07:00'],#modificationTime:DateAndTime['2014-06-06T15:40:37.7115581035614-07:00']}
+      topez: topez ] ]',#creationTime:DateAndTime['2014-06-06T15:24:28.3991000652313-07:00'],#modificationTime:DateAndTime['2014-06-06T15:46:47.2338750362396-07:00']}
