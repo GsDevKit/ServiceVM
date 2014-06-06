@@ -3,7 +3,7 @@ ServiceVM
 
 The Service VM is intended to provide example code for creating and using a separate "Service VM" for offloading work that in a Squeak/Pharo Seaside application, you would have forked of a thread to do the work 
 
-The Service VM work was tracked by a [conversation between me (Dale Henrichs) and Nick Ager][1].
+The Service VM work was tracked by a [conversation between Nick Ager and I (Dale Henrichs)][1].
 
 ## Futures work by Nick Ager
 A Future implementation for Pharo with a package containing two Seaside examples to demonstrate a typical usage scenario.
