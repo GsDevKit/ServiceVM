@@ -1,22 +1,10 @@
 TDObjectGatewayNode{#name:'project',#contents:'| project |
-false
-  ifTrue: [ 
-    project := TDProjectSpecEntryDefinition new
-      baseline: \'GsServiceVMExample\'
-      repository: \'filetree:///opt/git/ServiceVM/repository\'
-      loads: #(\'default\').
-    project
-      projectPath: self parent printString;
-      status: #(#\'active\');
-      yourself ]
-  ifFalse: [ 
-    project := TDProjectSpecEntryDefinition new
-      configuration: \'GsServiceVMExample\'
-      version: \'2.0.0\'
-      repository: \'http://seaside.gemtalksystems.com/ss/MetacelloRepository\'
-      loads: #(\'default\').
-    project
-      projectPath: self parent printString;
-      status: #(#\'active\');
-      yourself ].
+project := TDProjectSpecEntryDefinition new
+  baseline: \'ServiceVM\'
+  repository: \'filetree:///opt/git/ServiceVM/repository\'
+  loads: #(\'default\').
+project
+  projectPath: self parent printString;
+  status: #(#\'active\');
+  yourself.
 ^ project'}

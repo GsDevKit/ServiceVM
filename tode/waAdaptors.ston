@@ -1,4 +1,4 @@
-TDScriptLeafNode{#name:'adaptors',#contents:'[ :topez :objIn :tokens :command :commandNode | 
+TDScriptLeafNode{#name:'waAdaptors',#contents:'[ :topez :objIn :tokens :command :commandNode | 
 | opts args cmd |
 \"for help: ./adaptors -h\"
 cmd := command command.
@@ -56,4 +56,4 @@ EXAMPLES
   ./adaptors --status
   ./adaptors --stop
 \'
-      topez: topez ] ]',#creationTime:DateAndTime['2014-06-05T12:47:31.1150369644165-07:00'],#modificationTime:DateAndTime['2014-06-05T14:10:08.6954600811004-07:00']}
+      topez: topez ] ]',#creationTime:DateAndTime['2014-06-06T12:29:05.6250441074371-07:00'],#modificationTime:@2}
