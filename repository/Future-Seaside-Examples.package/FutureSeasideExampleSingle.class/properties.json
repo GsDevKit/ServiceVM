@@ -1,0 +1,16 @@
+{
+	"category" : "Future-Seaside-Examples",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "NickAger 08/31/2010 11:06",
+	"instvars" : [
+		"remoteTime",
+		"step",
+		"count" ],
+	"name" : "FutureSeasideExampleSingle",
+	"pools" : [
+		 ],
+	"super" : "WAComponent",
+	"type" : "normal" }

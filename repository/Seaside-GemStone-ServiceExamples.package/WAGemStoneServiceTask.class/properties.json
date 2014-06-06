@@ -1,0 +1,23 @@
+{
+	"category" : "Seaside-GemStone-ServiceExamples-Core",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		"Generator",
+		"InProcess",
+		"Instances",
+		"Queue" ],
+	"commentStamp" : "DaleHenrichs 08/25/2010 12:02",
+	"instvars" : [
+		"id",
+		"currentStep",
+		"step1",
+		"step2",
+		"step3",
+		"errorFlag",
+		"log" ],
+	"name" : "WAGemStoneServiceTask",
+	"pools" : [
+		 ],
+	"super" : "Object",
+	"type" : "normal" }

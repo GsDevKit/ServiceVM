@@ -1,0 +1,14 @@
+{
+	"category" : "Seaside-GemStone-ServiceExamples-Core",
+	"classinstvars" : [
+		"ServiceTasks" ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "DaleHenrichs 08/25/2010 11:26",
+	"instvars" : [
+		 ],
+	"name" : "WAGemStoneServiceVMTask",
+	"pools" : [
+		 ],
+	"super" : "WAGemStoneMaintenanceTask",
+	"type" : "normal" }

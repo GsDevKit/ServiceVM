@@ -1,0 +1,14 @@
+{
+	"category" : "Seaside-GemStone-ServiceExamples-Component",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "DaleHenrichs 08/25/2010 11:25",
+	"instvars" : [
+		"workUnit" ],
+	"name" : "WAGemStoneInteractiveServiceExample",
+	"pools" : [
+		 ],
+	"super" : "WAComponent",
+	"type" : "normal" }

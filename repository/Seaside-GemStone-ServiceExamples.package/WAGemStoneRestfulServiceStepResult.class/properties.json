@@ -1,0 +1,14 @@
+{
+	"category" : "Seaside-GemStone-ServiceExamples-REST",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "DaleHenrichs 08/25/2010 11:24",
+	"instvars" : [
+		"workUnit" ],
+	"name" : "WAGemStoneRestfulServiceStepResult",
+	"pools" : [
+		 ],
+	"super" : "WAGemStoneRestfulServiceHtmlComponent",
+	"type" : "normal" }
