@@ -1,12 +1,10 @@
 #!/bin/bash
 #
-# ./startSmalltalkServer31 runs a server Gem
-#     - first argument is the name of the server class that will be looked up in Gemstone to startthe server
+# ./startSmalltalkServer runs a server Gem
+#     - first argument is the name of the server that will be looked up in 
+#       Gemstone to startthe server
 #     - second argument is a port number
 #
-ServerClass=$1
-ServerPort=$2
-
 
 if [ -s $GEMSTONE/seaside/etc/gemstone.secret ]; then
     . $GEMSTONE/seaside/etc/gemstone.secret
@@ -15,9 +13,9 @@ else
     exit 1
 fi
 
-# Requires a port number as a parameter
+# Requires a server name as a parameter
 if [ "a$1" = "a" ]; then
-        echo 'Missing argument <server port number>'
+        echo 'Missing argument <server name>'
         exit 1
 fi
 
@@ -61,9 +59,11 @@ System _cacheName: ((x := '$1-' , (GsSession serialOfSession: System session) pr
 
 run
 
-GsProcess usingNativeCode not
+(GsProcess usingNativeCode not or: [(Smalltalk at: #TDDebugTool ifPresent: [:cls | cls enableRemoteBreakpoints])]) == true
   ifTrue: [
-    "Enable remote Breakpoing handling"
+    "Enable remote Breakpoing handling, if not using Native code or TDDebugTool
+     is present and enableRemoteBreakpoints is true ... when a breakpoint is 
+     set, vm disables native code, so there _is_ a performance penalty."
     Breakpoint trappable: true.
     GemToGemAnnouncement installStaticHandler.
     System commitTransaction 
@@ -72,22 +72,17 @@ GsProcess usingNativeCode not
 
 System transactionMode: #manualBegin.
 
-Exception
-  installStaticException:
-    [:ex :cat :num :args |
-      "Run the abort in a lowPriority process, since we must acquire the
-       transactionMutex."
-      [
-        GRPlatform current transactionMutex
-          critical: [
-            GRPlatform current doAbortTransaction ].
-        System enableSignaledAbortError.
-      ] forkAt: Processor lowestPriority.
-    ]
-  category: GemStoneError
-  number: 6009 "#rtErrSignalAbort"
-  subtype: nil.
-System enableSignaledAbortError.
+TransactionBacklog addDefaultHandler: [:ex |
+  "Run the abort in a lowPriority process, since we must acquire the
+   transactionMutex."
+  [
+    GRPlatform current transactionMutex
+      critical: [ GRPlatform current doAbortTransaction ].
+    TransactionBacklog enableSignalling.
+  ] forkAt: Processor lowestPriority.
+].
+TransactionBacklog enableSignalling.
+
 "This thread is needed to handle the SigAbort exception, when the primary
  thread is blocked. Assuming default 60 second STN_GEM_ABORT_TIMEOUT, wake
  up at 30 second intervals."
@@ -99,7 +94,9 @@ GsFile gciLogServer: '$1 Server started on port ', $2 printString.
 
 WAGemStoneRunSmalltalkServer startGemServer: '$1' On: $2.
 "does not return"
+
 %
+
 run
 GemToGemAnnouncement uninstallStaticHandler.
 System inTransaction
