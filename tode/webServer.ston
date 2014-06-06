@@ -8,6 +8,7 @@ command
     #(\'register\' nil #\'required\').
     #(\'port\' nil #\'required\').
     #(\'start\' nil #\'none\').
+    #(\'status\' nil #\'none\').
     #(\'stop\' nil #\'none\').
     #(\'restart\' nil #\'none\')}
   optionsAndArguments: [ :options :operands | 
@@ -18,37 +19,51 @@ opts
   ifAbsent: [ 
     | server serviceName |
     serviceName := \'ServiceVM-WebServer\'.
-    opts
-      at: \'register\'
-      ifPresent: [ :serverType | 
-        | serverClass |
-        serverType = \'zinc\'
-          ifTrue: [ serverClass := WAGsZincAdaptor ]
-          ifFalse: [ 
-            serverType = \'fastcgi\'
-              ifTrue: [ serverClass := WAFastCGIAdaptor ]
-              ifFalse: [ 
-                serverType = \'swazoo\'
-                  ifTrue: [ serverClass := WAGsSwazooAdaptor ]
-                  ifFalse: [ self error: \'Unknown web server type \' , serverType printString ] ] ].
-        WAGemStoneRunSmalltalkServer
-          addServerOfClass: serverClass
-          withName: serviceName
-          on: #(8383) ].
     server := WAGemStoneRunSmalltalkServer serverNamed: serviceName.
-    opts at: \'port\' ifPresent: [ :port | server ports: {(port asNumber)} ].
     opts
-      at: \'start\'
-      ifPresent: [ :ignored | WAGemStoneRunSmalltalkServer startGems: server ]
+      at: \'status\'
+      ifPresent: [ :ignored | 
+        | response |
+        server isNil
+          ifTrue: [ response := \'Web server not registered\' ]
+          ifFalse: [ 
+            | webServer |
+            webServer := server serverClass default.
+            (webServer notNil and: [ webServer isRunning ])
+              ifTrue: [ response := \'Web server is running\' ]
+              ifFalse: [ response := \'Web server is not running\' ] ].
+        response ]
       ifAbsent: [ 
         opts
-          at: \'restart\'
-          ifPresent: [ :ignored | WAGemStoneRunSmalltalkServer restartGems: server ]
+          at: \'register\'
+          ifPresent: [ :serverType | 
+            | serverClass |
+            serverType = \'zinc\'
+              ifTrue: [ serverClass := WAGsZincAdaptor ]
+              ifFalse: [ 
+                serverType = \'fastcgi\'
+                  ifTrue: [ serverClass := WAFastCGIAdaptor ]
+                  ifFalse: [ 
+                    serverType = \'swazoo\'
+                      ifTrue: [ serverClass := WAGsSwazooAdaptor ]
+                      ifFalse: [ self error: \'Unknown web server type \' , serverType printString ] ] ].
+            WAGemStoneRunSmalltalkServer
+              addServerOfClass: serverClass
+              withName: serviceName
+              on: #(8383) ].
+        opts at: \'port\' ifPresent: [ :port | server ports: {(port asNumber)} ].
+        opts
+          at: \'start\'
+          ifPresent: [ :ignored | WAGemStoneRunSmalltalkServer startGems: server ]
           ifAbsent: [ 
             opts
-              at: \'stop\'
-              ifPresent: [ :ignored | WAGemStoneRunSmalltalkServer stopGems: server ]
-              ifAbsent: [  ] ] ] ]
+              at: \'restart\'
+              ifPresent: [ :ignored | WAGemStoneRunSmalltalkServer restartGems: server ]
+              ifAbsent: [ 
+                opts
+                  at: \'stop\'
+                  ifPresent: [ :ignored | WAGemStoneRunSmalltalkServer stopGems: server ]
+                  ifAbsent: [  ] ] ] ] ]
   ifPresent: [ :ignored | 
     TDManPage
       viewManPage:
@@ -68,4 +83,4 @@ EXAMPLES
   ./webServer --status
   ./webServer --stop
 \'
-      topez: topez ] ]',#creationTime:DateAndTime['2014-06-06T15:24:28.3991000652313-07:00'],#modificationTime:DateAndTime['2014-06-06T15:46:47.2338750362396-07:00']}
+      topez: topez ] ]',#creationTime:DateAndTime['2014-06-06T15:24:28.3991000652313-07:00'],#modificationTime:DateAndTime['2014-06-06T16:08:17.0342600345611-07:00']}

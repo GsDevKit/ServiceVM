@@ -1,3 +1,4 @@
+###Web Server
 
 * register the web server with WAGemStoneRunSmalltalkServer at tODE command line:
 
@@ -14,5 +15,5 @@
 * stop the web server:
 
   ```Shell
-  ./webServer --start
+  ./webServer --stop
   ```
