@@ -1,6 +1,6 @@
 TDScriptLeafNode{#name:'waAdaptors',#contents:'[ :topez :objIn :tokens :command :commandNode | 
 | opts args cmd |
-\"for help: ./adaptors -h\"
+\"for help: ./waAdaptors -h\"
 cmd := command command.
 command
   getOptsMixedLongShort:
@@ -37,23 +37,28 @@ opts
         opts
           at: \'restart\'
           ifPresent: [ :ignored | WAGemStoneRunSeasideGems restartGems ]
-          ifAbsent: [ opts at: \'stop\' ifPresent: [ :ignored | WAGemStoneRunSeasideGems stopGems ] ifAbsent: [  ] ] ] ]
+          ifAbsent: [ 
+            opts
+              at: \'stop\'
+              ifPresent: [ :ignored | WAGemStoneRunSeasideGems stopGems ]
+              ifAbsent: [  ] ] ] ]
   ifPresent: [ :ignored | 
     TDManPage
       viewManPage:
         \'NAME
-  adaptors - adaptors sript utility template
+  waAdaptors - control Seaside web vms
 SYNOPSIS
-  adaptors [-h|--help]
+  waAdaptors [-h|--help] [--default=zinc|swazoo|fastCGI] [--port=<port-number>]
+             [--start] [--stop] [--restart]
 DESCRIPTION
 EXAMPLES
-  ./adaptors --help
-  ./adaptors --default=zinc --port=8383 
+  ./waAdaptors --help
+  ./waAdaptors --default=zinc --port=8383 
 
-  ./adaptors --port=8383 
-  ./adaptors --restart
-  ./adaptors --start
-  ./adaptors --status
-  ./adaptors --stop
+  ./waAdaptors --port=8383 
+  ./waAdaptors --restart
+  ./waAdaptors --start
+  ./waAdaptors --status
+  ./waAdaptors --stop
 \'
-      topez: topez ] ]',#creationTime:DateAndTime['2014-06-06T12:29:05.6250441074371-07:00'],#modificationTime:@2}
+      topez: topez ] ]',#creationTime:DateAndTime['2014-06-06T12:29:05.6250441074371-07:00'],#modificationTime:DateAndTime['2014-06-06T13:04:11.9399600028991-07:00']}
