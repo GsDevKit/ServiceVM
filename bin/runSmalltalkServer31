@@ -1,0 +1,68 @@
+#!/bin/bash
+#
+# runServer [start | stop | restart]
+#
+# The default setup is to run 1 vm on whatever ports specified and not affect the SeasideGems  or the Maintenance VM
+# it does not check for port conflicts .  
+# 
+SeasideAdaptor="$2"
+PORTS="$3"
+
+topaz_start()
+{
+    echo "Starting Server Gem...."
+    for port in $PORTS; do
+        if [ -e $GEMSTONE_DATADIR/${SeasideAdaptor}_server-${port}.pid ]; then
+            echo "PID file for topaz on port $port already exists (already running?), try using the stop command first."
+            continue
+        fi
+        echo "	Starting ${SeasideAdaptor} gem on port $port"
+        $GEMSTONE/seaside/bin/startSmalltalkServer31a $SeasideAdaptor $port >& ${GEMSTONE_LOGDIR}/${SeasideAdaptor}_start-${port}.log &
+    done
+
+}
+
+topaz_stop()
+{
+    echo "Stopping Gems..."
+    for port in $PORTS; do
+
+        pidfile="$GEMSTONE_DATADIR/${SeasideAdaptor}_server-${port}.pid"
+
+        if [ -e $pidfile ]; then
+            pid=`cat $pidfile`
+            echo "   Stopping ${SeasideAdaptor} topaz PID $pid running on port $port"
+            kill $pid
+            rm $pidfile
+        else
+            echo "   No PID file found for gem on port $port, not running?"
+        fi
+
+    done
+
+sleep 2
+}
+
+topaz_restart()
+{
+    echo "Restarting Gems..."
+    topaz_stop
+    topaz_start
+}
+
+case "$1" in
+
+    start)
+           topaz_start 
+            ;;
+    restart)
+            topaz_restart
+            ;;
+    stop)
+            topaz_stop
+            ;;
+    *)
+            echo "Usage: runem (start|stop|restart)"
+            ;;
+esac
+
