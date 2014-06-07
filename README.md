@@ -22,25 +22,27 @@ For GLASS the solution is to create a separate Service gem that services perform
 
 ##Installation
 
-* clone the https://github.com/glassdb/ServiceVM repository to your local disk and 
-  install the scripts needed by the service vm in the $GEMSTONE product tree (make 
-  sure you have $GEMSTONE defined before running the installScripts.sh step):
+If you are not using [tODE][7], please follow the instructions [here][8].
 
-  ```shell
-  cd /opt/git                                     # root dir for git repository
-  git clone git@github.com:glassdb/ServiceVM.git  # clone service vm
-  cd ServiceVM
-  bin/installScripts.sh                           # $GEMSTONE must be defined
-  ```
+Clone the https://github.com/glassdb/ServiceVM repository to your local disk and 
+install the scripts needed by the service vm in the $GEMSTONE product tree (make 
+sure you have $GEMSTONE defined before running the installScripts.sh step):
 
-* Install the service vm artifacts in tODE and load the example code (at the tODE 
-  command prompt):
+```shell
+cd /opt/git                                     # root dir for git repository
+git clone git@github.com:glassdb/ServiceVM.git  # clone service vm
+cd ServiceVM
+bin/installScripts.sh                           # $GEMSTONE must be defined
+```
 
-  ```Shell
-  mount /opt/git/ServiceVM/tode /home serviceVM  # mount tODE dir at /home/serviceVM
-  edit README.md                                 # edit README (this file) in tODE
-  project load @/home/serviceVM                  # load the project into the image
-  ```
+Install the service vm artifacts in tODE and load the example code (at the tODE 
+command prompt):
+
+```Shell
+mount /opt/git/ServiceVM/tode /home serviceVM  # mount tODE dir at /home/serviceVM
+edit README.md                                 # edit README (this file) in tODE
+project load @/home/serviceVM                  # load the project into the image
+```
 
 ##Service VM Example
 
@@ -119,3 +121,5 @@ In the **processStep**
 [4]: repository/Seaside-GemStone-ServiceExamples.package/WAGemStoneServiceVMTask.class/class/serviceVMTaskServiceExample.st#L22
 [5]: http://forum.world.st/threads-within-a-request-td2335295.html#a2335295
 [6]: http://gemstonesoup.wordpress.com/2007/05/10/porting-application-specific-seaside-threads-to-gemstone/
+[7]: https://github.com/dalehenrich/tode#tode-the-object-centric-development-environment-
+[8]: docs/nonTodeInstructions.md
