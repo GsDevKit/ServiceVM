@@ -66,23 +66,15 @@ Overview of tODE commands used in example:
   ./serviceExample --task=3 --poll=10     # poll for completion of task #3 (wait 10 seconds)
   ```
 
-Get server started:
+Start serviceVM gem:
 
   ```Shell
   cd /home/serviceVM
-  # open object log window
-  ol view --reverse --age=`5 minutes`
-  #
-  ##### Register and start servers
-  #
-  # register servers
-  ./webServer --register=zinc --port=8383 # use port 8383 for web server
-  ./serviceVM --register 
-  # start gems
-  ./webServer --start
+  ./serviceVM --register # only done once
   ./serviceVM --start
-  # refresh window in object log window (CMD-l)
   ```
+
+_**_*[`serviceVM --register` & `serviceVM --start` for non-tode users][11]*
 
 ####Service VM loop
 
@@ -94,6 +86,8 @@ You can view the state of service vm with the `serviceExample` script. The follo
 ```Shell
 ./serviceExample --status
 ```
+
+_**_*[`serviceExample --status` for non-tode users][12]*
 
 produces an inspector on the key state of the service vm:
 
@@ -121,6 +115,8 @@ Reset the example vm, then create and view a task:
 ./serviceExample --task; edit
 ```
 
+_**_*[`./serviceExample --reset` & `./serviceExample --task` for non-tode users][12]*
+
 and here's the state of the freshly created task instance:
 
 ```
@@ -143,6 +139,8 @@ Now cycle through two of the three steps and view new state:
 ./serviceExample --task=1 --addToQueue --poll=10; edit
 ```
 
+_**_*[`./serviceExample --task=1 --addToQueue --poll=10` for non-tode users][12]*
+
 and view the new state:
 
 ```
@@ -164,6 +162,7 @@ peek at the service vm state:
 ./serviceExample --status
 ```
 
+_**_*[`serviceExample --status` for non-tode users][12]*
 
 which will look something like the following:
 
@@ -188,3 +187,5 @@ which will look something like the following:
 [8]: 
 [9]: repository/Seaside-GemStone-ServiceExamples.package/WAGemStoneServiceVM.class
 [10]: docs/readme/projectLoad.st
+[11]: docs/readme/serviceVM.st
+[12]: docs/readme/serviceExample.st
