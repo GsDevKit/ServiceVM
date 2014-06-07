@@ -51,7 +51,7 @@
     startGems: (WAGemStoneRunSmalltalkServer serverNamed:  'ServiceVM-ServiceVM').
   ```
 
-* **[demo steps}**
+* To run through the example, follow the [instructions here](exampleInstructions.md).
 
 * shut down the service vms:
 
