@@ -7,7 +7,7 @@
 		"InProcess",
 		"Instances",
 		"Queue" ],
-	"commentStamp" : "dkh 06/07/2014 09:36",
+	"commentStamp" : "dkh 06/07/2014 10:39",
 	"instvars" : [
 		"id",
 		"currentStep",
@@ -16,7 +16,7 @@
 		"step3",
 		"errorFlag",
 		"log" ],
-	"name" : "WAGemStoneServiceExampleWorkUnit",
+	"name" : "WAGemStoneServiceExampleTask",
 	"pools" : [
 		 ],
 	"super" : "Object",

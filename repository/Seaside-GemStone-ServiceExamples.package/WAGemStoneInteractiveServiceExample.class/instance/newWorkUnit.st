@@ -1,3 +1,3 @@
 private
 newWorkUnit
-  ^ WAGemStoneServiceExampleWorkUnit new
+  ^ WAGemStoneServiceExampleTask new

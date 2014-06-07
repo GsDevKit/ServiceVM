@@ -6,6 +6,7 @@ command
   getOptsMixedLongShort:
     {#(\'help\' $h #\'none\').
     #(\'register\' nil #\'none\').
+    #(\'force\' nil #\'none\').
     #(\'start\' nil #\'none\').
     #(\'status\' nil #\'none\').
     #(\'stop\' nil #\'none\').
@@ -25,19 +26,17 @@ opts
         | response |
         server isNil
           ifTrue: [ response := \'Web server not registered\' ]
-          ifFalse: [ 
-            | serviceVM |
-            serviceVM := server serverClass default.
-            (serviceVM notNil and: [ serviceVM isRunning ])
-              ifTrue: [ response := \'Web server is running\' ]
-              ifFalse: [ response := \'Web server is not running\' ] ].
+          ifFalse: [WAGemStoneRunSmalltalkServer statusGems: server].
         response ]
       ifAbsent: [ 
         opts
           at: \'register\'
           ifPresent: [ :ignored | 
+            opts
+              at: \'force\'
+              ifPresent: [ :xx | server ifNotNil: [ WAGemStoneRunSmalltalkServer removeServerNamed: serviceName ] ].
             WAGemStoneRunSmalltalkServer
-              addServerOfClass: WAGemStoneServiceVMTask
+              addServerOfClass: WAGemStoneServiceVM
               withName: serviceName
               on: #(8383).
             server := WAGemStoneRunSmalltalkServer serverNamed: serviceName ].
@@ -60,17 +59,18 @@ opts
         \'NAME
   serviceVM - control Zinc-based web server for ServiceVM example
 SYNOPSIS
-  serviceVM [-h|--help] [--register] [--start] [--stop] [--restart]
+  serviceVM [-h|--help] [--register [--force]] [--start] [--stop] [--restart]
 
 
 DESCRIPTION
 EXAMPLES
   ./serviceVM --help
   ./serviceVM --register
+  ./serviceVM --register --force # force a new registration
 
   ./serviceVM --restart
   ./serviceVM --start
   ./serviceVM --status
   ./serviceVM --stop
 \'
-      topez: topez ] ]',#creationTime:DateAndTime['2014-06-06T19:56:30.1198749542236-07:00'],#modificationTime:DateAndTime['2014-06-07T08:47:33.3698329925537-07:00']}
+      topez: topez ] ]',#creationTime:DateAndTime['2014-06-06T19:56:30.1198749542236-07:00'],#modificationTime:DateAndTime['2014-06-07T12:04:43.4493010044097-07:00']}

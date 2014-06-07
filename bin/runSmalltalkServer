@@ -22,6 +22,25 @@ topaz_start()
 
 }
 
+topaz_status()
+{
+    echo "Server Gem Status..."
+    pid=
+    for port in $PORTS; do
+
+        pidfile="$GEMSTONE_DATADIR/${SeasideAdaptor}_server-${port}.pid"
+
+        if [ -e $pidfile ]; then
+	    pid_list="$pid_list `cat $pidfile`"
+        else
+          echo "  Gem on port $port, not started (no PID file)"
+        fi
+    done
+    if [ "${pid_list}x" != "x" ] ; then
+      echo "  Status of running processes: $pid_list"
+      ps -fp $pid_list
+    fi
+}
 topaz_stop()
 {
     echo "Stopping Gems..."
@@ -61,8 +80,11 @@ case "$1" in
     stop)
             topaz_stop
             ;;
+    status)
+	    topaz_status
+	    ;;
     *)
-            echo "Usage: runem (start|stop|restart)"
+            echo "Usage: runem (start|stop|restart|status)"
             ;;
 esac
 

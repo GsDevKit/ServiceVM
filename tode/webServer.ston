@@ -19,18 +19,14 @@ opts
   ifAbsent: [ 
     | server serviceName |
     serviceName := \'ServiceVM-WebServer\'.
-server := WAGemStoneRunSmalltalkServer serverNamed: serviceName.    opts
+    server := WAGemStoneRunSmalltalkServer serverNamed: serviceName.
+    opts
       at: \'status\'
       ifPresent: [ :ignored | 
         | response |
         server isNil
           ifTrue: [ response := \'Web server not registered\' ]
-          ifFalse: [ 
-            | webServer |
-            webServer := server serverClass default.
-            (webServer notNil and: [ webServer isRunning ])
-              ifTrue: [ response := \'Web server is running\' ]
-              ifFalse: [ response := \'Web server is not running\' ] ].
+          ifFalse: [ WAGemStoneRunSmalltalkServer statusGems: server ].
         response ]
       ifAbsent: [ 
         opts
@@ -83,4 +79,4 @@ EXAMPLES
   ./webServer --status
   ./webServer --stop
 \'
-      topez: topez ] ]',#creationTime:DateAndTime['2014-06-06T15:24:28.3991000652313-07:00'],#modificationTime:DateAndTime['2014-06-06T21:51:49.0880711078643-07:00']}
+      topez: topez ] ]',#creationTime:DateAndTime['2014-06-06T15:24:28.3991000652313-07:00'],#modificationTime:DateAndTime['2014-06-07T12:18:49.3824388980865-07:00']}

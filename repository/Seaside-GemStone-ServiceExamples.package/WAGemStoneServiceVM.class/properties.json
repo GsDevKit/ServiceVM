@@ -4,10 +4,10 @@
 		"ServiceTasks" ],
 	"classvars" : [
 		 ],
-	"commentStamp" : "",
+	"commentStamp" : "dkh 06/07/2014 10:45",
 	"instvars" : [
 		 ],
-	"name" : "WAGemStoneServiceVMTask",
+	"name" : "WAGemStoneServiceVM",
 	"pools" : [
 		 ],
 	"super" : "WAGemStoneMaintenanceTask",

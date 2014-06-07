@@ -1,0 +1,12 @@
+{
+	"class" : {
+		"buildTaskList" : "dkh 06/07/2014 10:45",
+		"initialize" : "dkh 06/07/2014 10:45",
+		"outstandingRequests" : "dkh 06/07/2014 12:23",
+		"serviceLoop" : "dkh 06/07/2014 10:53",
+		"serviceVMTaskServiceExample" : "dkh 06/07/2014 10:51",
+		"startOn:" : "dkh 06/07/2014 10:53",
+		"tasks" : "dkh 06/07/2014 10:45",
+		"vmStartup" : "dkh 06/07/2014 10:48" },
+	"instance" : {
+		 } }

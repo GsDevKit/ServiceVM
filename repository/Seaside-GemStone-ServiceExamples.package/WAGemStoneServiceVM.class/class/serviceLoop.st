@@ -2,7 +2,6 @@ operations
 serviceLoop
   | count |
   count := 0.
-  self vmStartup.
   [ true ]
     whileTrue: [ 
       [ 

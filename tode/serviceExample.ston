@@ -4,7 +4,9 @@ TDScriptLeafNode{#name:'serviceExample',#contents:'[ :topez :objIn :tokens :comm
 command
   getOptsMixedLongShort:
     {#(\'help\' $h #\'none\').
-    #(\'status\' nil #\'none\').
+    #(\'task\' nil #\'optional\').
+    #(\'poll\' nil #\'optional\').
+    #(\'addToQueue\' nil #\'none\').
     #(\'reset\' nil #\'none\').
     #(\'status\' nil #\'none\')}
   optionsAndArguments: [ :options :operands | 
@@ -13,25 +15,53 @@ command
 opts
   at: \'help\'
   ifAbsent: [ 
-    | response |
+    | response taskClass |
+    taskClass := WAGemStoneServiceExampleTask.
     opts
-      at: \'reset\'
-      ifPresent: [ :ignored | response := WAGemStoneServiceExampleWorkUnit reset ].
-    opts
-      at: \'status\'
-      ifPresent: [ :ignored | 
-        | dict |
-        dict := Dictionary new
-          at: \'queue\' put: WAGemStoneServiceExampleWorkUnit queue;
-          at: \'inProcess\'
-            put: WAGemStoneServiceExampleWorkUnit inProcessCollection;
-          at: \'errors\' put: WAGemStoneServiceExampleWorkUnit instanceErrors;
-          at: \'instances\'
-            put: WAGemStoneServiceExampleWorkUnit instanceCollection;
-          at: \'high water\' put: WAGemStoneServiceExampleWorkUnit idHighWater;
-          yourself.
-        dict edit: topez.
-        response := dict ].
+      at: \'task\'
+      ifPresent: [ :taskId | 
+        taskId
+          ifNil: [ response := taskClass new ]
+          ifNotNil: [ 
+            | task |
+            System commit.\t\"ensure that we are accessing latest state of task\"
+            response := task := taskClass instanceWithId: taskId asNumber.
+            opts
+              at: \'addToQueue\'
+              ifPresent: [ :ignored | 
+                task addToQueue.
+                System commit\t\"so that service vm can see new queue entry\" ].
+            opts
+              at: \'poll\'
+              ifPresent: [ :limitArg | 
+                | limit count |
+                limit := 10.
+                limitArg ifNotNil: [ limit := limitArg asNumber ].
+                count := 0.
+                [ task finishedStep not and: [ count <= limit ] ]
+                  whileTrue: [ 
+                    (Delay forSeconds: 1) wait.
+                    System abort.\t\"so that service vm can see new queue entry\"
+                    count := count + 1 ].
+                System abort.
+                task finishedStep
+                  ifTrue: [ response := task ]
+                  ifFalse: [ response := task -> (\'not finished after \' , count printString , \' seconds\') ] ] ] ]
+      ifAbsent: [ 
+        opts at: \'reset\' ifPresent: [ :ignored | response := taskClass reset ].
+        opts
+          at: \'status\'
+          ifPresent: [ :ignored | 
+            | dict |
+            dict := Dictionary new
+              at: \'queue\' put: taskClass queue;
+              at: \'inProcess\' put: taskClass inProcessCollection;
+              at: \'errors\' put: taskClass instanceErrors;
+              at: \'instances\' put: taskClass instanceCollection;
+              at: \'high water\' put: taskClass idHighWater;
+              yourself.
+            dict edit: topez.
+            response := dict ] ].
     response ]
   ifPresent: [ :ignored | 
     TDManPage
@@ -40,10 +70,16 @@ opts
   serviceExample - serviceExample sript utility template
 SYNOPSIS
   serviceExample [-h|--help] [--reset] [--status]
+  serviceExample --task[=<task-id>] [--addToQueue] [--poll[=<poll-limit>]
 DESCRIPTION
 EXAMPLES
   ./serviceExample --help
-  ./serviceExample --reset  # service task queues and counters cleared
-  ./serviceExample --status # state of service task engine
+  ./serviceExample --reset                # clear service task queues and counters
+  ./serviceExample --status               # state of service task engine
+
+  ./serviceExample --task                 # create a new task
+  ./serviceExample --task=3               # access task #3
+  ./serviceExample --task=3 --addToQueue  # schedule task #3 to process next step
+  ./serviceExample --task=3 --poll=10     # poll until task #3 finished step (10 tries)
 \'
-      topez: topez ] ]',#creationTime:DateAndTime['2014-06-07T09:46:36.9012389183044-07:00'],#modificationTime:DateAndTime['2014-06-07T09:46:55.8877449035644-07:00']}
+      topez: topez ] ]',#creationTime:DateAndTime['2014-06-07T09:46:36.9012389183044-07:00'],#modificationTime:DateAndTime['2014-06-07T12:42:21.0470039844512-07:00']}

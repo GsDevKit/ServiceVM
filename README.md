@@ -20,7 +20,7 @@ The implementation is based on: http://onsmalltalk.com/smalltalk-concurrency-pla
 ## ServiceVM
 For GLASS the solution is to create a separate Service gem that services performs stashed in an RCQueue. RCQueues are conflict free with multiple producers and a single consumer - exactly our case.
 
-##Installation
+###Installation
 
 If you are not using [tODE][7], please follow the instructions [here][8].
 
@@ -44,7 +44,7 @@ edit README.md                                 # edit README (this file) in tODE
 project load @/home/serviceVM                  # load the project into the image
 ```
 
-##Service VM Example
+###Service VM Example
 
 Overview of tODE commands used in example:
   ```Shell
@@ -56,10 +56,14 @@ Overview of tODE commands used in example:
   ./serviceVM --start           # start the service vm gem
   ./serviceVM --stop            # stop the service vm gem
 
-  ./serviceTask --reset         # service task queues and counters cleared
-  ./serviceTask --status        # inspect dictionary of service task state
-
   ol view                       # tOde object log window 
+
+  ./serviceExample --reset                # clear service task queues and counters
+  ./serviceExample --status               # state of service task engine
+  ./serviceExample --task                 # create a new task
+  ./serviceExample --task=3               # access task #3
+  ./serviceExample --task=3 --addToQueue  # schedule task #3 to process next step
+  ./serviceExample --task=3 --poll=10     # poll for completion of task #3 (wait 10 seconds)
   ```
 
 Get server started:
@@ -80,10 +84,10 @@ Get server started:
   # refresh window in object log window (CMD-l)
   ```
 
-###Service VM loop
+####Service VM loop
 
-Every 200 ms the [service VM main thread wakes up][2] and [checks the queue for tasks][1].
-Each [task][3] is [removed from the queue and a thread is forked in which the **processStep** method is sent to the task][4]. When all of the oustanding tasks have been processed, the service VM main thread goes back to sleep.
+Every 200 ms the [service VM main thread wakes up][2] and [checks the queue for taks to process][1].
+A thread is forked and each [task][3] is [scheduled to begin processing it's work][4]. When all of the oustanding tasks have been processed, the service VM main thread goes back to sleep.
 
 You can view the state of service vm with the `serviceExample` script. The following:
 
@@ -105,21 +109,81 @@ produces an inspector on the key state of the service vm:
 ```
 
 `errors` is a list of service vm tasks that have produced errors while processing. `inProcess` is a list of service vm tasks that have not completed processing. `instances` is a list of all service vm tasks that have been created. `queue` is a list of the service vm tasks that are stacked up waiting to be processed.
-###Scheduling a Service VM Task 
-###Service VM Task `processStep`
 
-In the **processStep**
+####Example Task
+In this example the [task][3] has three separate processing steps. 
+Each step is performed separately by the [service vm][9]. 
+
+Reset the example vm, then create and view a task:
+
+```Shell
+./serviceExample --reset 
+./serviceExample --task; edit
+```
+
+and here's the state of the freshly created task instance:
+
+```
+.            -> task: #1 (not queued)
+(class)@     -> WAGemStoneServiceExampleTask
+(oop)@       -> 424536577
+currentStep@ -> nil
+errorFlag@   -> nil
+id@          -> 1
+log@         -> anOrderedCollection( 'id'->2014-06-07T11:20:11.2864038944244-07:00)
+step1@       -> nil
+step2@       -> nil
+step3@       -> nil
+```
+
+Now cycle through two of the three steps and view new state:
+
+```Shell
+./serviceExample --task=1 --addToQueue --poll=10
+./serviceExample --task=1 --addToQueue --poll=10; edit
+```
+
+and view the new state:
+
+```
+.            -> task: #1 (step 1: [anArray( )] in step 2)
+(class)@     -> WAGemStoneServiceExampleTask
+(oop)@       -> 425026561
+currentStep@ -> #'step2'
+errorFlag@   -> nil
+id@          -> 1
+log@         -> anOrderedCollection( 'id'->2014-06-07T12:26:49.1534569263458-07:00, 'step1'->2014-06-07T12:27:02.7745549678802-07:00, 'step1'->2014-06-07T12...
+step1@       -> anArray( )
+step2@       -> nil
+step3@       -> nil
+```
+
+peek at the service vm state:
+
+```Shell
+./serviceExample --status
+```
+
+
+which will look something like the following:
+
+```
+```
+
+####Shut down the Service gems
 
   ```Shell
   # stop gems
   ./webServer --stop
   ./serviceVM --stop
+  ```
 
 [1]: repository/Seaside-GemStone-ServiceTask.package/WAGemStoneServiceVMTask.class/class/serviceVMTaskServiceExample.st#L18
-[2]: repository/Seaside-GemStone-ServiceExamples.package/WAGemStoneServiceVMTask.class/class/serviceLoop.st#L12
-[3]: repository/Seaside-GemStone-ServiceExamples.package/WAGemStoneServiceExampleWorkUnit.class
+[2]: repository/Seaside-GemStone-ServiceExamples.package/WAGemStoneServiceVMTask.class/class/serviceLoop.st#L10
+[3]: repository/Seaside-GemStone-ServiceExamples.package/WAGemStoneServiceExampleTask.class
 [4]: repository/Seaside-GemStone-ServiceExamples.package/WAGemStoneServiceVMTask.class/class/serviceVMTaskServiceExample.st#L22
 [5]: http://forum.world.st/threads-within-a-request-td2335295.html#a2335295
 [6]: http://gemstonesoup.wordpress.com/2007/05/10/porting-application-specific-seaside-threads-to-gemstone/
 [7]: https://github.com/dalehenrich/tode#tode-the-object-centric-development-environment-
 [8]: docs/nonTodeInstructions.md
+[9]: repository/Seaside-GemStone-ServiceExamples.package/WAGemStoneServiceVM.class
