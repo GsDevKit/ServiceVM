@@ -1,18 +1,29 @@
 ###Installation
 
-* mount the server vm tODE directory (at tODE command prompt)
+* clone the https://github.com/glassdb/ServiceVM repository to your local disk and install the
+  scripts needed by the service vm in the $GEMSTONE product tree (make sure you have $GEMSTONE
+  defined before running the installScripts.sh step):
 
-  ```Shell
-  mount /opt/git/ServerVM tode /home serverVM 
+  ```shell
+  cd /opt/git                                     # root directory for git repository
+  git clone git@github.com:glassdb/ServiceVM.git  # clone service vm
+  cd ServiceVM
+  bin/installScripts.sh                           # $GEMSTONE should be set ahead of time
   ```
 
-###Web Server
-
-* to start a Zinc web server for serving the example Seaside pages (at the tODE command 
-  prompt):
+* install the service vm artifacts in tODE and load the example code:
 
   ```Shell
-  cd /home/serverVM
+  mount /opt/git/ServiceVM/tode /home serviceVM  # mount tODE dir at /home/serviceVM
+  project load @/home/serviceVM                  # load the project into the image
+  ```
+
+###Service VM Example
+
+* register and start the service vms (at the tODE command prompt):
+
+  ```Shell
+  cd /home/serviceVM
 
   ./webServer --register=zinc --port=8383 # register zinc as web server (only done once)
   ./serviceVM --register                  # register the service vm (only done once)
@@ -23,7 +34,7 @@
 
 * **[demo steps}**
 
-* shut down the web browser and server vm (at the tODE command prompt):
+* shut down the service vms (at the tODE command prompt):
 
  ```Shell 
   ./webServer --stop                      # stop web server when done
