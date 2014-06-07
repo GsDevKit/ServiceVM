@@ -57,7 +57,7 @@ opts
     TDManPage
       viewManPage:
         'NAME
-  serviceVM - control Zinc-based web server for ServiceVM example
+  serviceVM - control server gem for ServiceVM example
 SYNOPSIS
   serviceVM [-h|--help] [--register [--force]] [--start] [--stop] [--restart]
 

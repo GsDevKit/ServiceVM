@@ -26,7 +26,7 @@ opts
         | response |
         server isNil
           ifTrue: [ response := \'Web server not registered\' ]
-          ifFalse: [WAGemStoneRunSmalltalkServer statusGems: server].
+          ifFalse: [ WAGemStoneRunSmalltalkServer statusGems: server ].
         response ]
       ifAbsent: [ 
         opts
@@ -57,7 +57,7 @@ opts
     TDManPage
       viewManPage:
         \'NAME
-  serviceVM - control Zinc-based web server for ServiceVM example
+  serviceVM - control server gem for ServiceVM example
 SYNOPSIS
   serviceVM [-h|--help] [--register [--force]] [--start] [--stop] [--restart]
 
@@ -73,4 +73,4 @@ EXAMPLES
   ./serviceVM --status
   ./serviceVM --stop
 \'
-      topez: topez ] ]',#creationTime:DateAndTime['2014-06-06T19:56:30.1198749542236-07:00'],#modificationTime:DateAndTime['2014-06-07T12:04:43.4493010044097-07:00']}
+      topez: topez ] ]',#creationTime:DateAndTime['2014-06-06T19:56:30.1198749542236-07:00'],#modificationTime:DateAndTime['2014-06-07T14:05:55.7770869731903-07:00']}

@@ -56,15 +56,15 @@ Overview of tODE commands used in example:
   ./serviceVM --start           # start the service vm gem
   ./serviceVM --stop            # stop the service vm gem
 
-  ol view                       # tOde object log window 
-
-  ./serviceExample --reset                # clear service task queues and counters
+   ./serviceExample --reset                # clear service task queues and counters
   ./serviceExample --status               # state of service task engine
   ./serviceExample --task                 # create a new task
   ./serviceExample --task=3               # access task #3
   ./serviceExample --task=3 --addToQueue  # schedule task #3 to process next step
   ./serviceExample --task=3 --poll=10     # poll for completion of task #3 (wait 10 seconds)
   ```
+
+See scriptswebServer, [serviceVM][13], or [serviceExample][8] for the Smalltalk source.
 
 Start serviceVM gem:
 
@@ -184,8 +184,9 @@ which will look something like the following:
 [5]: http://forum.world.st/threads-within-a-request-td2335295.html#a2335295
 [6]: http://gemstonesoup.wordpress.com/2007/05/10/porting-application-specific-seaside-threads-to-gemstone/
 [7]: https://github.com/dalehenrich/tode#tode-the-object-centric-development-environment-
-[8]: 
+[8]: docs/readme/serviceExample_todeScript.st
 [9]: repository/Seaside-GemStone-ServiceExamples.package/WAGemStoneServiceVM.class
 [10]: docs/readme/projectLoad.st
 [11]: docs/readme/serviceVM.st
 [12]: docs/readme/serviceExample.st
+[13]: docs/readme/serviceVM_todeScript.st
