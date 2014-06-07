@@ -93,13 +93,13 @@ _**_*[`serviceExample --status`][12] for non-tode users*
 produces an inspector on the key state of the service vm:
 
 ```
-.        -> aDictionary( 'instances'->anArray( ), 'high water'->1, 'queue'->aRcQueue( ), 'inProcess'->anArray( ), 'errors'->anArra...
+.        -> aDictionary( 'instances'->anArray( task: #1 (not queued)), 'high water'->1, 'queue'->aRcQueue( ), 'inProcess'->anArray( ), 'errors'->anArray...
 (class)@ -> Dictionary
-(oop)@   -> 333894657
+(oop)@   -> 439999489
 1@       -> 'errors'->anArray( )
 2@       -> 'high water'->1
 3@       -> 'inProcess'->anArray( )
-4@       -> 'instances'->anArray( )
+4@       -> 'instances'->anArray( task: #1 (not queued))
 5@       -> 'queue'->aRcQueue( )
 ```
 
