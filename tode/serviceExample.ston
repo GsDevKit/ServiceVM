@@ -1,6 +1,6 @@
-TDScriptLeafNode{#name:'serviceWork',#contents:'[ :topez :objIn :tokens :command :commandNode | 
+TDScriptLeafNode{#name:'serviceExample',#contents:'[ :topez :objIn :tokens :command :commandNode | 
 | opts args |
-\"for help: ./serviceWork -h\"
+\"for help: ./serviceExample -h\"
 command
   getOptsMixedLongShort:
     {#(\'help\' $h #\'none\').
@@ -37,13 +37,13 @@ opts
     TDManPage
       viewManPage:
         \'NAME
-  serviceWork - serviceWork sript utility template
+  serviceExample - serviceExample sript utility template
 SYNOPSIS
-  serviceWork [-h|--help] [--reset] [--status]
+  serviceExample [-h|--help] [--reset] [--status]
 DESCRIPTION
 EXAMPLES
-  ./serviceWork --help
-  ./serviceWork --reset  # service task queues and counters cleared
-  ./serviceWork --status # state of service task engine
+  ./serviceExample --help
+  ./serviceExample --reset  # service task queues and counters cleared
+  ./serviceExample --status # state of service task engine
 \'
-      topez: topez ] ]',#creationTime:DateAndTime['2014-06-07T09:43:04.2526021003723-07:00'],#modificationTime:DateAndTime['2014-06-07T09:43:26.3439269065856-07:00']}
+      topez: topez ] ]',#creationTime:DateAndTime['2014-06-07T09:46:36.9012389183044-07:00'],#modificationTime:DateAndTime['2014-06-07T09:46:55.8877449035644-07:00']}
