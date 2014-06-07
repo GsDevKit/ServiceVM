@@ -22,8 +22,6 @@ For GLASS the solution is to create a separate Service gem that services perform
 
 ###Installation
 
-If you are not using [tODE][7], please follow the instructions [here][8].
-
 Clone the https://github.com/glassdb/ServiceVM repository to your local disk and 
 install the scripts needed by the service vm in the $GEMSTONE product tree (make 
 sure you have $GEMSTONE defined before running the installScripts.sh step):
@@ -43,6 +41,8 @@ mount /opt/git/ServiceVM/tode /home serviceVM  # mount tODE dir at /home/service
 edit README.md                                 # edit README (this file) in tODE
 project load @/home/serviceVM                  # load the project into the image
 ```
+
+*[`project load @/home/serviceVM` for non-tode users][10]*
 
 ###Service VM Example
 
@@ -185,5 +185,6 @@ which will look something like the following:
 [5]: http://forum.world.st/threads-within-a-request-td2335295.html#a2335295
 [6]: http://gemstonesoup.wordpress.com/2007/05/10/porting-application-specific-seaside-threads-to-gemstone/
 [7]: https://github.com/dalehenrich/tode#tode-the-object-centric-development-environment-
-[8]: docs/nonTodeInstructions.md
+[8]: 
 [9]: repository/Seaside-GemStone-ServiceExamples.package/WAGemStoneServiceVM.class
+[10]: docs/readme/projectLoad.st
