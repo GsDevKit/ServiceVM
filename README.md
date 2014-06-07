@@ -42,7 +42,7 @@ edit README.md                                 # edit README (this file) in tODE
 project load @/home/serviceVM                  # load the project into the image
 ```
 
-*[`project load @/home/serviceVM` for non-tode users][10]*
+*\*\*[`project load @/home/serviceVM` for non-tode users][10]*
 
 ###Service VM Example
 
