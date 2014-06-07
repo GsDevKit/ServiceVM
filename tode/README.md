@@ -61,10 +61,10 @@ Get server started:
 Every 200 ms the [service VM main thread wakes up][2] and [checks the queue for tasks][1].
 Each [task][3] is [removed from the queue and a thread is forked in which the **processStep** method is sent to the task][4]. When all of the oustanding tasks have been processed, the service VM main thread goes back to sleep.
 
-You can view the state of service vm with the `serviceTask` script. The following:
+You can view the state of service vm with the `serviceWork` script. The following:
 
 ```Shell
-./serviceTask --status
+./serviceWork --status
 ```
 
 produces an inspector on the key state of the service vm:
@@ -92,6 +92,6 @@ In the **processStep**
   ./serviceVM --stop
 
 [1]: ../repository/Seaside-GemStone-ServiceTask.package/WAGemStoneServiceVMTask.class/class/serviceVMTaskServiceExample.st#L18
-[2]: ../repository/Seaside-GemStone-ServiceExamples.package/WAServiceVMGem.class/class/startOn..st#L12
-[3]: ../repository/Seaside-GemStone-ServiceExamples.package/WAGemStoneServiceTask.class
+[2]: ../repository/Seaside-GemStone-ServiceExamples.package/WAGemStoneServiceVMTask.class/class/serviceLoop.st#L12
+[3]: ../repository/Seaside-GemStone-ServiceExamples.package/WAGemStoneServiceExampleWorkUnit.class
 [4]: ../repository/Seaside-GemStone-ServiceExamples.package/WAGemStoneServiceVMTask.class/class/serviceVMTaskServiceExample.st#L22

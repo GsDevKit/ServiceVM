@@ -1,0 +1,3 @@
+private
+newWorkUnit
+  ^ WAGemStoneServiceExampleWorkUnit new

@@ -1,5 +1,4 @@
 initialization
 initialize
-
-	super initialize.
-	workUnit := WAGemStoneServiceTask new.
+  super initialize.
+  workUnit := self newWorkUnit
