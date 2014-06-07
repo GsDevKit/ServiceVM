@@ -56,7 +56,7 @@ Overview of tODE commands used in example:
   ./serviceVM --start           # start the service vm gem
   ./serviceVM --stop            # stop the service vm gem
 
-   ./serviceExample --reset                # clear service task queues and counters
+  ./serviceExample --reset                # clear service task queues and counters
   ./serviceExample --status               # state of service task engine
   ./serviceExample --task                 # create a new task
   ./serviceExample --task=3               # access task #3
@@ -64,7 +64,7 @@ Overview of tODE commands used in example:
   ./serviceExample --task=3 --poll=10     # poll for completion of task #3 (wait 10 seconds)
   ```
 
-See scriptswebServer, [serviceVM][13], or [serviceExample][8] for the Smalltalk source.
+See webServer, [serviceVM][13], or [serviceExample][8] for the Smalltalk source.
 
 Start serviceVM gem:
 
@@ -74,7 +74,8 @@ Start serviceVM gem:
   ./serviceVM --start
   ```
 
-_**_*[`serviceVM --register` & `serviceVM --start` for non-tode users][11]*
+_**_*[`serviceVM --register` for non-tode users][11]*
+_**_*[`serviceVM --start` for non-tode users][14]*
 
 ####Service VM loop
 
@@ -115,7 +116,8 @@ Reset the example vm, then create and view a task:
 ./serviceExample --task; edit
 ```
 
-_**_*[`./serviceExample --reset` & `./serviceExample --task` for non-tode users][12]*
+_**_*[`./serviceExample --reset` for non-tode users][15]*
+_**_*[`./serviceExample --task` for non-tode users][16]*
 
 and here's the state of the freshly created task instance:
 
@@ -139,7 +141,9 @@ Now cycle through two of the three steps and view new state:
 ./serviceExample --task=1 --addToQueue --poll=10; edit
 ```
 
-_**_*[`./serviceExample --task=1 --addToQueue --poll=10` for non-tode users][12]*
+_**_*[`./serviceExample --task=1  for non-tode users][16]*
+_**_*[`./serviceExample --addToQueue for non-tode users][17]*
+_**_*[`./serviceExample --poll=10` for non-tode users][18]*
 
 and view the new state:
 
@@ -186,7 +190,12 @@ which will look something like the following:
 [7]: https://github.com/dalehenrich/tode#tode-the-object-centric-development-environment-
 [8]: docs/readme/serviceExample_todeScript.st
 [9]: repository/Seaside-GemStone-ServiceExamples.package/WAGemStoneServiceVM.class
-[10]: docs/readme/projectLoad.st
-[11]: docs/readme/serviceVM.st
-[12]: docs/readme/serviceExample.st
+[10]: docs/readme/projectLoad.st#L2-14
+[11]: docs/readme/serviceVM.st#L1-8
+[12]: docs/readme/serviceExample.st#L1-11
 [13]: docs/readme/serviceVM_todeScript.st
+[14]: docs/readme/serviceVM.st#L10-14
+[15]: docs/readme/serviceExample.st#L13-16
+[16]: docs/readme/serviceExample.st#L18-27
+[17]: docs/readme/serviceExample.st#L29-36
+[18]: docs/readme/serviceExample.st#L38-55
