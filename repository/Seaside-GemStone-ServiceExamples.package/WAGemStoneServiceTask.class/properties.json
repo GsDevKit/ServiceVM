@@ -7,7 +7,7 @@
 		"InProcess",
 		"Instances",
 		"Queue" ],
-	"commentStamp" : "DaleHenrichs 08/25/2010 12:02",
+	"commentStamp" : "",
 	"instvars" : [
 		"id",
 		"currentStep",

@@ -1,1 +1,76 @@
-TDScriptLeafNode{#name:'serviceVM',#contents:nil,#creationTime:DateAndTime['2014-06-06T15:26:10.0674490928649-07:00'],#modificationTime:@2}
+TDScriptLeafNode{#name:'serviceVM',#contents:'[ :topez :objIn :tokens :command :commandNode | 
+| opts args cmd |
+\"for help: ./serviceVM -h\"
+cmd := command command.
+command
+  getOptsMixedLongShort:
+    {#(\'help\' $h #\'none\').
+    #(\'register\' nil #\'none\').
+    #(\'start\' nil #\'none\').
+    #(\'status\' nil #\'none\').
+    #(\'stop\' nil #\'none\').
+    #(\'restart\' nil #\'none\')}
+  optionsAndArguments: [ :options :operands | 
+    opts := options.
+    args := operands ].
+opts
+  at: \'help\'
+  ifAbsent: [ 
+    | server serviceName |
+    serviceName := \'ServiceVM-ServiceVM\'.
+    server := WAGemStoneRunSmalltalkServer serverNamed: serviceName.
+    opts
+      at: \'status\'
+      ifPresent: [ :ignored | 
+        | response |
+        server isNil
+          ifTrue: [ response := \'Web server not registered\' ]
+          ifFalse: [ 
+            | serviceVM |
+            serviceVM := server serverClass default.
+            (serviceVM notNil and: [ serviceVM isRunning ])
+              ifTrue: [ response := \'Web server is running\' ]
+              ifFalse: [ response := \'Web server is not running\' ] ].
+        response ]
+      ifAbsent: [ 
+        opts
+          at: \'register\'
+          ifPresent: [ :ignored | 
+            WAGemStoneRunSmalltalkServer
+              addServerOfClass: WAServiceVMGem
+              withName: serviceName
+              on: #(8383).
+            server := WAGemStoneRunSmalltalkServer serverNamed: serviceName ].
+        opts at: \'port\' ifPresent: [ :port | server ports: {(port asNumber)} ].
+        opts
+          at: \'start\'
+          ifPresent: [ :ignored | WAGemStoneRunSmalltalkServer startGems: server ]
+          ifAbsent: [ 
+            opts
+              at: \'restart\'
+              ifPresent: [ :ignored | WAGemStoneRunSmalltalkServer restartGems: server ]
+              ifAbsent: [ 
+                opts
+                  at: \'stop\'
+                  ifPresent: [ :ignored | WAGemStoneRunSmalltalkServer stopGems: server ]
+                  ifAbsent: [  ] ] ] ] ]
+  ifPresent: [ :ignored | 
+    TDManPage
+      viewManPage:
+        \'NAME
+  serviceVM - control Zinc-based web server for ServiceVM example
+SYNOPSIS
+  serviceVM [-h|--help] [--register] [--start] [--stop] [--restart]
+
+
+DESCRIPTION
+EXAMPLES
+  ./serviceVM --help
+  ./serviceVM --register
+
+  ./serviceVM --restart
+  ./serviceVM --start
+  ./serviceVM --status
+  ./serviceVM --stop
+\'
+      topez: topez ] ]',#creationTime:DateAndTime['2014-06-06T19:56:30.1198749542236-07:00'],#modificationTime:DateAndTime['2014-06-06T20:01:17.0442450046539-07:00']}

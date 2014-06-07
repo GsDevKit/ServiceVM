@@ -1,14 +1,14 @@
 {
 	"category" : "Seaside-GemStone-ServiceExamples-Core",
 	"classinstvars" : [
-		"ServiceTasks" ],
+		 ],
 	"classvars" : [
 		 ],
 	"commentStamp" : "",
 	"instvars" : [
 		 ],
-	"name" : "WAGemStoneServiceVMTask",
+	"name" : "WAServiceVMGem",
 	"pools" : [
 		 ],
-	"super" : "WAGemStoneMaintenanceTask",
+	"super" : "WAAbstractGemServer",
 	"type" : "normal" }

@@ -19,8 +19,7 @@ opts
   ifAbsent: [ 
     | server serviceName |
     serviceName := \'ServiceVM-WebServer\'.
-    server := WAGemStoneRunSmalltalkServer serverNamed: serviceName.
-    opts
+server := WAGemStoneRunSmalltalkServer serverNamed: serviceName.    opts
       at: \'status\'
       ifPresent: [ :ignored | 
         | response |
@@ -50,7 +49,8 @@ opts
             WAGemStoneRunSmalltalkServer
               addServerOfClass: serverClass
               withName: serviceName
-              on: #(8383) ].
+              on: #(8383).
+            server := WAGemStoneRunSmalltalkServer serverNamed: serviceName ].
         opts at: \'port\' ifPresent: [ :port | server ports: {(port asNumber)} ].
         opts
           at: \'start\'
@@ -83,4 +83,4 @@ EXAMPLES
   ./webServer --status
   ./webServer --stop
 \'
-      topez: topez ] ]',#creationTime:DateAndTime['2014-06-06T15:24:28.3991000652313-07:00'],#modificationTime:DateAndTime['2014-06-06T16:08:17.0342600345611-07:00']}
+      topez: topez ] ]',#creationTime:DateAndTime['2014-06-06T15:24:28.3991000652313-07:00'],#modificationTime:DateAndTime['2014-06-06T21:51:49.0880711078643-07:00']}
