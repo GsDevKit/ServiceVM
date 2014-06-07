@@ -74,7 +74,7 @@ Start serviceVM gem:
   ./serviceVM --start
   ```
 
-_**_*[`serviceVM --register` for non-tode users][11]*
+_**_*[`serviceVM --register`][11]*
 _**_*[`serviceVM --start` for non-tode users][14]*
 
 ####Service VM loop
@@ -116,7 +116,7 @@ Reset the example vm, then create and view a task:
 ./serviceExample --task; edit
 ```
 
-_**_*[`./serviceExample --reset` for non-tode users][15]*
+_**_*[`./serviceExample --reset`][15]*
 _**_*[`./serviceExample --task` for non-tode users][16]*
 
 and here's the state of the freshly created task instance:
@@ -141,8 +141,8 @@ Now cycle through two of the three steps and view new state:
 ./serviceExample --task=1 --addToQueue --poll=10; edit
 ```
 
-_**_*[`./serviceExample --task=1  for non-tode users][16]*
-_**_*[`./serviceExample --addToQueue for non-tode users][17]*
+_**_*[`./serviceExample --task=1`][16]*
+_**_*[`./serviceExample --addToQueue`][17]*
 _**_*[`./serviceExample --poll=10` for non-tode users][18]*
 
 and view the new state:
