@@ -1,16 +1,13 @@
-services
-startOn: ignored
-  "start running the service"
-
+operations
+serviceLoop
   | count |
   count := 0.
-  WAGemStoneServiceVMTask vmStartup.
+  self vmStartup.
   [ true ]
     whileTrue: [ 
       [ 
-      "run service tasks"
-      WAGemStoneServiceVMTask performTasks: count.	"Sleep for a 200ms"
-      (Delay forMilliseconds: 200) wait.
+      self performTasks: count.	"run service tasks"
+      (Delay forMilliseconds: 200) wait.	"Sleep for a 200ms"
       count := count + 1 ]
         on: Error , Halt , Breakpoint
         do: [ :ex | 

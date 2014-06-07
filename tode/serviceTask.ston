@@ -1,0 +1,48 @@
+TDScriptLeafNode{#name:'serviceTask',#contents:'[ :topez :objIn :tokens :command :commandNode | 
+| opts args |
+\"for help: ./serviceTask -h\"
+command
+  getOptsMixedLongShort:
+    {#(\'help\' $h #\'none\').
+    #(\'status\' nil #\'none\').
+    #(\'reset\' nil #\'none\').
+    #(\'status\' nil #\'none\')}
+  optionsAndArguments: [ :options :operands | 
+    opts := options.
+    args := operands ].
+opts
+  at: \'help\'
+  ifAbsent: [ 
+    | response |
+    opts
+      at: \'reset\'
+      ifPresent: [ :ignored | response := WAGemStoneServiceTask reset ].
+        opts
+          at: \'status\'
+          ifPresent: [ :ignored | 
+            | dict |
+            dict := Dictionary new
+              at: \'queue\' put: WAGemStoneServiceTask queue;
+              at: \'inProcess\' put: WAGemStoneServiceTask inProcessCollection;
+              at: \'errors\' put: WAGemStoneServiceTask instanceErrors;
+              at: \'instances\' put: WAGemStoneServiceTask instanceCollection;
+              at: \'high water\' put: WAGemStoneServiceTask idHighWater;
+              yourself.
+            dict edit: topez.
+            response := dict ]
+          .
+    response ]
+  ifPresent: [ :ignored | 
+    TDManPage
+      viewManPage:
+        \'NAME
+  serviceTask - serviceTask sript utility template
+SYNOPSIS
+  serviceTask [-h|--help] [--reset] [--status]
+DESCRIPTION
+EXAMPLES
+  ./serviceTask --help
+  ./serviceTask --reset  # service task queues and counters cleared
+  ./serviceTask --status # state of service task engine
+\'
+      topez: topez ] ]',#creationTime:DateAndTime['2014-06-07T06:46:47.0033829212188-07:00'],#modificationTime:DateAndTime['2014-06-07T07:25:42.1055419445037-07:00']}

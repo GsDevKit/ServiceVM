@@ -37,7 +37,7 @@ opts
           at: \'register\'
           ifPresent: [ :ignored | 
             WAGemStoneRunSmalltalkServer
-              addServerOfClass: WAServiceVMGem
+              addServerOfClass: WAGemStoneServiceVMTask
               withName: serviceName
               on: #(8383).
             server := WAGemStoneRunSmalltalkServer serverNamed: serviceName ].
@@ -73,4 +73,4 @@ EXAMPLES
   ./serviceVM --status
   ./serviceVM --stop
 \'
-      topez: topez ] ]',#creationTime:DateAndTime['2014-06-06T19:56:30.1198749542236-07:00'],#modificationTime:DateAndTime['2014-06-06T20:01:17.0442450046539-07:00']}
+      topez: topez ] ]',#creationTime:DateAndTime['2014-06-06T19:56:30.1198749542236-07:00'],#modificationTime:DateAndTime['2014-06-07T08:47:33.3698329925537-07:00']}

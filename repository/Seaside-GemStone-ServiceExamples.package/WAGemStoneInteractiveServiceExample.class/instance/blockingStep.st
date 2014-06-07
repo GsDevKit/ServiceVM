@@ -1,4 +1,4 @@
 actions
 blockingStep
-	self nonBlockingStep.
-	self go: 1
+  self nonBlockingStep.
+  self go: 1
