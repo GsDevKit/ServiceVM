@@ -42,7 +42,7 @@ edit README.md                                 # edit README (this file) in tODE
 project load @/home/serviceVM                  # load the project into the image
 ```
 
-_**_*[`project load @/home/serviceVM` for non-tode users][10]*
+_**_*[`project load @/home/serviceVM`][10] for non-tode users*
 
 ###Service VM Example
 
@@ -74,8 +74,8 @@ Start serviceVM gem:
   ./serviceVM --start
   ```
 
-_**_*[`serviceVM --register`][11]*
-_**_*[`serviceVM --start` for non-tode users][14]*
+_**_*[`serviceVM --register`][11]
+[`serviceVM --start`][14] for non-tode users*
 
 ####Service VM loop
 
@@ -88,7 +88,7 @@ You can view the state of service vm with the `serviceExample` script. The follo
 ./serviceExample --status
 ```
 
-_**_*[`serviceExample --status` for non-tode users][12]*
+_**_*[`serviceExample --status`][12] for non-tode users*
 
 produces an inspector on the key state of the service vm:
 
@@ -116,8 +116,8 @@ Reset the example vm, then create and view a task:
 ./serviceExample --task; edit
 ```
 
-_**_*[`./serviceExample --reset`][15]*
-_**_*[`./serviceExample --task` for non-tode users][16]*
+_**_*[`./serviceExample --reset`][15]
+[`./serviceExample --task`][16] for non-tode users*
 
 and here's the state of the freshly created task instance:
 
@@ -141,9 +141,9 @@ Now cycle through two of the three steps and view new state:
 ./serviceExample --task=1 --addToQueue --poll=10; edit
 ```
 
-_**_*[`./serviceExample --task=1`][16]*
-_**_*[`./serviceExample --addToQueue`][17]*
-_**_*[`./serviceExample --poll=10` for non-tode users][18]*
+_**_*[`./serviceExample --task=1`][16]
+[`./serviceExample --addToQueue`][17]
+[`./serviceExample --poll=10`][18] for non-tode users*
 
 and view the new state:
 
@@ -166,7 +166,7 @@ peek at the service vm state:
 ./serviceExample --status
 ```
 
-_**_*[`serviceExample --status` for non-tode users][12]*
+_**_*[`serviceExample --status`][12] for non-tode users*
 
 which will look something like the following:
 
