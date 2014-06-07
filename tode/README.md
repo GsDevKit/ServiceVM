@@ -1,6 +1,14 @@
+###Installation
+
+* mount the server vm tode directory (at tODE command line)
+
+  ```Shell
+  mount /opt/git/ServerVM tode /home serverVM
+  ```
+
 ###Web Server
 
-* register the web server with WAGemStoneRunSmalltalkServer at tODE command line:
+* register the web server with WAGemStoneRunSmalltalkServer (at tODE command line):
 
   ```Shell
   ./webServer --register=zinc --port=8383 
