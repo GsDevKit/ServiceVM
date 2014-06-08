@@ -87,9 +87,7 @@ serviceLoop
 ```
 
 In the **WAGemStoneMaintenanceTask** infrastructure, the *performTask:* message above ends up
-evaluating the block defined below.
-
- 
+evaluating the block defined below:
 
 ```Smalltalk
 serviceVMServiceTaskQueue
@@ -97,25 +95,37 @@ serviceVMServiceTaskQueue
     name: 'Service VM Loop'
     frequency: 1
     valuable: [ :vmTask | 
-  "1. CHECK FOR TASKS IN QUEUE (non-transactional)"
+"1. CHECK FOR TASKS IN QUEUE (non-transactional)"
       (self serviceVMTasksAvailable: vmTask)
         ifTrue: [ 
           | tasks repeat |
           repeat := true.
-  "2. PULL TASKS FROM QUEUE UNTIL QUEUE IS EMPTY OR 100 TASKS IN PROGRESS"
+"2. PULL TASKS FROM QUEUE UNTIL QUEUE IS EMPTY OR 100 TASKS IN PROGRESS"
           [ repeat and: [ self serviceVMTasksInProcess < 100 ] ]
             whileTrue: [ 
               repeat := false.
               GRPlatform current
                 doTransaction: [ 
-  "3. REMOVE TASKS FROM QUEUE..."
+"3. REMOVE TASKS FROM QUEUE..."
                   tasks := self serviceVMTasks: vmTask ].
               tasks do: [ :task |
-  "4. ...FORK BLOCK AND PROCESS TASK" 
+"4. ...FORK BLOCK AND PROCESS TASK" 
                 [ task processTask ] fork ].
               repeat := tasks notEmpty ] ] ]
     reset: [ :vmTask | vmTask state: 0 ]
 ```
+
+From a GemStone perspective, it is important to note that only the **serviceVMTasks:** method
+is performed from within the transaction mutex ([GRGemStonePlatform>>doTransaction:][37]). 
+There are many concurrent threads running within the service vm, so all threads running 
+must take care to hold the transaction mutex for as short a time as possible. Also when 
+running "outside of transaction" one must be aware that any persistent state may change
+at transaction boundaries initiated by threads other than your own so one must use discipline
+within your application to either:
+
+* avoid changing the state of persistent objects used in service vm
+* or, copy any state from *unsafe* persistent objects into temporary variables
+  or *private* persistent objects.
 
 ## Service task
 ## Services queue
@@ -438,3 +448,4 @@ Nick went on to create
 [34]: bin/runSmalltalkServer
 [35]: bin/startSmalltalkServer
 [36]: https://code.google.com/p/glassdb/wiki/ControllingSeaside30Gems
+[37]: https://github.com/glassdb/Grease/blob/master/repository/Grease-GemStone-Core.package/GRGemStonePlatform.class/instance/doTransaction..st
