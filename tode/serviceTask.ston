@@ -15,17 +15,35 @@ command
 opts
   at: \'help\'
   ifAbsent: [ 
-    | response taskClass |
+    | response taskClass taskDictionary |
+    taskDictionary := Smalltalk
+      at: #\'SERVICE_TASK_DICTIONARY\'
+      ifAbsent: [ Smalltalk at: #\'SERVICE_TASK_DICTIONARY\' put: Dictionary new ].
     taskClass := WAGemStoneServiceTask.
     opts
       at: \'task\'
       ifPresent: [ :taskId | 
         taskId
-          ifNil: [ response := taskClass new ]
+          ifNil: [ 
+            | task newId |
+            newId := taskClass newId.
+            task := taskClass new
+              id: newId;
+              value: [ 
+                    Transcript
+                      cr;
+                      show: \'--\' , newId printString , \'starting...\'.
+                    (Delay forSeconds: 2) wait.
+                    Transcript
+                      cr;
+                      show: \'--\' , newId printString , \'...finished\' ];
+              yourself.
+            taskDictionary at: task id put: task.
+            response := task ]
           ifNotNil: [ 
             | task |
             System commit.\t\"ensure that we are accessing latest state of task\"
-            response := task := taskClass instanceWithId: taskId asNumber.
+            response := task := taskDictionary at: taskId asNumber.
             opts
               at: \'addToQueue\'
               ifPresent: [ :ignored | 
@@ -57,9 +75,8 @@ opts
             dict := Dictionary new
               at: \'queue\' put: taskClass queue;
               at: \'inProcess\' put: taskClass inProcessCollection;
-              at: \'errors\' put: taskClass instanceErrors;
-              at: \'instances\' put: taskClass instanceCollection;
               at: \'high water\' put: taskClass idHighWater;
+at: \'tasks\' put: taskDictionary;
               yourself.
             dict edit: topez.
             response := dict ] ].
@@ -85,4 +102,4 @@ EXAMPLES
   ./serviceTask --task=3 --addToQueue  # schedule task #3 to process next step
   ./serviceTask --task=3 --poll=10     # poll until task #3 finished step (10 tries)
 \'
-      topez: topez ] ]',#creationTime:DateAndTime['2014-06-08T12:03:24.639317035675-07:00'],#modificationTime:DateAndTime['2014-06-08T12:07:12.1855149269104-07:00']}
+      topez: topez ] ]',#creationTime:DateAndTime['2014-06-08T12:03:24.639317035675-07:00'],#modificationTime:DateAndTime['2014-06-08T15:10:58.0509779453277-07:00']}

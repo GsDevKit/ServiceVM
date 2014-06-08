@@ -57,7 +57,7 @@ opts
     TDManPage
       viewManPage:
         \'NAME
-  serviceVM - control server gem for ServiceVM example
+  serviceVM - control server gem for WAGemStoneServiceVM example
 SYNOPSIS
   serviceVM [-h|--help] [--register [--force]] [--start] [--stop] [--restart]
 
@@ -65,12 +65,12 @@ SYNOPSIS
 DESCRIPTION
 EXAMPLES
   ./serviceVM --help
-  ./serviceVM --register
-  ./serviceVM --register --force # force a new registration
+  ./serviceVM --register         # register a new instance (first time)
+  ./serviceVM --register --force # force a new registration (override existing)
 
-  ./serviceVM --restart
-  ./serviceVM --start
-  ./serviceVM --status
-  ./serviceVM --stop
+  ./serviceVM --restart          # restart service gem
+  ./serviceVM --start            # start service gem
+  ./serviceVM --status           # status of service gem
+  ./serviceVM --stop             # stop service gem
 \'
-      topez: topez ] ]',#creationTime:DateAndTime['2014-06-06T19:56:30.1198749542236-07:00'],#modificationTime:DateAndTime['2014-06-07T14:05:55.7770869731903-07:00']}
+      topez: topez ] ]',#creationTime:DateAndTime['2014-06-06T19:56:30.1198749542236-07:00'],#modificationTime:DateAndTime['2014-06-08T14:30:36.0023601055145-07:00']}
