@@ -64,7 +64,8 @@ Overview of tODE commands used in example:
   ./serviceExample --task=3 --poll=10     # poll for completion of task #3 (wait 10 seconds)
   ```
 
-See webServer, [serviceVM][13], or [serviceExample][8] for the Smalltalk source.
+See [webServer][19], [serviceVM][13], or [serviceExample][8] 
+for the Smalltalk source for each of the tODE scripts.
 
 Start serviceVM gem:
 
@@ -206,7 +207,7 @@ step3@       -> anArray( )
 ####Seaside Example
 
 Here's the render method (*WAGemStoneInteractiveServiceExample>>renderContentOn:*)
-for the Seaside component:
+for the ServiceVm example Seaside component:
 
 ```Smalltalk
 renderContentOn: html
@@ -217,21 +218,33 @@ renderContentOn: html
     ifFalse: [ 
       workUnit ready
         ifTrue: [ 
+          "task READY to start next step ==================="
           html heading: 'Ready.'.
           html anchor
-            callback: [ self blockingStep ];
+            callback: [ 
+                  "BLOCKING addToQueue  ====================
+                     Control not returned to user until
+                     the task is finished"
+                  self blockingStep ];
             with: 'Blocking ' , workUnit label.
           html text: ', or '.
           html anchor
-            callback: [ self nonBlockingStep ];
+            callback: [ 
+                  "NON-BLOCKING addToQueue  ================
+                     Control is immediately returned to user
+                     and the user must manually poll by
+                     refreshing the page, until the task is
+                     finished"
+                  self nonBlockingStep ];
             with: 'Non-blocking ' , workUnit label ]
         ifFalse: [ 
+          "task NOT READY to start next step ===============
+             part of manual poll by user"
           html heading: 'Not Ready '.
           html text: workUnit label , '. Refresh to check status, or '.
           html anchor
             callback: [ self blockingStep ];
-            with: 'block until step is complete' ] ]
-```
+            with: 'block until step is complete' ] ]```
 
 ####Shut down the Service gems
 
@@ -259,3 +272,4 @@ renderContentOn: html
 [16]: docs/readme/serviceExample.st#L18-27
 [17]: docs/readme/serviceExample.st#L29-36
 [18]: docs/readme/serviceExample.st#L38-55
+[19]: docs/readme/webServer_todeScript.st

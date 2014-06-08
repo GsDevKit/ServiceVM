@@ -1,0 +1,82 @@
+[ :topez :objIn :tokens :command :commandNode | 
+| opts args cmd |
+"for help: ./webServer -h"
+cmd := command command.
+command
+  getOptsMixedLongShort:
+    {#('help' $h #'none').
+    #('register' nil #'required').
+    #('port' nil #'required').
+    #('start' nil #'none').
+    #('status' nil #'none').
+    #('stop' nil #'none').
+    #('restart' nil #'none')}
+  optionsAndArguments: [ :options :operands | 
+    opts := options.
+    args := operands ].
+opts
+  at: 'help'
+  ifAbsent: [ 
+    | server serviceName |
+    serviceName := 'ServiceVM-WebServer'.
+    server := WAGemStoneRunSmalltalkServer serverNamed: serviceName.
+    opts
+      at: 'status'
+      ifPresent: [ :ignored | 
+        | response |
+        server isNil
+          ifTrue: [ response := 'Web server not registered' ]
+          ifFalse: [ WAGemStoneRunSmalltalkServer statusGems: server ].
+        response ]
+      ifAbsent: [ 
+        opts
+          at: 'register'
+          ifPresent: [ :serverType | 
+            | serverClass |
+            serverType = 'zinc'
+              ifTrue: [ serverClass := WAGsZincAdaptor ]
+              ifFalse: [ 
+                serverType = 'fastcgi'
+                  ifTrue: [ serverClass := WAFastCGIAdaptor ]
+                  ifFalse: [ 
+                    serverType = 'swazoo'
+                      ifTrue: [ serverClass := WAGsSwazooAdaptor ]
+                      ifFalse: [ self error: 'Unknown web server type ' , serverType printString ] ] ].
+            WAGemStoneRunSmalltalkServer
+              addServerOfClass: serverClass
+              withName: serviceName
+              on: #(8383).
+            server := WAGemStoneRunSmalltalkServer serverNamed: serviceName ].
+        opts at: 'port' ifPresent: [ :port | server ports: {(port asNumber)} ].
+        opts
+          at: 'start'
+          ifPresent: [ :ignored | WAGemStoneRunSmalltalkServer startGems: server ]
+          ifAbsent: [ 
+            opts
+              at: 'restart'
+              ifPresent: [ :ignored | WAGemStoneRunSmalltalkServer restartGems: server ]
+              ifAbsent: [ 
+                opts
+                  at: 'stop'
+                  ifPresent: [ :ignored | WAGemStoneRunSmalltalkServer stopGems: server ]
+                  ifAbsent: [  ] ] ] ] ]
+  ifPresent: [ :ignored | 
+    TDManPage
+      viewManPage:
+        'NAME
+  webServer - control Zinc-based web server for ServiceVM example
+SYNOPSIS
+  webServer [-h|--help] [--register=zinc|fastcgi|swazoo] [--port=<port-number>]
+             [--start] [--stop] [--restart]
+DESCRIPTION
+EXAMPLES
+  ./webServer --help
+  ./webServer --register=zinc --port=8383 --start
+
+  ./webServer --port=8383 
+  ./webServer --restart
+  ./webServer --start
+  ./webServer --status
+  ./webServer --stop
+'
+      topez: topez ] ]

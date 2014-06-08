@@ -38,10 +38,11 @@ opts
                 limit := 10.
                 limitArg ifNotNil: [ limit := limitArg asNumber ].
                 count := 0.
-                [ task finishedStep not and: [ count <= limit ] ]
+                [ 
+                System abort.	"so that service vm can see new queue entry"
+                task finishedStep not and: [ count <= limit ] ]
                   whileTrue: [ 
                     (Delay forSeconds: 1) wait.
-                    System abort.	"so that service vm can see new queue entry"
                     count := count + 1 ].
                 System abort.
                 task finishedStep
@@ -75,6 +76,8 @@ DESCRIPTION
 EXAMPLES
   ./serviceExample --help
   ./serviceExample --reset                # clear service task queues and counters
+                                          #   only use reset when service is not
+                                          #   running
   ./serviceExample --status               # state of service task engine
 
   ./serviceExample --task                 # create a new task
