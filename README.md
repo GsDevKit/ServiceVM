@@ -271,7 +271,7 @@ http://localhost:8383/examples/serviceInteractive
 
 which should look something like this:
 
-![seaside service vm page][8]
+![seaside service example browser picture][21]
 
 
 ####Shut down the Service gems
@@ -283,7 +283,7 @@ which should look something like this:
   ```
 
 _**_*[`webServer ----stop`][23]
-[`webServer --stop`][24] for non-tode users*
+[`serviceVM --stop`][24] for non-tode users*
 
 [1]: repository/Seaside-GemStone-ServiceTask.package/WAGemStoneServiceVMTask.class/class/serviceVMTaskServiceExample.st#L18
 [2]: repository/Seaside-GemStone-ServiceExamples.package/WAGemStoneServiceVMTask.class/class/serviceLoop.st#L10
