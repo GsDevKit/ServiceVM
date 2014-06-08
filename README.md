@@ -112,12 +112,10 @@ Each step is performed separately by the [service vm][9].
 Reset the example vm, then create and view a task:
 
 ```Shell
-./serviceExample --reset 
 ./serviceExample --task; edit
 ```
 
-_**_*[`./serviceExample --reset`][15]
-[`./serviceExample --task`][16] for non-tode users*
+_**_*[`./serviceExample --task`][16] for non-tode users*
 
 and here's the state of the freshly created task instance:
 
@@ -148,15 +146,15 @@ _**_*[`./serviceExample --task=1`][16]
 and view the new state:
 
 ```
-.            -> task: #1 (step 1: [anArray( )] in step 2)
+.            -> task: #1 (step 1: [anArray( )] step 2: [anArray( )] in step 3)
 (class)@     -> WAGemStoneServiceExampleTask
-(oop)@       -> 425026561
+(oop)@       -> 193992193
 currentStep@ -> #'step2'
 errorFlag@   -> nil
 id@          -> 1
-log@         -> anOrderedCollection( 'id'->2014-06-07T12:26:49.1534569263458-07:00, 'step1'->2014-06-07T12:27:02.7745549678802-07:00, 'step1'->2014-06-07T12...
+log@         -> anOrderedCollection( 'id'->2014-06-07T17:50:25.2372469902038-07:00, 'step1'->2014-06-07T17:50:41.896595954895-07:00, 'step2'->2014-06-07T17:...
 step1@       -> anArray( )
-step2@       -> nil
+step2@       -> anArray( )
 step3@       -> nil
 ```
 
@@ -171,8 +169,40 @@ _**_*[`serviceExample --status`][12] for non-tode users*
 which will look something like the following:
 
 ```
+.        -> aDictionary( 'instances'->anArray( task: #1 (step 1: [anArray( )] step 2: [anArray( )] in step 3)), 'high water'->1, 'queue'->aRcQueue( ), '...
+(class)@ -> Dictionary
+(oop)@   -> 194661377
+1@       -> 'errors'->anArray( )
+2@       -> 'high water'->1
+3@       -> 'inProcess'->anArray( )
+4@       -> 'instances'->anArray( task: #1 (step 1: [anArray( )] step 2: [anArray( )] in step 3))
+5@       -> 'queue'->aRcQueue( )
 ```
 
+Cycle through the last step and view final state:
+
+```Shell
+./serviceExample --task=1 --addToQueue --poll=10; edit
+```
+
+_**_*[`./serviceExample --task=1`][16]
+[`./serviceExample --addToQueue`][17]
+[`./serviceExample --poll=10`][18] for non-tode users*
+
+and view the new state:
+
+```
+.            -> task: #1 (step 1: [anArray( )] step 2: [anArray( )] finished: [anArray( )])
+(class)@     -> WAGemStoneServiceExampleTask
+(oop)@       -> 193992193
+currentStep@ -> #'step3'
+errorFlag@   -> nil
+id@          -> 1
+log@         -> anOrderedCollection( 'id'->2014-06-07T17:50:25.2372469902038-07:00, 'step1'->2014-06-07T17:50:41.896595954895-07:00, 'step2'->2014-06-07T17:...
+step1@       -> anArray( )
+step2@       -> anArray( )
+step3@       -> anArray( )
+```
 ####Shut down the Service gems
 
   ```Shell

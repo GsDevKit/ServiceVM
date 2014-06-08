@@ -38,10 +38,11 @@ opts
                 limit := 10.
                 limitArg ifNotNil: [ limit := limitArg asNumber ].
                 count := 0.
-                [ task finishedStep not and: [ count <= limit ] ]
+                [ 
+                System abort.\t\"so that service vm can see new queue entry\"
+                task finishedStep not and: [ count <= limit ] ]
                   whileTrue: [ 
                     (Delay forSeconds: 1) wait.
-                    System abort.\t\"so that service vm can see new queue entry\"
                     count := count + 1 ].
                 System abort.
                 task finishedStep
@@ -75,6 +76,8 @@ DESCRIPTION
 EXAMPLES
   ./serviceExample --help
   ./serviceExample --reset                # clear service task queues and counters
+                                          #   only use reset when service is not
+                                          #   running
   ./serviceExample --status               # state of service task engine
 
   ./serviceExample --task                 # create a new task
@@ -82,4 +85,4 @@ EXAMPLES
   ./serviceExample --task=3 --addToQueue  # schedule task #3 to process next step
   ./serviceExample --task=3 --poll=10     # poll until task #3 finished step (10 tries)
 \'
-      topez: topez ] ]',#creationTime:DateAndTime['2014-06-07T09:46:36.9012389183044-07:00'],#modificationTime:DateAndTime['2014-06-07T12:42:21.0470039844512-07:00']}
+      topez: topez ] ]',#creationTime:DateAndTime['2014-06-07T09:46:36.9012389183044-07:00'],#modificationTime:DateAndTime['2014-06-07T17:57:25.4861230850219-07:00']}
