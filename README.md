@@ -223,6 +223,8 @@ renderContentOn: html
           html anchor
             callback: [ 
                   "BLOCKING addToQueue  ====================
+                        ./serviceExample --task=1 --addToQueue --poll=10
+                                        ====================
                      Control not returned to user until
                      the task is finished"
                   self blockingStep ];
@@ -231,6 +233,8 @@ renderContentOn: html
           html anchor
             callback: [ 
                   "NON-BLOCKING addToQueue  ================
+                        ./serviceExample --task=1 --addToQueue
+                                            ================
                      Control is immediately returned to user
                      and the user must manually poll by
                      refreshing the page, until the task is
@@ -239,12 +243,36 @@ renderContentOn: html
             with: 'Non-blocking ' , workUnit label ]
         ifFalse: [ 
           "task NOT READY to start next step ===============
+                        ./serviceExample --task=1 --poll=10
+                                             ===============
              part of manual poll by user"
           html heading: 'Not Ready '.
           html text: workUnit label , '. Refresh to check status, or '.
           html anchor
             callback: [ self blockingStep ];
-            with: 'block until step is complete' ] ]```
+            with: 'block until step is complete' ] ]
+```
+
+Start webServer gem:
+
+  ```Shell
+  ./webServer --register=zinc --port=8383 # only done once
+  ./webServer --start
+  ```
+
+_**_*[`webServer --register=zinc`][21]
+[`webServer --start`][22] for non-tode users*
+
+Hit the service vm example page:
+
+```
+http://localhost:8383/examples/serviceInteractive
+```
+
+which should look something like this:
+
+![seaside service vm page][8]
+
 
 ####Shut down the Service gems
 
@@ -253,6 +281,9 @@ renderContentOn: html
   ./webServer --stop
   ./serviceVM --stop
   ```
+
+_**_*[`webServer ----stop`][23]
+[`webServer --stop`][24] for non-tode users*
 
 [1]: repository/Seaside-GemStone-ServiceTask.package/WAGemStoneServiceVMTask.class/class/serviceVMTaskServiceExample.st#L18
 [2]: repository/Seaside-GemStone-ServiceExamples.package/WAGemStoneServiceVMTask.class/class/serviceLoop.st#L10
@@ -273,3 +304,8 @@ renderContentOn: html
 [17]: docs/readme/serviceExample.st#L29-36
 [18]: docs/readme/serviceExample.st#L38-55
 [19]: docs/readme/webServer_todeScript.st
+[20]: docs/readme/seasideServiceVMPage.png
+[21]: docs/readme/webServer.st#L1-9
+[22]: docs/readme/webServer.st#L11-15
+[23]: docs/readme/webServer.st#L17-21
+[24]: docs/readme/serviceVM.st#L16-20
