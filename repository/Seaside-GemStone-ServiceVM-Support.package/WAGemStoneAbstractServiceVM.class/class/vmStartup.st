@@ -1,0 +1,3 @@
+operations
+vmStartup
+  self subclassResponsibility

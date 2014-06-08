@@ -1,4 +1,4 @@
-serviceVM tasks
+operations
 serviceVMServiceTaskQueue
   ^ self
     name: 'Service VM Loop'

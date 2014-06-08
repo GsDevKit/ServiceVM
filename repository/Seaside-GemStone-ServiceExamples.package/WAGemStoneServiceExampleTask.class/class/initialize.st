@@ -8,6 +8,6 @@ initialize
     instances;
     inProcess;
     queue.
-  WAGemStoneServiceVM
+  WAGemStoneServiceExampleVM
     initialize;
     resetTasks

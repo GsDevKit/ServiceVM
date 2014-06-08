@@ -1,3 +1,3 @@
-accessing
-outstandingRequests
+serviceVM tasks
+serviceVMTasksInProcess
   ^ WAGemStoneServiceExampleTask inProcess size

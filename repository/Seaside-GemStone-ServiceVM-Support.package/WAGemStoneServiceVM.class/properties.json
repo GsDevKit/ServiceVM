@@ -1,0 +1,14 @@
+{
+	"category" : "Seaside-GemStone-ServiceVM-Support",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "dkh 06/08/2014 14:02",
+	"instvars" : [
+		 ],
+	"name" : "WAGemStoneServiceVM",
+	"pools" : [
+		 ],
+	"super" : "WAGemStoneAbstractServiceVM",
+	"type" : "normal" }

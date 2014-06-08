@@ -1,4 +1,4 @@
-operations
+control (WAGemStoneRunSmalltalkServer)
 startOn: ignored
   "start running the service"
 

@@ -1,0 +1,13 @@
+{
+	"class" : {
+		"buildTaskList" : "dkh 06/08/2014 14:01",
+		"initialize" : "dkh 06/08/2014 14:01",
+		"serviceLoop" : "dkh 06/08/2014 14:01",
+		"serviceVMServiceTaskQueue" : "dkh 06/08/2014 14:01",
+		"serviceVMTasks:" : "dkh 06/08/2014 14:01",
+		"serviceVMTasksAvailable:" : "dkh 06/08/2014 14:01",
+		"serviceVMTasksInProcess" : "dkh 06/08/2014 14:01",
+		"tasks" : "dkh 06/08/2014 14:01",
+		"vmStartup" : "dkh 06/08/2014 14:01" },
+	"instance" : {
+		 } }
