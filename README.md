@@ -105,7 +105,7 @@ produces an inspector on the key state of the service vm:
 
 `errors` is a list of service vm tasks that have produced errors while processing. `inProcess` is a list of service vm tasks that have not completed processing. `instances` is a list of all service vm tasks that have been created. `queue` is a list of the service vm tasks that are stacked up waiting to be processed.
 
-####Example Task
+####Example Task Life Cycle
 In this example the [task][3] has three separate processing steps. 
 Each step is performed separately by the [service vm][9]. 
 
@@ -203,6 +203,36 @@ step1@       -> anArray( )
 step2@       -> anArray( )
 step3@       -> anArray( )
 ```
+####Seaside Example
+
+Here's the render method (*WAGemStoneInteractiveServiceExample>>renderContentOn:*)
+for the Seaside component:
+
+```Smalltalk
+renderContentOn: html
+  workUnit hasError
+    ifTrue: [ 
+      html heading: 'Error'.
+      html text: workUnit errorFlag ]
+    ifFalse: [ 
+      workUnit ready
+        ifTrue: [ 
+          html heading: 'Ready.'.
+          html anchor
+            callback: [ self blockingStep ];
+            with: 'Blocking ' , workUnit label.
+          html text: ', or '.
+          html anchor
+            callback: [ self nonBlockingStep ];
+            with: 'Non-blocking ' , workUnit label ]
+        ifFalse: [ 
+          html heading: 'Not Ready '.
+          html text: workUnit label , '. Refresh to check status, or '.
+          html anchor
+            callback: [ self blockingStep ];
+            with: 'block until step is complete' ] ]
+```
+
 ####Shut down the Service gems
 
   ```Shell

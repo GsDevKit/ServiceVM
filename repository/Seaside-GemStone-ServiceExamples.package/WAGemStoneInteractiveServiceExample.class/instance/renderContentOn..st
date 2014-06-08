@@ -20,10 +20,4 @@ renderContentOn: html
           html text: workUnit label , '. Refresh to check status, or '.
           html anchor
             callback: [ self blockingStep ];
-            with: 'block until step is complete' ] ].
-  false
-    ifTrue: [ 
-      html break.
-      html anchor
-        callback: [ workUnit := self newWorkUnit ];
-        with: 'Restart' ]
+            with: 'block until step is complete' ] ]
