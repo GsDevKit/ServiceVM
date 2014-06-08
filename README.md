@@ -1,21 +1,17 @@
 ServiceVM
 =========
 
-The Service VM is intended to provide example code for creating and using a separate "Service VM" for offloading 
-work that in a Squeak/Pharo Seaside application, you would have forked of a thread to do the work. 
-See [Porting Application-Specific Seaside Threads to GemStone][6] and [threads within a request (a conversation between
-Ni/ck Ager and I)][5] for more information.
+This project provides example code for creating and using a 
+separate GemStone vm for processing long running operations from a Seaside HTTP request.
 
-The prototypical example would be to obtain a token from an external web-service (i.e., sending an HTTP request to obtain a token or other data). You would not want to defer the response to the user in this case, especially if the request can take several minutes to complete (or fail as the case may be).
+As described in [Porting Application-Specific Seaside Threads to GemStone][6], it is not 
+advisable to fork a thread to handle a long running operation in a GemStone vm. 
+Several years ago, Nick Ager essentially asked the question:
 
-## Futures work by Nick Ager
-A Future implementation for Pharo with a package containing two Seaside examples to demonstrate a typical usage scenario.
-Designed to be compatible with a GemStone future implementation.
+> So what do you expect us to do instead?
 
-The implementation is based on: http://onsmalltalk.com/smalltalk-concurrency-playing-with-futures:
+to which [I answered with this example][5]. Nick went on to create [a Future implementation for Pharo ... Designed to be compatible with a GemStone future implementation][25].
 
-* Pharo-Future-NickAger.3.mcz
-* Future-Seaside-Examples-NickAger.9.mcz
 
 ## ServiceVM
 For GLASS the solution is to create a separate Service gem that services performs stashed in an RCQueue. RCQueues are conflict free with multiple producers and a single consumer - exactly our case.
@@ -285,6 +281,15 @@ which should look something like this:
 _**_*[`webServer ----stop`][23]
 [`serviceVM --stop`][24] for non-tode users*
 
+## Futures work by Nick Ager
+A Future implementation for Pharo with a package containing two Seaside examples to demonstrate a typical usage scenario.
+Designed to be compatible with a GemStone future implementation.
+
+The implementation is based on: http://onsmalltalk.com/smalltalk-concurrency-playing-with-futures:
+
+* Pharo-Future-NickAger.3.mcz
+* Future-Seaside-Examples-NickAger.9.mcz
+
 [1]: repository/Seaside-GemStone-ServiceTask.package/WAGemStoneServiceVMTask.class/class/serviceVMTaskServiceExample.st#L18
 [2]: repository/Seaside-GemStone-ServiceExamples.package/WAGemStoneServiceVMTask.class/class/serviceLoop.st#L10
 [3]: repository/Seaside-GemStone-ServiceExamples.package/WAGemStoneServiceExampleTask.class
@@ -309,3 +314,4 @@ _**_*[`webServer ----stop`][23]
 [22]: docs/readme/webServer.st#L11-15
 [23]: docs/readme/webServer.st#L17-21
 [24]: docs/readme/serviceVM.st#L16-20
+[25]: http://www.squeaksource.com/Futures/
