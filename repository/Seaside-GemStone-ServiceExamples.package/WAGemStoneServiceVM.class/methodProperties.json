@@ -1,10 +1,13 @@
 {
 	"class" : {
-		"buildTaskList" : "dkh 06/07/2014 10:45",
+		"buildTaskList" : "dkh 06/08/2014 10:24",
 		"initialize" : "dkh 06/07/2014 10:45",
 		"outstandingRequests" : "dkh 06/07/2014 12:23",
 		"serviceLoop" : "dkh 06/07/2014 10:53",
-		"serviceVMTaskServiceExample" : "dkh 06/07/2014 10:51",
+		"serviceVMServiceTaskQueue" : "dkh 06/08/2014 10:46",
+		"serviceVMTasks:" : "dkh 06/08/2014 10:10",
+		"serviceVMTasksAvailable:" : "dkh 06/08/2014 10:19",
+		"serviceVMTasksInProcess" : "dkh 06/08/2014 10:18",
 		"startOn:" : "dkh 06/07/2014 10:53",
 		"tasks" : "dkh 06/07/2014 10:45",
 		"vmStartup" : "dkh 06/07/2014 10:48" },
