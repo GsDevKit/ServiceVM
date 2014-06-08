@@ -6,14 +6,137 @@ separate GemStone vm for processing long running operations from a Seaside HTTP 
 
 As described in [Porting Application-Specific Seaside Threads to GemStone][6], it is not 
 advisable to fork a thread to handle a long running operation in a GemStone vm. 
-Several years ago, Nick Ager essentially asked the question:
+Several years ago, [Nick Ager asked the question (in essense)][5]:
 
 > So what do you expect us to do instead?
 
-to which [I answered with this example][5]. Nick went on to create [a Future implementation for Pharo ... Designed to be compatible with a GemStone future implementation][25].
+to which I replied:
+
+> The basic idea is that you create a separate gem that services tasks 
+> that are put into an RCQueue (multiple producers and a single consumer). 
+> The gem polls for tasks in the queue, performs the task, then  finishes 
+> the task, storing the results in the task....On the Seaside side you 
+> would use HTML redirect (WADelayedAnswerDecoration) while waiting for 
+> the task to be completed. 
+
+That is quite a mouthful, so let's break it down:
+
+1. [separate ServiceVM gem](#servicevm-gem)
+2. [Service task](#service-taks) 
+3. [Services queue](#services-queue)
+4. [Seaside integration](#seaside-integration)
+
+## ServiceVM gem
+For a service gem, we havetwo problems:
+
+* [How do we start and stop a service vm?](#gem-control)
+* [How do we define the service vm service loop?](#service-loop)	
+
+###Gem control
+Fortunately, Paul DeBruicker solved both of these problems
+Back in 2011. He created a [couple of classes (WAGemStoneRunSmalltalkServer &   
+WAGemStoneSmalltalkServer)][33] and wrote two bash scripts 
+([runSmalltalkServer][34] and [startSmalltalkServer][35]) that
+make it possible to start and run a ServiceVM gem for the purpose of executing long
+running operations. The idea is similar the one used to 
+[control Seaside web server gems][36], but generalized
+to allow for starting gems that run an arbitrary service loop.
+
+You can register a server class (in this case **WAGemStoneServiceVM**) with
+the class **WAGemStoneRunSmalltalkServer**:
+
+```Smalltalk
+WAGemStoneRunSmalltalkServer
+   addServerOfClass: WAGemStoneServiceVM
+   withName: 'ServiceVM-ServiceVM'
+   on: #().
+```
+
+and control the gem with these commands:
+
+```Smalltalk
+"serviceVM --start"
+| server serviceName |
+serviceName := 'ServiceVM-ServiceVM'.
+server := WAGemStoneRunSmalltalkServer serverNamed: serviceName
+WAGemStoneRunSmalltalkServer startGems: server
+
+"serviceVM --stop"
+| server serviceName |
+serviceName := 'ServiceVM-ServiceVM'.
+server := WAGemStoneRunSmalltalkServer serverNamed: serviceName
+WAGemStoneRunSmalltalkServer stopGems: server
+```
+
+### Service Loop
+The service vm's service loop is responsible for keeping
+an eye on the queue of service tasks, pluck tasks from the 
+queue when they become available then fork a thread in which the task will perform it's work.
+
+The main loop wakes up every 200ms and services the task queue:
+
+```Smalltalk
+serviceLoop
+  | count |
+  count := 0.
+  [ true ]
+    whileTrue: [ 
+     self performTasks: count.             "service the task queue"
+      (Delay forMilliseconds: 200) wait.   "Sleep for a 200ms"
+      count := count + 1 ] 
+```
+
+In the **WAGemStoneMaintenanceTask** infrastructure, the *performTask:* message above ends up
+evaluating the block defined below:
+
+```Smalltalk
+serviceVMServiceTaskQueue
+  ^ self
+    name: 'Service VM Loop'
+    frequency: 1
+    valuable: [ :vmTask | 
+"1. CHECK FOR TASKS IN QUEUE (non-transactional)"
+      (self serviceVMTasksAvailable: vmTask)
+        ifTrue: [ 
+          | tasks repeat |
+          repeat := true.
+"2. PULL TASKS FROM QUEUE UNTIL QUEUE IS EMPTY OR 100 TASKS IN PROGRESS"
+          [ repeat and: [ self serviceVMTasksInProcess < 100 ] ]
+            whileTrue: [ 
+              repeat := false.
+              GRPlatform current
+                doTransaction: [ 
+"3. REMOVE TASKS FROM QUEUE..."
+                  tasks := self serviceVMTasks: vmTask ].
+              tasks do: [ :task |
+"4. ...FORK BLOCK AND PROCESS TASK" 
+                [ task processTask ] fork ].
+              repeat := tasks notEmpty ] ] ]
+    reset: [ :vmTask | vmTask state: 0 ]
+```
+
+From a GemStone perspective, it is important to note that only the **serviceVMTasks:** method
+is performed from within the transaction mutex ([GRGemStonePlatform>>doTransaction:][37]). 
+There are many concurrent threads running within the service vm, so all threads running 
+must take care to hold the transaction mutex for as short a time as possible. Also when 
+running "outside of transaction" one must be aware that any persistent state may change
+at transaction boundaries initiated by threads other than your own so one must use discipline
+within your application to either:
+
+* avoid changing the state of persistent objects used in service vm
+* or, copy any state from *unsafe* persistent objects into temporary variables
+  or *private* persistent objects.
+
+## Service task
+## Services queue
+## Seaside integration
+## ServiceVM Example
+
+Recently I've brought the original example code over to github, simplified it a bit, 
+made sure it works with [GemStone 3.2][28], [Seaside 3.1][29], [Zinc][30], and created a 
+collection of [tODE][27] support scripts.
 
 
-## ServiceVM
 For GLASS the solution is to create a separate Service gem that services performs stashed in an RCQueue. RCQueues are conflict free with multiple producers and a single consumer - exactly our case.
 
 ###Installation
@@ -282,10 +405,9 @@ _**_*[`webServer ----stop`][23]
 [`serviceVM --stop`][24] for non-tode users*
 
 ## Futures work by Nick Ager
-A Future implementation for Pharo with a package containing two Seaside examples to demonstrate a typical usage scenario.
-Designed to be compatible with a GemStone future implementation.
-
-The implementation is based on: http://onsmalltalk.com/smalltalk-concurrency-playing-with-futures:
+Nick went on to create 
+[his Future implementation][25] based on Ramon Leon's article 
+[Smalltalk Concurrency, Playing With Futures][26]:
 
 * Pharo-Future-NickAger.3.mcz
 * Future-Seaside-Examples-NickAger.9.mcz
@@ -315,3 +437,15 @@ The implementation is based on: http://onsmalltalk.com/smalltalk-concurrency-pla
 [23]: docs/readme/webServer.st#L17-21
 [24]: docs/readme/serviceVM.st#L16-20
 [25]: http://www.squeaksource.com/Futures/
+[26]: http://onsmalltalk.com/smalltalk-concurrency-playing-with-futures
+[27]: https://github.com/dalehenrich/tode#tode-the-object-centric-development-environment-
+[28]: http://gemtalksystems.com/index.php/news/version3-2/
+[29]: https://github.com/glassdb/Seaside31
+[30]: https://github.com/glassdb/zinc
+[31]: http://gemstonesoup.wordpress.com/2008/03/09/glass-101-simple-persistence/
+[32]: https://github.com/glassdb/ServiceVM/issues/3
+[33]: http://forum.world.st/Issue-320-in-glassdb-Clean-up-WAGemStoneRunSmalltalkServer-amp-WAGemStoneSmalltalkServer-scripts-td4120578.html
+[34]: bin/runSmalltalkServer
+[35]: bin/startSmalltalkServer
+[36]: https://code.google.com/p/glassdb/wiki/ControllingSeaside30Gems
+[37]: https://github.com/glassdb/Grease/blob/master/repository/Grease-GemStone-Core.package/GRGemStonePlatform.class/instance/doTransaction..st
