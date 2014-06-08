@@ -271,7 +271,7 @@ http://localhost:8383/examples/serviceInteractive
 
 which should look something like this:
 
-![seaside service example browser picture][21]
+![seaside service example browser picture][20]
 
 
 ####Shut down the Service gems
