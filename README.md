@@ -471,13 +471,13 @@ Nick went on to create
 [8]: docs/readme/serviceExample_todeScript.st
 [9]: repository/Seaside-GemStone-ServiceExamples.package/WAGemStoneServiceExampleVM.class
 [10]: docs/readme/projectLoad.st#L2-14
-[11]: docs/readme/serviceVM_todeScript.st#L32-43                <!-- serviceVM --register -->
-
-[12]: docs/readme/serviceExample_todeScript.st#L53-63           <!-- serviceExample --status --> 
-
+[11]: docs/readme/serviceVM_todeScript.st#L32-43                
+      <!-- [11] serviceVM --register -->
+[12]: docs/readme/serviceExample_todeScript.st#L53-63           
+      <!-- [12] serviceExample --status --> 
 [13]: docs/readme/serviceVM_todeScript.st
-[14]: docs/readme/serviceVM_todeScript.st#L45-47                <!-- serviceVM --start -->
-
+[14]: docs/readme/serviceVM_todeScript.st#L45-47                
+      <!-- [14] serviceVM --start -->
 [15]: 
 [16]: docs/readme/serviceExample_todeScript.st#L20-28
 [17]: docs/readme/serviceExample_todeScript.st#L29-33
