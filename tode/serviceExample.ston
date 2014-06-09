@@ -83,4 +83,4 @@ EXAMPLES
   ./serviceExample --task=3 --addToQueue  # schedule task #3 to process next step
   ./serviceExample --task=3 --poll=10     # poll until task #3 finished step (10 tries)
 \'
-      topez: topez ] ]',#creationTime:DateAndTime['2014-06-07T09:46:36.9012389183044-07:00'],#modificationTime:DateAndTime['2014-06-09T16:25:08.85697889328-07:00']}
+      topez: topez ] ]',#creationTime:DateAndTime['2014-06-07T09:46:36.9012389183044-07:00'],#modificationTime:DateAndTime['2014-06-09T16:39:00.7350349426269-07:00']}
