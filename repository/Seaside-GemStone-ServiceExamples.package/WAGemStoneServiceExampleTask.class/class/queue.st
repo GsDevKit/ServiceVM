@@ -1,5 +1,5 @@
 accessing
 queue
-
-	Queue == nil ifTrue: [ Queue := RcQueue new: 100 ].
-	^Queue
+  queue == nil
+    ifTrue: [ queue := RcQueue new: 100 ].
+  ^ queue

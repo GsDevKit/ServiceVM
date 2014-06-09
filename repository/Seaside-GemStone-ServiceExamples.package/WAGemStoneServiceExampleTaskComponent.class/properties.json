@@ -4,10 +4,10 @@
 		 ],
 	"classvars" : [
 		 ],
-	"commentStamp" : "",
+	"commentStamp" : "dkh 06/09/2014 12:38",
 	"instvars" : [
-		"workUnit" ],
-	"name" : "WAGemStoneInteractiveServiceExample",
+		"task" ],
+	"name" : "WAGemStoneServiceExampleTaskComponent",
 	"pools" : [
 		 ],
 	"super" : "WAComponent",

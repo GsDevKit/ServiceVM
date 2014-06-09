@@ -1,5 +1,3 @@
-updating
-id: newValue
-
-	self performLogging: 'id'.
-	id := newValue
+accessing
+id: anId
+	id := anId

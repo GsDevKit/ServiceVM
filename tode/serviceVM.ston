@@ -17,13 +17,13 @@ command
 opts
   at: \'help\'
   ifAbsent: [ 
-    | server serviceName |
+    | server serviceName response |
     serviceName := \'ServiceVM-ServiceVM\'.
     server := WAGemStoneRunSmalltalkServer serverNamed: serviceName.
+    response := server.
     opts
       at: \'status\'
       ifPresent: [ :ignored | 
-        | response |
         server isNil
           ifTrue: [ response := \'Web server not registered\' ]
           ifFalse: [ WAGemStoneRunSmalltalkServer statusGems: server ].
@@ -34,12 +34,13 @@ opts
           ifPresent: [ :ignored | 
             opts
               at: \'force\'
-              ifPresent: [ :xx | server ifNotNil: [ WAGemStoneRunSmalltalkServer removeServerNamed: serviceName ] ].
+              ifPresent: [ :ignored2 | server ifNotNil: [ WAGemStoneRunSmalltalkServer removeServerNamed: serviceName ] ].
             WAGemStoneRunSmalltalkServer
-              addServerOfClass: WAGemStoneServiceVM
+              addServerOfClass: WAGemStoneServiceExampleVM
               withName: serviceName
-              on: #(8383).
-            server := WAGemStoneRunSmalltalkServer serverNamed: serviceName ].
+              on: #(0). \"port required\"
+            server := WAGemStoneRunSmalltalkServer serverNamed: serviceName.
+            response := server ].
         opts at: \'port\' ifPresent: [ :port | server ports: {(port asNumber)} ].
         opts
           at: \'start\'
@@ -52,12 +53,13 @@ opts
                 opts
                   at: \'stop\'
                   ifPresent: [ :ignored | WAGemStoneRunSmalltalkServer stopGems: server ]
-                  ifAbsent: [  ] ] ] ] ]
+                  ifAbsent: [  ] ] ] ].
+    response := server ]
   ifPresent: [ :ignored | 
     TDManPage
       viewManPage:
         \'NAME
-  serviceVM - control server gem for WAGemStoneServiceVM example
+  serviceVM - control server gem for WAGemStoneServiceExampleVM example
 SYNOPSIS
   serviceVM [-h|--help] [--register [--force]] [--start] [--stop] [--restart]
 
@@ -73,4 +75,4 @@ EXAMPLES
   ./serviceVM --status           # status of service gem
   ./serviceVM --stop             # stop service gem
 \'
-      topez: topez ] ]',#creationTime:DateAndTime['2014-06-06T19:56:30.1198749542236-07:00'],#modificationTime:DateAndTime['2014-06-08T14:30:36.0023601055145-07:00']}
+      topez: topez ] ]',#creationTime:DateAndTime['2014-06-06T19:56:30.1198749542236-07:00'],#modificationTime:DateAndTime['2014-06-09T12:32:41.0146389007568-07:00']}

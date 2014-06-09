@@ -23,7 +23,6 @@ That is quite a mouthful, so let's break it down:
 
 1. [ServiceVM gem](#servicevm-gem)
 2. [Service task](#service-taks) 
-3. [Services queue](#services-queue)
 4. [Seaside integration](#seaside-integration)
 
 ## ServiceVM gem
@@ -42,30 +41,30 @@ running operations. The idea is similar the one used to
 [control Seaside web server gems][36], but generalized
 to allow for starting gems that run an arbitrary service loop.
 
-You can register a server class (in this case **WAGemStoneServiceVM**) with
+You can register a server class (in this case **WAGemStoneServiceExampleVM**) with
 the class **WAGemStoneRunSmalltalkServer**:
 
 ```Smalltalk
 WAGemStoneRunSmalltalkServer
-   addServerOfClass: WAGemStoneServiceVM
+   addServerOfClass: WAGemStoneServiceExampleVM
    withName: 'ServiceVM-ServiceVM'
    on: #().
 ```
 
-and control the gem with these commands:
+and control the gem with these expressions:
 
 ```Smalltalk
 "serviceVM --start"
 | server serviceName |
 serviceName := 'ServiceVM-ServiceVM'.
-server := WAGemStoneRunSmalltalkServer serverNamed: serviceName
-WAGemStoneRunSmalltalkServer startGems: server
+server := WAGemStoneRunSmalltalkServer serverNamed: serviceName.
+WAGemStoneRunSmalltalkServer startGems: server.
 
 "serviceVM --stop"
 | server serviceName |
 serviceName := 'ServiceVM-ServiceVM'.
-server := WAGemStoneRunSmalltalkServer serverNamed: serviceName
-WAGemStoneRunSmalltalkServer stopGems: server
+server := WAGemStoneRunSmalltalkServer serverNamed: serviceName.
+WAGemStoneRunSmalltalkServer stopGems: server.
 ```
 
 ### Service Loop
@@ -127,24 +126,39 @@ within your application to either:
 * or, copy any state from *unsafe* persistent objects into temporary variables
   or *private* persistent objects.
 
+Speaking of **serviceVMTasks:**, here's the implementation:
+
+```Smalltalk
+serviceVMTasks: vmTask
+  | tasks persistentCounterValue |
+  tasks := #().
+  persistentCounterValue := WAGemStoneServiceExampleTask sharedCounterValue.
+  WAGemStoneServiceExampleTask queue size > 0
+    ifTrue: [ 
+      vmTask state: persistentCounterValue.
+      tasks := WAGemStoneServiceExampleTask queue removeCount: 10.
+      WAGemStoneServiceExampleTask inProcess addAll: tasks ].
+  ^ tasks
+```
+
 ## Service task
-The service task is an instance of **WAGemStoneServiceTask** and takes a *valuable* 
+The service task is an instance of **WAGemStoneServiceExampleTask** and takes a *valuable* 
 (e.g., a block) when it is created:
 
 ```Smalltalk
-WAGemStoneServiceTask value: [ 
+WAGemStoneServiceExampleTask valuable: [ 
   (HTTPSocket
     httpGet: 'http://www.time.org/zones/Europe/London.php')
     throughAll: 'Europe/London - ';
     upTo: Character space ].
 ```
 
-The *processTask* method in **WAGemStoneServiceTask** is implemented as follows: 
+The *processTask* method in **WAGemStoneServiceExampleTask** is implemented as follows: 
 
 ```Smalltalk
 processTask
   | value |
-  self performSafely: [ value := taskBlock value ].
+  self performSafely: [ value := taskValuable value ].
   GRPlatform current
     doTransaction: [ 
       taskValue := value.
@@ -157,12 +171,11 @@ makes sense to use a class that has instance variables where you can stash value
 from *unsafe* persistent objects and for the *value* method to trigger the work.
 
 
-## Services queue
 ## Seaside integration
 
 ```Smalltalk
-WAGemStoneServiceTask 
-  value: (WAGemStoneServiceExampleTimeInLondon 
+WAGemStoneServiceExampleTask 
+  valuable: (WAGemStoneServiceExampleTimeInLondon 
            url: 'http://www.time.org/zones/Europe/London.php').
 ```
 
@@ -448,15 +461,15 @@ Nick went on to create
 * Pharo-Future-NickAger.3.mcz
 * Future-Seaside-Examples-NickAger.9.mcz
 
-[1]: repository/Seaside-GemStone-ServiceTask.package/WAGemStoneServiceVMTask.class/class/serviceVMTaskServiceExample.st#L18
-[2]: repository/Seaside-GemStone-ServiceExamples.package/WAGemStoneServiceVMTask.class/class/serviceLoop.st#L10
+[1]: repository/Seaside-GemStone-ServiceTask.package/WAGemStoneServiceExampleVMTask.class/class/serviceVMTaskServiceExample.st#L18
+[2]: repository/Seaside-GemStone-ServiceExamples.package/WAGemStoneServiceExampleVMTask.class/class/serviceLoop.st#L10
 [3]: repository/Seaside-GemStone-ServiceExamples.package/WAGemStoneServiceExampleTask.class
-[4]: repository/Seaside-GemStone-ServiceExamples.package/WAGemStoneServiceVMTask.class/class/serviceVMTaskServiceExample.st#L22
+[4]: repository/Seaside-GemStone-ServiceExamples.package/WAGemStoneServiceExampleVMTask.class/class/serviceVMTaskServiceExample.st#L22
 [5]: http://forum.world.st/threads-within-a-request-td2335295.html#a2335295
 [6]: http://gemstonesoup.wordpress.com/2007/05/10/porting-application-specific-seaside-threads-to-gemstone/
 [7]: https://github.com/dalehenrich/tode#tode-the-object-centric-development-environment-
 [8]: docs/readme/serviceExample_todeScript.st
-[9]: repository/Seaside-GemStone-ServiceExamples.package/WAGemStoneServiceVM.class
+[9]: repository/Seaside-GemStone-ServiceExamples.package/WAGemStoneServiceExampleVM.class
 [10]: docs/readme/projectLoad.st#L2-14
 [11]: docs/readme/serviceVM.st#L1-8
 [12]: docs/readme/serviceExample.st#L1-11

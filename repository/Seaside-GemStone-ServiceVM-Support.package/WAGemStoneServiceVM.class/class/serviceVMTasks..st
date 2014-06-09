@@ -2,7 +2,7 @@ serviceVM tasks
 serviceVMTasks: vmTask
   | tasks persistentCounterValue |
   tasks := #().
-  persistentCounterValue := WAGemStoneServiceExampleTask sharedCounterValue.
+  persistentCounterValue := WAGemStoneServiceTask sharedCounterValue.
   WAGemStoneServiceTask queue size > 0
     ifTrue: [ 
       vmTask state: persistentCounterValue.

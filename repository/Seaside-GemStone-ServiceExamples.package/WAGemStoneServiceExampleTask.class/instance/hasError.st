@@ -1,4 +1,3 @@
-testing
+accessing
 hasError
-
-	^errorFlag ~~ nil
+	^ exception ~~ nil

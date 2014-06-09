@@ -1,21 +1,17 @@
 {
 	"category" : "Seaside-GemStone-ServiceExamples-Core",
 	"classinstvars" : [
-		 ],
+		"inProcess",
+		"queue" ],
 	"classvars" : [
-		"Generator",
-		"InProcess",
-		"Instances",
-		"Queue" ],
-	"commentStamp" : "dkh 06/07/2014 10:39",
+		 ],
+	"commentStamp" : "",
 	"instvars" : [
+		"taskValuable",
+		"taskValue",
+		"exception",
 		"id",
-		"currentStep",
-		"step1",
-		"step2",
-		"step3",
-		"errorFlag",
-		"log" ],
+		"hasValue" ],
 	"name" : "WAGemStoneServiceExampleTask",
 	"pools" : [
 		 ],

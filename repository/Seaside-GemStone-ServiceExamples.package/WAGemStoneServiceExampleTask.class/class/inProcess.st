@@ -1,5 +1,5 @@
 accessing
 inProcess
-
-	InProcess == nil ifTrue: [ InProcess := RcIdentityBag new: 100 ].
-	^InProcess
+  inProcess == nil
+    ifTrue: [ inProcess := RcIdentityBag new: 100 ].
+  ^ inProcess

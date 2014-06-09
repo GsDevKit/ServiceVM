@@ -1,0 +1,1 @@
+Functionally equivalent to WAGemStoneServiceVMTask ... serivceTasks managed in class instance variable allowing for siblings to co-exist in same installation.

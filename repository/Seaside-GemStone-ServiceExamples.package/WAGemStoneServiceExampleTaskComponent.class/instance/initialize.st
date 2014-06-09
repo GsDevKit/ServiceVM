@@ -1,4 +1,4 @@
 initialization
 initialize
   super initialize.
-  workUnit := self newWorkUnit
+  self task	"prime the pump"

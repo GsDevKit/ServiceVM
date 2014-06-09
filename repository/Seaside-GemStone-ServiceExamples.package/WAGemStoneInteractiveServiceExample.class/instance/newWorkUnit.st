@@ -1,3 +1,0 @@
-private
-newWorkUnit
-  ^ WAGemStoneServiceExampleTask new

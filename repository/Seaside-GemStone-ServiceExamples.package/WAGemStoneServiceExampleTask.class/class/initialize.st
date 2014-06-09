@@ -4,8 +4,6 @@ initialize
 
   self
     reset;
-    generator;
-    instances;
     inProcess;
     queue.
   WAGemStoneServiceExampleVM
