@@ -57,11 +57,9 @@ opts
             dict := Dictionary new
               at: \'queue\' put: taskClass queue;
               at: \'inProcess\' put: taskClass inProcessCollection;
-              at: \'errors\' put: taskClass instanceErrors;
-              at: \'instances\' put: taskClass instanceCollection;
               at: \'high water\' put: taskClass idHighWater;
               yourself.
-            dict edit: topez.
+            dict edit: topez.\t\"bring up inspector\"
             response := dict ] ].
     response ]
   ifPresent: [ :ignored | 
@@ -85,4 +83,4 @@ EXAMPLES
   ./serviceExample --task=3 --addToQueue  # schedule task #3 to process next step
   ./serviceExample --task=3 --poll=10     # poll until task #3 finished step (10 tries)
 \'
-      topez: topez ] ]',#creationTime:DateAndTime['2014-06-07T09:46:36.9012389183044-07:00'],#modificationTime:DateAndTime['2014-06-07T17:57:25.4861230850219-07:00']}
+      topez: topez ] ]',#creationTime:DateAndTime['2014-06-07T09:46:36.9012389183044-07:00'],#modificationTime:DateAndTime['2014-06-09T16:25:08.85697889328-07:00']}

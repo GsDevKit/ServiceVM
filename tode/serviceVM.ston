@@ -14,7 +14,7 @@ command
   optionsAndArguments: [ :options :operands | 
     opts := options.
     args := operands ].
-opts 
+opts
   at: \'help\'
   ifAbsent: [ 
     | server serviceName response |
@@ -38,7 +38,7 @@ opts
             WAGemStoneRunSmalltalkServer
               addServerOfClass: WAGemStoneServiceExampleVM
               withName: serviceName
-              on: #(0).\t\"port required\"
+              on: #(0).\t\"port required, but not used by service vm\"
             server := WAGemStoneRunSmalltalkServer serverNamed: serviceName.
             response := server ].
         opts at: \'port\' ifPresent: [ :port | server ports: {(port asNumber)} ].
@@ -75,4 +75,4 @@ EXAMPLES
   ./serviceVM --status           # status of service gem
   ./serviceVM --stop             # stop service gem
 \'
-      topez: topez ] ]',#creationTime:DateAndTime['2014-06-06T19:56:30.1198749542236-07:00'],#modificationTime:DateAndTime['2014-06-09T16:06:36.77796792984-07:00']}
+      topez: topez ] ]',#creationTime:DateAndTime['2014-06-06T19:56:30.1198749542236-07:00'],#modificationTime:DateAndTime['2014-06-09T16:22:13.6888749599456-07:00']}

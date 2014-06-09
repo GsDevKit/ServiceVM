@@ -57,11 +57,9 @@ opts
             dict := Dictionary new
               at: 'queue' put: taskClass queue;
               at: 'inProcess' put: taskClass inProcessCollection;
-              at: 'errors' put: taskClass instanceErrors;
-              at: 'instances' put: taskClass instanceCollection;
               at: 'high water' put: taskClass idHighWater;
               yourself.
-            dict edit: topez.
+            dict edit: topez.	"bring up inspector"
             response := dict ] ].
     response ]
   ifPresent: [ :ignored | 

@@ -38,7 +38,7 @@ opts
             WAGemStoneRunSmalltalkServer
               addServerOfClass: WAGemStoneServiceExampleVM
               withName: serviceName
-              on: #(0).	"port required"
+              on: #(0).	"port required, but not used by service vm"
             server := WAGemStoneRunSmalltalkServer serverNamed: serviceName.
             response := server ].
         opts at: 'port' ifPresent: [ :port | server ports: {(port asNumber)} ].
