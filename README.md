@@ -244,7 +244,7 @@ Start serviceVM gem:
   ```
 
 _**_*[`serviceVM --register`][11]
-[`serviceVM --start`][14] for non-tode users*
+[`serviceVM --start`][14]*
 
 ####Service VM loop
 
@@ -257,7 +257,7 @@ You can view the state of service vm with the `serviceExample` script. The follo
 ./serviceExample --status
 ```
 
-_**_*[`serviceExample --status`][12] for non-tode users*
+_**_*[`serviceExample --status`][12]*
 
 produces an inspector on the key state of the service vm:
 
@@ -284,7 +284,7 @@ Reset the example vm, then create and view a task:
 ./serviceExample --task; edit
 ```
 
-_**_*[`./serviceExample --task`][16] for non-tode users*
+_**_*[`./serviceExample --task`][16]*
 
 and here's the state of the freshly created task instance:
 
@@ -310,7 +310,7 @@ Now cycle through two of the three steps and view new state:
 
 _**_*[`./serviceExample --task=1`][16]
 [`./serviceExample --addToQueue`][17]
-[`./serviceExample --poll=10`][18] for non-tode users*
+[`./serviceExample --poll=10`][18]*
 
 and view the new state:
 
@@ -333,7 +333,7 @@ peek at the service vm state:
 ./serviceExample --status
 ```
 
-_**_*[`serviceExample --status`][12] for non-tode users*
+_**_*[`serviceExample --status`][12]*
 
 which will look something like the following:
 
@@ -356,7 +356,7 @@ Cycle through the last step and view final state:
 
 _**_*[`./serviceExample --task=1`][16]
 [`./serviceExample --addToQueue`][17]
-[`./serviceExample --poll=10`][18] for non-tode users*
+[`./serviceExample --poll=10`][18]*
 
 and view the new state:
 
@@ -429,7 +429,7 @@ Start webServer gem:
   ```
 
 _**_*[`webServer --register=zinc`][21]
-[`webServer --start`][22] for non-tode users*
+[`webServer --start`][22]*
 
 Hit the service vm example page:
 
@@ -451,7 +451,7 @@ which should look something like this:
   ```
 
 _**_*[`webServer ----stop`][23]
-[`serviceVM --stop`][24] for non-tode users*
+[`serviceVM --stop`][24]*
 
 ## Futures work by Nick Ager
 Nick went on to create 
@@ -471,20 +471,20 @@ Nick went on to create
 [8]: docs/readme/serviceExample_todeScript.st
 [9]: repository/Seaside-GemStone-ServiceExamples.package/WAGemStoneServiceExampleVM.class
 [10]: docs/readme/projectLoad.st#L2-14
-[11]: docs/readme/serviceVM.st#L1-8
-[12]: docs/readme/serviceExample.st#L1-11
+[11]: docs/readme/serviceVM_todeScript.st#L32-43
+[12]: docs/readme/serviceExample_todeScript.st#L53-65
 [13]: docs/readme/serviceVM_todeScript.st
-[14]: docs/readme/serviceVM.st#L10-14
-[15]: docs/readme/serviceExample.st#L13-16
-[16]: docs/readme/serviceExample.st#L18-27
-[17]: docs/readme/serviceExample.st#L29-36
-[18]: docs/readme/serviceExample.st#L38-55
+[14]: docs/readme/serviceVM_todeScript.st#L45-47
+[15]: 
+[16]: docs/readme/serviceExample_todeScript.st#L20-28
+[17]: docs/readme/serviceExample_todeScript.st#L29-33
+[18]: docs/readme/serviceExample_todeScript.st#L34-50
 [19]: docs/readme/webServer_todeScript.st
 [20]: docs/readme/seasideServiceVMPage.png
-[21]: docs/readme/webServer.st#L1-9
-[22]: docs/readme/webServer.st#L11-15
-[23]: docs/readme/webServer.st#L17-21
-[24]: docs/readme/serviceVM.st#L16-20
+[21]: docs/readme/webServer_todeScript.st#L32-49
+[22]: docs/readme/webServer_todeScript.st#L51-53
+[23]: docs/readme/webServer_todeScript.st#L59-61
+[24]: docs/readme/serviceVM_todeScript.st#L53-55
 [25]: http://www.squeaksource.com/Futures/
 [26]: http://onsmalltalk.com/smalltalk-concurrency-playing-with-futures
 [27]: https://github.com/dalehenrich/tode#tode-the-object-centric-development-environment-
