@@ -21,7 +21,7 @@ to which I replied:
 
 That is quite a mouthful, so let's break it down:
 
-1. [separate ServiceVM gem](#servicevm-gem)
+1. [ServiceVM gem](#servicevm-gem)
 2. [Service task](#service-taks) 
 3. [Services queue](#services-queue)
 4. [Seaside integration](#seaside-integration)
@@ -128,6 +128,40 @@ within your application to either:
   or *private* persistent objects.
 
 ## Service task
+The service task is an instance of **WAGemStoneServiceTask** and takes a *valuable* 
+(e.g., a block) when it is created:
+
+```Smalltalk
+WAGemStoneServiceTask value: [ 
+  (HTTPSocket
+    httpGet: 'http://www.time.org/zones/Europe/London.php')
+    throughAll: 'Europe/London - ';
+    upTo: Character space ].
+```
+
+The *processTask* method in **WAGemStoneServiceTask** is implemented as follows: 
+
+```Smalltalk
+processTask
+  | value |
+  self performSafely: [ value := taskBlock value ].
+  GRPlatform current
+    doTransaction: [ 
+      taskValue := value.
+      hasValue := true.
+      self class inProcess remove: self ]
+```
+
+which means that the *valuable* does not have to be a block. As a matter of fact, it 
+makes sense to use a class that has instance variables where you can stash values 
+from *unsafe* persistent objects and for the *value* method to trigger the work.
+
+```Smalltalk
+WAGemStoneServiceTask 
+  value: (WAGemStoneServiceExampleTimeInLondon 
+           url: 'http://www.time.org/zones/Europe/London.php').
+```
+
 ## Services queue
 ## Seaside integration
 ## ServiceVM Example
