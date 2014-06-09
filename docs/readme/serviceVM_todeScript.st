@@ -17,13 +17,13 @@ command
 opts
   at: 'help'
   ifAbsent: [ 
-    | server serviceName |
+    | server serviceName response |
     serviceName := 'ServiceVM-ServiceVM'.
     server := WAGemStoneRunSmalltalkServer serverNamed: serviceName.
+    response := server.
     opts
       at: 'status'
       ifPresent: [ :ignored | 
-        | response |
         server isNil
           ifTrue: [ response := 'Web server not registered' ]
           ifFalse: [ WAGemStoneRunSmalltalkServer statusGems: server ].
@@ -34,12 +34,13 @@ opts
           ifPresent: [ :ignored | 
             opts
               at: 'force'
-              ifPresent: [ :xx | server ifNotNil: [ WAGemStoneRunSmalltalkServer removeServerNamed: serviceName ] ].
+              ifPresent: [ :ignored2 | server ifNotNil: [ WAGemStoneRunSmalltalkServer removeServerNamed: serviceName ] ].
             WAGemStoneRunSmalltalkServer
-              addServerOfClass: WAGemStoneServiceVM
+              addServerOfClass: WAGemStoneServiceExampleVM
               withName: serviceName
-              on: #(8383).
-            server := WAGemStoneRunSmalltalkServer serverNamed: serviceName ].
+              on: #(0).	"port required"
+            server := WAGemStoneRunSmalltalkServer serverNamed: serviceName.
+            response := server ].
         opts at: 'port' ifPresent: [ :port | server ports: {(port asNumber)} ].
         opts
           at: 'start'
@@ -52,12 +53,13 @@ opts
                 opts
                   at: 'stop'
                   ifPresent: [ :ignored | WAGemStoneRunSmalltalkServer stopGems: server ]
-                  ifAbsent: [  ] ] ] ] ]
+                  ifAbsent: [  ] ] ] ].
+    response ]
   ifPresent: [ :ignored | 
     TDManPage
       viewManPage:
         'NAME
-  serviceVM - control server gem for ServiceVM example
+  serviceVM - control server gem for WAGemStoneServiceExampleVM example
 SYNOPSIS
   serviceVM [-h|--help] [--register [--force]] [--start] [--stop] [--restart]
 
@@ -65,12 +67,12 @@ SYNOPSIS
 DESCRIPTION
 EXAMPLES
   ./serviceVM --help
-  ./serviceVM --register
-  ./serviceVM --register --force # force a new registration
+  ./serviceVM --register         # register a new instance (first time)
+  ./serviceVM --register --force # force a new registration (override existing)
 
-  ./serviceVM --restart
-  ./serviceVM --start
-  ./serviceVM --status
-  ./serviceVM --stop
+  ./serviceVM --restart          # restart service gem
+  ./serviceVM --start            # start service gem
+  ./serviceVM --status           # status of service gem
+  ./serviceVM --stop             # stop service gem
 '
       topez: topez ] ]
