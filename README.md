@@ -156,14 +156,16 @@ which means that the *valuable* does not have to be a block. As a matter of fact
 makes sense to use a class that has instance variables where you can stash values 
 from *unsafe* persistent objects and for the *value* method to trigger the work.
 
+
+## Services queue
+## Seaside integration
+
 ```Smalltalk
 WAGemStoneServiceTask 
   value: (WAGemStoneServiceExampleTimeInLondon 
            url: 'http://www.time.org/zones/Europe/London.php').
 ```
 
-## Services queue
-## Seaside integration
 ## ServiceVM Example
 
 Recently I've brought the original example code over to github, simplified it a bit, 
