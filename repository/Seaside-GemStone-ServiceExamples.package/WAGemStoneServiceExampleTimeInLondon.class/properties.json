@@ -1,0 +1,15 @@
+{
+	"category" : "Seaside-GemStone-ServiceExamples-Core",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "",
+	"instvars" : [
+		"url",
+		"timeInLondon" ],
+	"name" : "WAGemStoneServiceExampleTimeInLondon",
+	"pools" : [
+		 ],
+	"super" : "Object",
+	"type" : "normal" }
