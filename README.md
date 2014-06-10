@@ -473,17 +473,17 @@ Nick went on to create
 [10]: docs/readme/projectLoad.st#L2-14
 [11]: docs/readme/serviceVM_todeScript.st#L32-43                
 <!--[11] serviceVM --registe r-->
-[12]: docs/readme/serviceExample_todeScript.st#L53-63           
+[12]: docs/readme/serviceExample_todeScript.st#L67-77
 <!--[12] serviceExample --status --> 
 [13]: docs/readme/serviceVM_todeScript.st
 [14]: docs/readme/serviceVM_todeScript.st#L45-47                
 <!--[14] serviceVM --start -->
-[16]: docs/readme/serviceExample_todeScript.st#L20-28
-<!--[16] serviceVM --task -->
-[17]: docs/readme/serviceExample_todeScript.st#L29-33
-<!--[17] serviceVM --addToQueue -->
-[18]: docs/readme/serviceExample_todeScript.st#L34-50
-<!--[18] serviceVM --poll -->
+[16]: docs/readme/serviceExample_todeScript.st#L23-33
+<!--[16] serviceExample --task -->
+[17]: docs/readme/serviceExample_todeScript.st#L37-41
+<!--[17] serviceExample --addToQueue -->
+[18]: docs/readme/serviceExample_todeScript.st#L42-58
+<!--[18] serviceExample --poll -->
 [19]: docs/readme/webServer_todeScript.st
 [20]: docs/readme/seasideServiceVMPage.png
 [21]: docs/readme/webServer_todeScript.st#L32-49

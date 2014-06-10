@@ -15,17 +15,25 @@ command
 opts
   at: \'help\'
   ifAbsent: [ 
-    | response taskClass |
+    | response taskClass taskInstances |
     taskClass := WAGemStoneServiceExampleTask.
+    taskInstances := SessionTemps current
+      at: #\'SERVICE_EXAMPLE_INSTANCES\'
+      ifAbsent: [ SessionTemps current at: #\'SERVICE_EXAMPLE_INSTANCES\' put: Dictionary new ].
     opts
       at: \'task\'
       ifPresent: [ :taskId | 
+        | task |
         taskId
-          ifNil: [ response := taskClass new ]
+          ifNil: [ 
+            response := task := taskClass
+              valuable:
+                (WAGemStoneServiceExampleTimeInLondon
+                  url: \'http://www.time.org/zones/Europe/London.php\').
+            taskInstances at: task id put task ]
           ifNotNil: [ 
-            | task |
             System commit.\t\"ensure that we are accessing latest state of task\"
-            response := task := taskClass instanceWithId: taskId asNumber.
+            response := task := taskInstances at: taskId asNumber.
             opts
               at: \'addToQueue\'
               ifPresent: [ :ignored | 
@@ -40,16 +48,22 @@ opts
                 count := 0.
                 [ 
                 System abort.\t\"so that service vm can see new queue entry\"
-                task finishedStep not and: [ count <= limit ] ]
+                task hasValue not and: [ count <= limit ] ]
                   whileTrue: [ 
                     (Delay forSeconds: 1) wait.
                     count := count + 1 ].
                 System abort.
-                task finishedStep
+                task hasValue
                   ifTrue: [ response := task ]
                   ifFalse: [ response := task -> (\'not finished after \' , count printString , \' seconds\') ] ] ] ]
       ifAbsent: [ 
-        opts at: \'reset\' ifPresent: [ :ignored | response := taskClass reset ].
+        opts
+          at: \'reset\'
+          ifPresent: [ :ignored | 
+            response := taskClass reset.
+            SessionTemps current
+              at: #\'SERVICE_EXAMPLE_INSTANCES\'
+              put: Dictionary new ].
         opts
           at: \'status\'
           ifPresent: [ :ignored | 
@@ -83,4 +97,4 @@ EXAMPLES
   ./serviceExample --task=3 --addToQueue  # schedule task #3 to process next step
   ./serviceExample --task=3 --poll=10     # poll until task #3 finished step (10 tries)
 \'
-      topez: topez ] ]',#creationTime:DateAndTime['2014-06-07T09:46:36.9012389183044-07:00'],#modificationTime:DateAndTime['2014-06-09T16:39:00.7350349426269-07:00']}
+      topez: topez ] ]',#creationTime:DateAndTime['2014-06-07T09:46:36.9012389183044-07:00'],#modificationTime:DateAndTime['2014-06-09T17:02:38.6207590103149-07:00']}

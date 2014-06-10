@@ -15,17 +15,25 @@ command
 opts
   at: 'help'
   ifAbsent: [ 
-    | response taskClass |
+    | response taskClass taskInstances |
     taskClass := WAGemStoneServiceExampleTask.
+    taskInstances := SessionTemps current
+      at: #'SERVICE_EXAMPLE_INSTANCES'
+      ifAbsent: [ SessionTemps current at: #'SERVICE_EXAMPLE_INSTANCES' put: Dictionary new ].
     opts
       at: 'task'
       ifPresent: [ :taskId | 
+        | task |
         taskId
-          ifNil: [ response := taskClass new ]
+          ifNil: [ 
+            response := task := taskClass
+              valuable:
+                (WAGemStoneServiceExampleTimeInLondon
+                  url: 'http://www.time.org/zones/Europe/London.php').
+            taskInstances at: task id put task ]
           ifNotNil: [ 
-            | task |
             System commit.	"ensure that we are accessing latest state of task"
-            response := task := taskClass instanceWithId: taskId asNumber.
+            response := task := taskInstances at: taskId asNumber.
             opts
               at: 'addToQueue'
               ifPresent: [ :ignored | 
@@ -40,16 +48,22 @@ opts
                 count := 0.
                 [ 
                 System abort.	"so that service vm can see new queue entry"
-                task finishedStep not and: [ count <= limit ] ]
+                task hasValue not and: [ count <= limit ] ]
                   whileTrue: [ 
                     (Delay forSeconds: 1) wait.
                     count := count + 1 ].
                 System abort.
-                task finishedStep
+                task hasValue
                   ifTrue: [ response := task ]
                   ifFalse: [ response := task -> ('not finished after ' , count printString , ' seconds') ] ] ] ]
       ifAbsent: [ 
-        opts at: 'reset' ifPresent: [ :ignored | response := taskClass reset ].
+        opts
+          at: 'reset'
+          ifPresent: [ :ignored | 
+            response := taskClass reset.
+            SessionTemps current
+              at: #'SERVICE_EXAMPLE_INSTANCES'
+              put: Dictionary new ].
         opts
           at: 'status'
           ifPresent: [ :ignored | 
