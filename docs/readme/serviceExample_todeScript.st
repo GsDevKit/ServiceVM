@@ -33,47 +33,47 @@ opts
             taskInstances at: task id put: task ]
           ifNotNil: [ 
             System commit.	"ensure that we are accessing latest state of task"
-            response := task := taskInstances at: taskId asNumber.
-            opts
-              at: 'addToQueue'
-              ifPresent: [ :ignored | 
-                task addToQueue.
-                System commit	"so that service vm can see new queue entry" ].
-            opts
-              at: 'poll'
-              ifPresent: [ :limitArg | 
-                | limit count |
-                limit := 10.
-                limitArg ifNotNil: [ limit := limitArg asNumber ].
-                count := 0.
-                [ 
-                System abort.	"so that service vm can see new queue entry"
-                task hasValue not and: [ count <= limit ] ]
-                  whileTrue: [ 
-                    (Delay forSeconds: 1) wait.
-                    count := count + 1 ].
-                System abort.
-                task hasValue
-                  ifTrue: [ response := task ]
-                  ifFalse: [ response := task -> ('not finished after ' , count printString , ' seconds') ] ] ] ]
+            response := task := taskInstances at: taskId asNumber ].
+        opts
+          at: 'addToQueue'
+          ifPresent: [ :ignored | 
+            task addToQueue.
+            System commit	"so that service vm can see new queue entry" ].
+        opts
+          at: 'poll'
+          ifPresent: [ :limitArg | 
+            | limit count |
+            limit := 10.
+            limitArg ifNotNil: [ limit := limitArg asNumber ].
+            count := 0.
+            [ 
+            System abort.	"so that service vm can see new queue entry"
+            task hasValue not and: [ count <= limit ] ]
+              whileTrue: [ 
+                (Delay forSeconds: 1) wait.
+                count := count + 1 ].
+            System abort.
+            task hasValue
+              ifTrue: [ response := task ]
+              ifFalse: [ response := task -> ('not finished after ' , count printString , ' seconds') ] ] ]
       ifAbsent: [ 
         opts
           at: 'reset'
           ifPresent: [ :ignored | 
+            WAGemStoneServiceExampleVM initialize.
             response := taskClass reset.
-            SessionTemps current
-              at: #'SERVICE_EXAMPLE_INSTANCES'
-              put: Dictionary new ].
+            UserGlobals at: #'SERVICE_EXAMPLE_INSTANCES' put: Dictionary new.
+            topez evaluateCommandString: './serviceVM --restart' ].
         opts
           at: 'status'
           ifPresent: [ :ignored | 
             | dict |
             dict := Dictionary new
-              at: 'queue' put: taskClass queue;
-              at: 'queue (ordered)' put: taskClass queueCollection;
+              at: 'queue' put: taskClass queueCollection;
               at: 'inProcess' put: taskClass inProcessCollection;
               at: 'high water' put: taskClass idHighWater;
               at: 'instances' put: taskInstances;
+              at: 'service loop' put: WAGemStoneServiceExampleVM tasks first;
               yourself.
             dict edit: topez.	"bring up inspector"
             response := dict ] ].
