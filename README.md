@@ -173,11 +173,6 @@ from *unsafe* persistent objects and for the *value* method to trigger the work.
 
 ## Seaside integration
 
-```Smalltalk
-WAGemStoneServiceExampleTask 
-  valuable: (WAGemStoneServiceExampleTimeInLondon 
-           url: 'http://www.time.org/zones/Europe/London.php').
-```
 
 ## ServiceVM Example
 
@@ -275,10 +270,22 @@ produces an inspector on the key state of the service vm:
 `errors` is a list of service vm tasks that have produced errors while processing. `inProcess` is a list of service vm tasks that have not completed processing. `instances` is a list of all service vm tasks that have been created. `queue` is a list of the service vm tasks that are stacked up waiting to be processed.
 
 ####Example Task Life Cycle
-In this example the [task][3] has three separate processing steps. 
-Each step is performed separately by the [service vm][9]. 
+In this example the [task][3] is going to get the time in London using the url: 
+*http://www.time.org/zones/Europe/London.php*:
 
-Reset the example vm, then create and view a task:
+
+```Smalltalk
+WAGemStoneServiceExampleTask 
+  valuable: (WAGemStoneServiceExampleTimeInLondon 
+           url: 'http://www.time.org/zones/Europe/London.php').
+```
+
+Since the task is hitting the web, you aren't able to predict how quickly the time server
+will respond, so we will schedule the task to be executed in the [service vm][9]. 
+
+Let's start by creating and viewing a task *(**NOTE**: following each of the tODE commands
+in this example is a link to the script source which highlights the code that is executed by
+command)*:
 
 ```Shell
 ./serviceExample --task; edit
