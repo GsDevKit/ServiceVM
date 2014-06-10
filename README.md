@@ -376,7 +376,6 @@ which will look something like the following:
 5@       -> 'service loop'->Service VM Loop
 ```
 
-```
 ####Seaside Example
 
 Here's the render method (*WAGemStoneInteractiveServiceExample>>renderContentOn:*)
