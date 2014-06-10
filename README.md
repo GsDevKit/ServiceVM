@@ -262,17 +262,17 @@ _**_*[`serviceExample --status`][12]*
 produces an inspector on the key state of the service vm:
 
 ```
-.        -> aDictionary( 'instances'->anArray( task: #1 (not queued)), 'high water'->1, 'queue'->aRcQueue( ), 'inProcess'->anArray( ), 'errors'->anArray...
+.        -> aDictionary( 'high water'->0, 'queue'->aRcQueue( ), 'inProcess'->anArray( ))
 (class)@ -> Dictionary
-(oop)@   -> 439999489
-1@       -> 'errors'->anArray( )
-2@       -> 'high water'->1
-3@       -> 'inProcess'->anArray( )
-4@       -> 'instances'->anArray( task: #1 (not queued))
-5@       -> 'queue'->aRcQueue( )
+(oop)@   -> 327035649
+1@       -> 'high water'->0
+2@       -> 'inProcess'->anArray( )
+3@       -> 'queue'->aRcQueue( )
 ```
 
-`errors` is a list of service vm tasks that have produced errors while processing. `inProcess` is a list of service vm tasks that have not completed processing. `instances` is a list of all service vm tasks that have been created. `queue` is a list of the service vm tasks that are stacked up waiting to be processed.
+`high water` is the count of service vm tasks created. `inProcess` is a list of service vm tasks that have been removed from queue and are being serviced, but 
+have not completed processing, yet. `queue` is a list of the service vm tasks that 
+are stacked ubrp waiting to be processed.
 
 ####Example Task Life Cycle
 In this example the [task][3] has three separate processing steps. 
