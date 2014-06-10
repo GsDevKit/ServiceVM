@@ -1,34 +1,4 @@
-TDStringLeafNode{#name:'analysis',#contents:'dkh 6/6/2014 21:57
-------------------
-==> ServiceVM-ServiceVM_server-8383.log <==
-topaz > exec iferr 1 : where 
-==> 1 ArgumentTypeError (AbstractException) >> _signalWith: @6 line 25   [methId 4905473]
-2 ArgumentTypeError (AbstractException) >> signal @2 line 47   [methId 4882433]
-3 Set (Object) >> _error:args:                  @15 line 11   [methId 11167233]
-4 Set (Object) >> _errorExpectedClass:          @2 line 5   [methId 3444481]
-5 Set (Object) >> _validateClass:               @4 line 6   [methId 2827521]
-6 ExceptionSet >> ,                             @20 line 22   [methId 5945089]
-7 WAGemStoneServiceTask >> performSafely:       @3 line 7   [methId 286741505]
-8 WAGemStoneServiceTask >> step1Action          @4 line 7   [methId 286744065]
-9 WAGemStoneServiceTask >> processStep          @7 line 5   [methId 286745857]
-10 [] in  ExecBlock (WAGemStoneServiceVMTask class) >> serviceVMTaskServiceExample @2 line 21   [methId 287917569]
-11 GsProcess >> _start                           @7 line 16   [methId 4503297]
-12 UndefinedObject (GsNMethod class) >> _gsReturnToC @1 line 1   [methId 4470017]
-  [GsProcess 202859777]
-topaz 1> 
-topaz 1> run
-GemToGemAnnouncement uninstallStaticHandler.
-System inTransaction
-  ifFalse: [ System beginTransaction ].
-(ObjectLogEntry
-  fatal: \'ServiceVM-ServiceVM_server_8383: topaz exit\'
-  object:
-    \'pid: \', (System gemVersionReport at: \'processId\') printString) addToLog.
-System commitTransaction.
-%
-[268 sz:0 cls: 68097 Boolean] true
-===============================
-
-dkh 6/6/2014 21:57
-------------------
-Need a script for querying the status of the serviceVM rcqueue, etc.',#creationTime:DateAndTime['2014-06-06T21:56:53.2812309265136-07:00'],#modificationTime:DateAndTime['2014-06-06T21:58:06.1874039173126-07:00']}
+TDStringLeafNode{#name:'analysis',#contents:'dkh 6/9/2014 18:53
+-------------------
+`./serviceExample --task=1 --addToQueue --poll=10; edit` needs work...
+',#creationTime:DateAndTime['2014-06-06T21:56:53.2812309265136-07:00'],#modificationTime:DateAndTime['2014-06-09T18:53:43.1142830848693-07:00']}

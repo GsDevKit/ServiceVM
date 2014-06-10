@@ -1,5 +1,3 @@
-actions
+accessing
 url: aString
-  ^ self new
-    url: aString;
-    yoursrlf
+  url := aString
