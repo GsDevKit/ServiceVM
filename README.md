@@ -485,7 +485,7 @@ Nick went on to create
 [13]: docs/readme/serviceVM_todeScript.st
 [14]: docs/readme/serviceVM_todeScript.st#L45-47                
 <!--[14] serviceVM --start -->
-[16]: docs/readme/serviceExample_todeScript.st#L23-33
+[16]: docs/readme/serviceExample_todeScript.st#L23-36
 <!--[16] serviceExample --task -->
 [17]: docs/readme/serviceExample_todeScript.st#L37-41
 <!--[17] serviceExample --addToQueue -->
