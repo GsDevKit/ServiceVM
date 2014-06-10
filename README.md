@@ -238,6 +238,9 @@ Start serviceVM gem (at tODE command line):
   ./serviceVM --start
   ```
 
+_**_*[`serviceVM --register`][11]
+[`serviceVM --start`][14]*
+
 **NOTE**: *If you are using tODE and you have opened this README.md file
 in tode, you can use the `tode it` menu item to run the tODE commands form the README.md
 file. If you
@@ -245,15 +248,9 @@ are not using tODE, the link following the tODE commands
 takes you to the script source and highlights the code that is executed by
 the command.*
 
-_**_*[`serviceVM --register`][11]
-[`serviceVM --start`][14]*
-
 ####Service VM loop
-
-Every 200 ms the [service VM main thread wakes up][2] and [checks the queue for taks to process][1].
-A thread is forked and each [task][3] is [scheduled to begin processing it's work][4]. When all of the oustanding tasks have been processed, the service VM main thread goes back to sleep.
-
-You can view the state of service vm with the `serviceExample` script. The following:
+XXXXXXXXX
+You can view the state of service example with the `serviceExample` script. The following:
 
 ```Shell
 ./serviceExample --status
@@ -264,16 +261,17 @@ _**_*[`serviceExample --status`][12]*
 produces an inspector on the key state of the service vm:
 
 ```
-.        -> aDictionary( 'high water'->0, 'queue'->aRcQueue( ), 'inProcess'->anArray( ))
+.        -> aDictionary( 'instances'->aDictionary( ), 'high water'->0, 'queue'->anArray( ), 'inProcess'->anArray( ))
 (class)@ -> Dictionary
-(oop)@   -> 327035649
+(oop)@   -> 423792641
 1@       -> 'high water'->0
 2@       -> 'inProcess'->anArray( )
-3@       -> 'queue'->aRcQueue( )
+3@       -> 'instances'->aDictionary( )
+4@       -> 'queue'->anArray( )
 ```
 
 `high water` is the count of service vm tasks created. `inProcess` is a list of service vm tasks that have been removed from queue and are being serviced, but 
-have not completed processing, yet. `queue` is a list of the service vm tasks that 
+have not completed processing, yet. 'instances' is a dictionary in UserGlobals that keeps track of all of the tasks created by the serviceVM script. `queue` is a list of the service vm tasks that 
 are stacked ubrp waiting to be processed.
 
 ####Example Task Life Cycle
@@ -293,7 +291,7 @@ will respond, so we will schedule the task to be executed in the [service vm][9]
 Let's start by creating and viewing a task:
 
 ```Shell
-./serviceExample --task; edit
+P
 ```
 
 
@@ -305,7 +303,7 @@ and here's the state of the freshly created task instance:
 ```
 .             -> task: #1 (not finished)
 (class)@      -> WAGemStoneServiceExampleTask
-(oop)@        -> 331391489
+(oop)@        -> 424041985
 exception@    -> nil
 hasValue@     -> nil
 id@           -> 1
@@ -318,11 +316,10 @@ prints as `The time in London is not available, yet.`.
 Here's a peek at the **taskValuable** itself:
 
 ```
-
 .             -> The time in London is not available, yet.
 ..            -> task: #1 (not finished)
 (class)@      -> WAGemStoneServiceExampleTimeInLondon
-(oop)@        -> 331421185
+(oop)@        -> 424042241
 timeInLondon@ -> nil
 url@          -> 'http://www.time.org/zones/Europe/London.php'
 ```
@@ -497,8 +494,8 @@ Nick went on to create
 [9]: repository/Seaside-GemStone-ServiceExamples.package/WAGemStoneServiceExampleVM.class
 [10]: docs/readme/projectLoad.st#L2-14
 [11]: docs/readme/serviceVM_todeScript.st#L32-43                
-<!--[11] serviceVM --registe r-->
-[12]: docs/readme/serviceExample_todeScript.st#L67-79
+<!--[11] serviceVM --register -->
+[12]: docs/readme/serviceExample_todeScript.st#L66-77
 <!--[12] serviceExample --status --> 
 [13]: docs/readme/serviceVM_todeScript.st
 [14]: docs/readme/serviceVM_todeScript.st#L45-47                
