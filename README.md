@@ -283,15 +283,18 @@ WAGemStoneServiceExampleTask
 Since the task is hitting the web, you aren't able to predict how quickly the time server
 will respond, so we will schedule the task to be executed in the [service vm][9]. 
 
-Let's start by creating and viewing a task. **NOTE**: *following each of the tODE commands
-in this example is a link to the script source which highlights the code that is executed by
-command*:
+Let's start by creating and viewing a task:
 
 ```Shell
 ./serviceExample --task; edit
 ```
 
+**NOTE**: *following each of the tODE commands
+in this example is a link to the script source which highlights the code that is executed by
+command, like the following:*
+
 _**_*[`./serviceExample --task`][16]*
+
 
 and here's the state of the freshly created task instance:
 
