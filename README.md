@@ -289,9 +289,11 @@ Let's start by creating and viewing a task:
 ./serviceExample --task; edit
 ```
 
-**NOTE**: *following each of the tODE commands
-in this example is a link to the script source which highlights the code that is executed by
-command, like the following:*
+**NOTE**: *If you are using tODE and you have opened this README.md file
+in tode, you can use the `tode it` menu item to run the tODE commands. If you
+are not using tODE, the link following the tODE commands
+is takes you to the script source and highlights the code that is executed by
+command.*
 
 _**_*[`./serviceExample --task`][16]*
 
@@ -299,22 +301,33 @@ _**_*[`./serviceExample --task`][16]*
 and here's the state of the freshly created task instance:
 
 ```
-.            -> task: #1 (not queued)
-(class)@     -> WAGemStoneServiceExampleTask
-(oop)@       -> 424536577
-currentStep@ -> nil
-errorFlag@   -> nil
-id@          -> 1
-log@         -> anOrderedCollection( 'id'->2014-06-07T11:20:11.2864038944244-07:00)
-step1@       -> nil
-step2@       -> nil
-step3@       -> nil
+.             -> task: #1 (not finished)
+(class)@      -> WAGemStoneServiceExampleTask
+(oop)@        -> 331391489
+exception@    -> nil
+hasValue@     -> nil
+id@           -> 1
+taskValuable@ -> The time in London is not available, yet.
+taskValue@    -> nil
 ```
 
-Now cycle through two of the three steps and view new state:
+Shows that the *task #1* does not have a taskValue and the **taskValuable**
+prints as `The time in London is not available, yet.`. 
+Here's a peek at the **taskValuable** itself:
+
+```
+
+.             -> The time in London is not available, yet.
+..            -> task: #1 (not finished)
+(class)@      -> WAGemStoneServiceExampleTimeInLondon
+(oop)@        -> 331421185
+timeInLondon@ -> nil
+url@          -> 'http://www.time.org/zones/Europe/London.php'
+```
+
+Now add the task to the serviceVM queue and wait for the response:
 
 ```Shell
-./serviceExample --task=1 --addToQueue --poll=10
 ./serviceExample --task=1 --addToQueue --poll=10; edit
 ```
 

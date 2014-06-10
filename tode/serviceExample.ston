@@ -30,7 +30,7 @@ opts
               valuable:
                 (WAGemStoneServiceExampleTimeInLondon
                   url: \'http://www.time.org/zones/Europe/London.php\').
-            taskInstances at: task id put task ]
+            taskInstances at: task id put: task ]
           ifNotNil: [ 
             System commit.\t\"ensure that we are accessing latest state of task\"
             response := task := taskInstances at: taskId asNumber.
@@ -97,4 +97,4 @@ EXAMPLES
   ./serviceExample --task=3 --addToQueue  # schedule task #3 to process next step
   ./serviceExample --task=3 --poll=10     # poll until task #3 finished step (10 tries)
 \'
-      topez: topez ] ]',#creationTime:DateAndTime['2014-06-07T09:46:36.9012389183044-07:00'],#modificationTime:DateAndTime['2014-06-09T17:02:38.6207590103149-07:00']}
+      topez: topez ] ]',#creationTime:DateAndTime['2014-06-07T09:46:36.9012389183044-07:00'],#modificationTime:DateAndTime['2014-06-09T18:39:26.9605989456176-07:00']}
