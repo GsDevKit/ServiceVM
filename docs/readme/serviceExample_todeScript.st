@@ -30,7 +30,7 @@ opts
               valuable:
                 (WAGemStoneServiceExampleTimeInLondon
                   url: 'http://www.time.org/zones/Europe/London.php').
-            taskInstances at: task id put task ]
+            taskInstances at: task id put: task ]
           ifNotNil: [ 
             System commit.	"ensure that we are accessing latest state of task"
             response := task := taskInstances at: taskId asNumber.
