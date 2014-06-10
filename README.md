@@ -496,7 +496,7 @@ Nick went on to create
 [10]: docs/readme/projectLoad.st#L2-14
 [11]: docs/readme/serviceVM_todeScript.st#L32-43                
 <!--[11] serviceVM --registe r-->
-[12]: docs/readme/serviceExample_todeScript.st#L67-77
+[12]: docs/readme/serviceExample_todeScript.st#L67-79
 <!--[12] serviceExample --status --> 
 [13]: docs/readme/serviceVM_todeScript.st
 [14]: docs/readme/serviceVM_todeScript.st#L45-47                

@@ -17,9 +17,9 @@ opts
   ifAbsent: [ 
     | response taskClass taskInstances |
     taskClass := WAGemStoneServiceExampleTask.
-    taskInstances := SessionTemps current
+    taskInstances := UserGlobals
       at: #'SERVICE_EXAMPLE_INSTANCES'
-      ifAbsent: [ SessionTemps current at: #'SERVICE_EXAMPLE_INSTANCES' put: Dictionary new ].
+      ifAbsent: [ UserGlobals at: #'SERVICE_EXAMPLE_INSTANCES' put: Dictionary new ].
     opts
       at: 'task'
       ifPresent: [ :taskId | 
@@ -70,8 +70,10 @@ opts
             | dict |
             dict := Dictionary new
               at: 'queue' put: taskClass queue;
+              at: 'queue (ordered)' put: taskClass queueCollection;
               at: 'inProcess' put: taskClass inProcessCollection;
               at: 'high water' put: taskClass idHighWater;
+              at: 'instances' put: taskInstances;
               yourself.
             dict edit: topez.	"bring up inspector"
             response := dict ] ].
