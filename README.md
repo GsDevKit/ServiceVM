@@ -340,7 +340,7 @@ Now add the task to the serviceVM queue and wait for the task to be completed
 
 _**_*[`./serviceExample --task=1`][16]
 [`./serviceExample --addToQueue`][17]
-[`./serviceExample --poll=10`][18]*
+[`./serviceExample --poll`][18]*
 
 and view the new state:
 
@@ -478,7 +478,7 @@ Nick went on to create
 [10]: docs/readme/projectLoad.st#L2-14
 [11]: docs/readme/serviceVM_todeScript.st#L32-43                
 <!--[11] serviceVM --register -->
-[12]: docs/readme/serviceExample_todeScript.st#L66-77
+[12]: docs/readme/serviceExample_todeScript.st#L69-81
 <!--[12] serviceExample --status --> 
 [13]: docs/readme/serviceVM_todeScript.st
 [14]: docs/readme/serviceVM_todeScript.st#L45-47                

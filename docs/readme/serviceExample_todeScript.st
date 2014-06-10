@@ -63,7 +63,9 @@ opts
             WAGemStoneServiceExampleVM initialize.
             response := taskClass reset.
             UserGlobals at: #'SERVICE_EXAMPLE_INSTANCES' put: Dictionary new.
-            topez evaluateCommandString: './serviceVM --restart' ].
+            System commit.
+            topez evaluateCommandString: './serviceVM --restart'.
+            System abort ].
         opts
           at: 'status'
           ifPresent: [ :ignored | 
