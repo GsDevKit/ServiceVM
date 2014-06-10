@@ -261,18 +261,27 @@ _**_*[`serviceExample --status`][12]*
 produces an inspector on the key state of the service vm:
 
 ```
-.        -> aDictionary( 'instances'->aDictionary( ), 'high water'->0, 'queue'->anArray( ), 'inProcess'->anArray( ))
+.        -> aDictionary( 'instances'->aDictionary( ), 'high water'->0, 'queue'->anArray( ), 'inProcess'->anArray( ), 'service loop'->Service VM Loop)
 (class)@ -> Dictionary
-(oop)@   -> 423792641
+(oop)@   -> 329195777
 1@       -> 'high water'->0
 2@       -> 'inProcess'->anArray( )
 3@       -> 'instances'->aDictionary( )
 4@       -> 'queue'->anArray( )
+5@       -> 'service loop'->Service VM Loop
 ```
 
-`high water` is the count of service vm tasks created. `inProcess` is a list of service vm tasks that have been removed from queue and are being serviced, but 
-have not completed processing, yet. 'instances' is a dictionary in UserGlobals that keeps track of all of the tasks created by the serviceVM script. `queue` is a list of the service vm tasks that 
-are stacked ubrp waiting to be processed.
+`high water` is the count of service vm tasks created. 
+
+`inProcess` is a list of service vm tasks that have been removed from queue and are being serviced, but 
+have not completed processing, yet. 
+
+'instances' is a dictionary in UserGlobals that keeps track of all of the tasks created by the serviceVM script. 
+
+`queue` is a list of the service vm tasks that 
+are stacked ubrp waiting to be processed. 
+
+`service loop` is the vm task instance.
 
 ####Example Task Life Cycle
 In this example the [task][3] is going to get the time in London using the url: 
@@ -291,9 +300,8 @@ will respond, so we will schedule the task to be executed in the [service vm][9]
 Let's start by creating and viewing a task:
 
 ```Shell
-P
+./serviceExample --task; edit
 ```
-
 
 _**_*[`./serviceExample --task`][16]*
 
@@ -303,7 +311,7 @@ and here's the state of the freshly created task instance:
 ```
 .             -> task: #1 (not finished)
 (class)@      -> WAGemStoneServiceExampleTask
-(oop)@        -> 424041985
+(oop)@        -> 329145089
 exception@    -> nil
 hasValue@     -> nil
 id@           -> 1
@@ -319,15 +327,15 @@ Here's a peek at the **taskValuable** itself:
 .             -> The time in London is not available, yet.
 ..            -> task: #1 (not finished)
 (class)@      -> WAGemStoneServiceExampleTimeInLondon
-(oop)@        -> 424042241
+(oop)@        -> 329139457
 timeInLondon@ -> nil
 url@          -> 'http://www.time.org/zones/Europe/London.php'
 ```
 
-Now add the task to the serviceVM queue and wait for the response:
+Now add the task to the serviceVM queue and wait for the task to be completed
 
 ```Shell
-./serviceExample --task=1 --addToQueue --poll=10; edit
+./serviceExample --task=1 --addToQueue --poll; edit
 ```
 
 _**_*[`./serviceExample --task=1`][16]
@@ -337,16 +345,14 @@ _**_*[`./serviceExample --task=1`][16]
 and view the new state:
 
 ```
-.            -> task: #1 (step 1: [anArray( )] step 2: [anArray( )] in step 3)
-(class)@     -> WAGemStoneServiceExampleTask
-(oop)@       -> 193992193
-currentStep@ -> #'step2'
-errorFlag@   -> nil
-id@          -> 1
-log@         -> anOrderedCollection( 'id'->2014-06-07T17:50:25.2372469902038-07:00, 'step1'->2014-06-07T17:50:41.896595954895-07:00, 'step2'->2014-06-07T17:...
-step1@       -> anArray( )
-step2@       -> anArray( )
-step3@       -> nil
+.             -> task: #1 (hasValue: '4:21')
+(class)@      -> WAGemStoneServiceExampleTask
+(oop)@        -> 329145089
+exception@    -> nil
+hasValue@     -> true
+id@           -> 1
+taskValuable@ -> The time in London is '4:21'
+taskValue@    -> '4:21'
 ```
 
 peek at the service vm state:
@@ -360,39 +366,16 @@ _**_*[`serviceExample --status`][12]*
 which will look something like the following:
 
 ```
-.        -> aDictionary( 'instances'->anArray( task: #1 (step 1: [anArray( )] step 2: [anArray( )] in step 3)), 'high water'->1, 'queue'->aRcQueue( ), '...
+.        -> aDictionary( 'instances'->aDictionary( 1->task: #1 (hasValue: '4:21')), 'high water'->1, 'queue'->anArray( ), 'inProcess'->anArray( ), 'serv...
 (class)@ -> Dictionary
-(oop)@   -> 194661377
-1@       -> 'errors'->anArray( )
-2@       -> 'high water'->1
-3@       -> 'inProcess'->anArray( )
-4@       -> 'instances'->anArray( task: #1 (step 1: [anArray( )] step 2: [anArray( )] in step 3))
-5@       -> 'queue'->aRcQueue( )
+(oop)@   -> 329536513
+1@       -> 'high water'->1
+2@       -> 'inProcess'->anArray( )
+3@       -> 'instances'->aDictionary( 1->task: #1 (hasValue: '4:21'))
+4@       -> 'queue'->anArray( )
+5@       -> 'service loop'->Service VM Loop
 ```
 
-Cycle through the last step and view final state:
-
-```Shell
-./serviceExample --task=1 --addToQueue --poll=10; edit
-```
-
-_**_*[`./serviceExample --task=1`][16]
-[`./serviceExample --addToQueue`][17]
-[`./serviceExample --poll=10`][18]*
-
-and view the new state:
-
-```
-.            -> task: #1 (step 1: [anArray( )] step 2: [anArray( )] finished: [anArray( )])
-(class)@     -> WAGemStoneServiceExampleTask
-(oop)@       -> 193992193
-currentStep@ -> #'step3'
-errorFlag@   -> nil
-id@          -> 1
-log@         -> anOrderedCollection( 'id'->2014-06-07T17:50:25.2372469902038-07:00, 'step1'->2014-06-07T17:50:41.896595954895-07:00, 'step2'->2014-06-07T17:...
-step1@       -> anArray( )
-step2@       -> anArray( )
-step3@       -> anArray( )
 ```
 ####Seaside Example
 

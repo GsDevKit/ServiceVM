@@ -63,7 +63,9 @@ opts
             WAGemStoneServiceExampleVM initialize.
             response := taskClass reset.
             UserGlobals at: #\'SERVICE_EXAMPLE_INSTANCES\' put: Dictionary new.
- topez evaluateCommandString: \'./serviceVM --restart\'].
+System commit.
+            topez evaluateCommandString: \'./serviceVM --restart\' .
+System abort].
         opts
           at: \'status\'
           ifPresent: [ :ignored | 
@@ -99,4 +101,4 @@ EXAMPLES
   ./serviceExample --task=3 --addToQueue  # schedule task #3 to process next step
   ./serviceExample --task=3 --poll=10     # poll until task #3 finished step (10 tries)
 \'
-      topez: topez ] ]',#creationTime:DateAndTime['2014-06-07T09:46:36.9012389183044-07:00'],#modificationTime:DateAndTime['2014-06-10T08:02:42.9982891082763-07:00']}
+      topez: topez ] ]',#creationTime:DateAndTime['2014-06-07T09:46:36.9012389183044-07:00'],#modificationTime:DateAndTime['2014-06-10T08:16:12.7418110370636-07:00']}
