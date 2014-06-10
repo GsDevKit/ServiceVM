@@ -1,5 +1,5 @@
 operations
-serviceVMServiceTaskQueue
+serviceVMServiceTaskLoop
   ^ self
     name: 'Service VM Loop'
     frequency: 1
@@ -15,4 +15,4 @@ serviceVMServiceTaskQueue
                 doTransaction: [ tasks := self serviceVMTasks: vmTask ].
               tasks do: [ :task | [ task processTask ] fork ].
               repeat := tasks notEmpty ] ] ]
-    reset: [ :vmTask | vmTask state: 0 ]
+    reset: [ :vmTask | vmTask state: 0 ]	"every 10 seconds"

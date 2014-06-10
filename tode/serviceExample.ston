@@ -17,9 +17,9 @@ opts
   ifAbsent: [ 
     | response taskClass taskInstances |
     taskClass := WAGemStoneServiceExampleTask.
-    taskInstances := SessionTemps current
+    taskInstances := UserGlobals
       at: #\'SERVICE_EXAMPLE_INSTANCES\'
-      ifAbsent: [ SessionTemps current at: #\'SERVICE_EXAMPLE_INSTANCES\' put: Dictionary new ].
+      ifAbsent: [ UserGlobals at: #\'SERVICE_EXAMPLE_INSTANCES\' put: Dictionary new ].
     opts
       at: \'task\'
       ifPresent: [ :taskId | 
@@ -70,8 +70,10 @@ opts
             | dict |
             dict := Dictionary new
               at: \'queue\' put: taskClass queue;
+              at: \'queue (ordered)\' put: taskClass queueCollection;
               at: \'inProcess\' put: taskClass inProcessCollection;
               at: \'high water\' put: taskClass idHighWater;
+              at: \'instances\' put: taskInstances;
               yourself.
             dict edit: topez.\t\"bring up inspector\"
             response := dict ] ].
@@ -97,4 +99,4 @@ EXAMPLES
   ./serviceExample --task=3 --addToQueue  # schedule task #3 to process next step
   ./serviceExample --task=3 --poll=10     # poll until task #3 finished step (10 tries)
 \'
-      topez: topez ] ]',#creationTime:DateAndTime['2014-06-07T09:46:36.9012389183044-07:00'],#modificationTime:DateAndTime['2014-06-09T18:39:26.9605989456176-07:00']}
+      topez: topez ] ]',#creationTime:DateAndTime['2014-06-07T09:46:36.9012389183044-07:00'],#modificationTime:DateAndTime['2014-06-09T19:51:35.5887439250946-07:00']}

@@ -1,0 +1,1 @@
+Main difference between WAGemStoneAbstractServiceVM and WAGemStoneServiceVMTask is that the tasks are managed in a class instance variable, allowing for different types of service vms to be operated concurrently.

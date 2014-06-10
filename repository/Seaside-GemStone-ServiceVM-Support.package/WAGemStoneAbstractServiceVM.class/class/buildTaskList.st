@@ -3,7 +3,7 @@ buildTaskList
   "self buildTaskList"
 
   (self class allSelectors
-    select: [ :ea | ea beginsWith: 'serviceVMServiceTaskQueue' ])
+    select: [ :ea | ea beginsWith: 'serviceVMServiceTaskLoop' ])
     do: [ :selector | 
       | task |
       task := self perform: selector.	"add task only if it isn't already in task list"
