@@ -230,13 +230,20 @@ Overview of tODE commands used in example:
 See [webServer][19], [serviceVM][13], or [serviceExample][8] 
 for the Smalltalk source for each of the tODE scripts.
 
-Start serviceVM gem:
+Start serviceVM gem (at tODE command line):
 
   ```Shell
   cd /home/serviceVM
   ./serviceVM --register # only done once
   ./serviceVM --start
   ```
+
+**NOTE**: *If you are using tODE and you have opened this README.md file
+in tode, you can use the `tode it` menu item to run the tODE commands form the README.md
+file. If you
+are not using tODE, the link following the tODE commands
+takes you to the script source and highlights the code that is executed by
+the command.*
 
 _**_*[`serviceVM --register`][11]
 [`serviceVM --start`][14]*
@@ -289,11 +296,6 @@ Let's start by creating and viewing a task:
 ./serviceExample --task; edit
 ```
 
-**NOTE**: *If you are using tODE and you have opened this README.md file
-in tode, you can use the `tode it` menu item to run the tODE commands. If you
-are not using tODE, the link following the tODE commands
-is takes you to the script source and highlights the code that is executed by
-command.*
 
 _**_*[`./serviceExample --task`][16]*
 
