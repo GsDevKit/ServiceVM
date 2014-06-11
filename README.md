@@ -22,7 +22,8 @@ to which I replied:
 That is quite a mouthful, so let's break it down:
 
 1. [ServiceVM gem](#servicevm-gem)
-2. [Service task](#service-taks) 
+2. [Service task](#service-task) 
+3. [Schedule task and Poll for result](#schedule-task-and-poll-for-result)
 4. [Seaside integration](#seaside-integration)
 
 ## ServiceVM gem
@@ -170,9 +171,28 @@ which means that the *valuable* does not have to be a block. As a matter of fact
 makes sense to use a class that has instance variables where you can stash values 
 from *unsafe* persistent objects and for the *value* method to trigger the work.
 
+## Schedule task and Poll for result
+To add tasks to the service vm queue, you simply send the #addToQueue message to the task
+and then check the state of the task until it has been serviced:
+
+```Smalltalk
+| task |
+task := WAGemStoneServiceExampleTask valuable: [ 
+  (HTTPSocket
+    httpGet: 'http://www.time.org/zones/Europe/London.php')
+    throughAll: 'Europe/London - ';
+    upTo: Character space ].
+task addToQueue.
+System commit.    "commit needed to that service vm can see the task"
+[ 
+System abort.     "abort needed to see new state of task"
+task hasValue ] whileFalse: [(Delay forSeconds: 1) wait ].
+```
 
 ## Seaside integration
 
+```Smalltalk
+```
 
 ## ServiceVM Example
 
