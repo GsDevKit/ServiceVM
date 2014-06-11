@@ -144,7 +144,7 @@ serviceVMTasks: vmTask
 
 ## Service task
 The service task is an instance of **WAGemStoneServiceExampleTask** and takes a *valuable* 
-(e.g., a block) when it is created:
+(e.g., a block or any object that responds to *value*):
 
 ```Smalltalk
 WAGemStoneServiceExampleTask valuable: [ 
@@ -153,6 +153,15 @@ WAGemStoneServiceExampleTask valuable: [
     throughAll: 'Europe/London - ';
     upTo: Character space ].
 ```
+
+or:
+
+```Smalltalk
+WAGemStoneServiceExampleTask 
+  valuable: (WAGemStoneServiceExampleTimeInLondon 
+           url: 'http://www.time.org/zones/Europe/London.php').
+```
+
 
 The *processTask* method in **WAGemStoneServiceExampleTask** is implemented as follows: 
 
@@ -166,10 +175,6 @@ processTask
       hasValue := true.
       self class inProcess remove: self ]
 ```
-
-which means that the *valuable* does not have to be a block. As a matter of fact, it 
-makes sense to use a class that has instance variables where you can stash values 
-from *unsafe* persistent objects and for the *value* method to trigger the work.
 
 ## Schedule task and Poll for result
 To add tasks to the service vm queue, you simply send the #addToQueue message to the task
