@@ -5,11 +5,13 @@ baseline: spec
     for: #'common'
     do: [ 
       spec
-        baseline: 'Seaside3'
+        configuration: 'Seaside3'
           with: [ 
               spec
-                loads: #('default' 'Seaside-GemStone-ServiceTask');
-                repository: 'github://glassdb/Seaside31:gemstone3.1/repository' ];
+                version: #'release31';
+                loads: #('Zinc' 'Seaside-GemStone-ServiceTask');
+                repository:
+                    'http://www.smalltalkhub.com/mc/Seaside/MetacelloConfigurations/main' ];
         yourself.
       spec
         package: 'Seaside-GemStone-ServiceVM-Support'

@@ -25,6 +25,8 @@ That is quite a mouthful, so let's break it down:
 2. [Service task](#service-task) 
 3. [Schedule task and Poll for result](#schedule-task-and-poll-for-result)
 4. [Seaside integration](#seaside-integration)
+5. [ServiceVM Project Installation](#servicevm-project-installation)
+6. [ServiceVM Development Support for tODE](#serviceVM-development-support-for-tode)
 
 ## ServiceVM gem
 For a service gem, we havetwo problems:
@@ -274,19 +276,7 @@ poll: cycle
         ifFalse: [ self poll: cycle + 1 ] ]
 ```
 
-## ServiceVM Development
-
-Describe start vms, enable remote debugging, work in tode ... create error on seaside
-page, debugging continuations with ol view ...
-
-Recently I've brought the original example code over to github, simplified it a bit, 
-made sure it works with [GemStone 3.2][28], [Seaside 3.1][29], [Zinc][30], and created a 
-collection of [tODE][27] support scripts.
-
-
-For GLASS the solution is to create a separate Service gem that services performs stashed in an RCQueue. RCQueues are conflict free with multiple producers and a single consumer - exactly our case.
-
-###Installation
+## ServiceVM Project Installation
 
 Clone the https://github.com/glassdb/ServiceVM repository to your local disk and 
 install the scripts needed by the service vm in the $GEMSTONE product tree (make 
@@ -302,36 +292,56 @@ bin/installScripts.sh                           # $GEMSTONE must be defined
 Install the service vm artifacts in tODE and load the example code (at the tODE 
 command prompt):
 
+###Install with tODE
+
 ```Shell
 mount /opt/git/ServiceVM/tode /home serviceVM  # mount tODE dir at /home/serviceVM
 edit README.md                                 # edit README (this file) in tODE
-project load @/home/serviceVM                  # load the project into the image
+project load @/home/serviceVM/project          # load the project into the image
 ```
 
-_**_*[`project load @/home/serviceVM`][10] for non-tode users*
+###Install with Metacello (tODE not already installed)
 
-###Service VM Example
+```Smalltalk
+| projectName repoPath |
+projectName := 'ServiceVM'.
+repoPath := 'github://glassdb/ServiceVM:master/repository'. "Use this path if you haven't 
+                                                             cloned the GitHub repository"
+repoPath := 'filtree:///opt/git/ServiceVM/repository'.      "Edit and use this path if you 
+                                                             have cloned the GitHub 
+                                                             repository."
+GsDeployer bulkMigrate: [
+  Metacello new
+    baseline: projectName;
+    repository: repoPath;
+    get.
+  Metacello new
+    baseline: projectName;
+    repository: repoPath;
+    load.
+].
+```
 
-Overview of tODE commands used in example:
-  ```Shell
-  ./webServer --register=zinc   # register zinc as web server (done once)
-  ./webServer --start           # start web server gem
-  ./webServer --stop            # stop web server gem
+## ServiceVM Development Support for tODE
 
-  ./serviceVM --register        # register the service vm (done once)
-  ./serviceVM --start           # start the service vm gem
-  ./serviceVM --stop            # stop the service vm gem
+If you are using tODE, there are several utiltiy scripts available in
+the `/home/serviceVM` directory:
 
-  ./serviceExample --reset                # clear service task queues and counters
-  ./serviceExample --status               # state of service task engine
-  ./serviceExample --task                 # create a new task
-  ./serviceExample --task=3               # access task #3
-  ./serviceExample --task=3 --addToQueue  # schedule task #3 to process next step
-  ./serviceExample --task=3 --poll=10     # poll for completion of task #3 (wait 10 seconds)
-  ```
+```Shell
+tode 1 > cd /home/serviceVM
+[495631361 sz:7 TDProxyLeafNode] /home/serviceVM/
+tode 1 > ls
+objlog*  project@/  README.md  serviceExample*  serviceVM*  webServer*
+```
 
-See [webServer][19], [serviceVM][13], or [serviceExample][8] 
-for the Smalltalk source for each of the tODE scripts.
+* objlog
+* project
+* README.md
+* [serviceExample][8]
+* [serviceVM][13]
+* [webServer][19]
+
+
 
 Start serviceVM gem (at tODE command line):
 
@@ -549,6 +559,30 @@ _**_*[`webServer --register=zinc`][21]
 
 _**_*[`webServer ----stop`][23]
 [`serviceVM --stop`][24]*
+
+###Service VM Example
+
+Overview of tODE commands used in example:
+  ```Shell
+  ./webServer --register=zinc   # register zinc as web server (done once)
+  ./webServer --start           # start web server gem
+  ./webServer --stop            # stop web server gem
+
+  ./serviceVM --register        # register the service vm (done once)
+  ./serviceVM --start           # start the service vm gem
+  ./serviceVM --stop            # stop the service vm gem
+
+  ./serviceExample --reset                # clear service task queues and counters
+  ./serviceExample --status               # state of service task engine
+  ./serviceExample --task                 # create a new task
+  ./serviceExample --task=3               # access task #3
+  ./serviceExample --task=3 --addToQueue  # schedule task #3 to process next step
+  ./serviceExample --task=3 --poll=10     # poll for completion of task #3 (wait 10 seconds)
+  ```
+See [webServer][19], [serviceVM][13], or [serviceExample][8] 
+for the Smalltalk source for each of the tODE scripts.
+
+
 
 ## Futures work by Nick Ager
 Nick went on to create 

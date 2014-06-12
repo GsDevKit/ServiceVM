@@ -1,7 +1,7 @@
 TDObjectGatewayNode{#name:'project',#contents:'| project |
 project := TDProjectSpecEntryDefinition new
   baseline: \'ServiceVM\'
-  repository: \'filetree:///opt/git/ServiceVM/repository\'
+  repository: \'github://glassdb/ServiceVM:master/repository\'
   loads: #(\'default\').
 project
   projectPath: self parent printString;
