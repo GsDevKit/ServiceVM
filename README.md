@@ -327,47 +327,52 @@ GsDeployer bulkMigrate: [
 If you are using tODE, there are several utiltiy scripts available in
 the `/home/serviceVM` directory:
 
-```Shell
-tode 1 > cd /home/serviceVM
-[495631361 sz:7 TDProxyLeafNode] /home/serviceVM/
-tode 1 > ls
-objlog*  project@/  README.md  serviceExample*  serviceVM*  webServer*
-```
 
 | **Script**          | **Purpose** |
 | ------------------- | ------------- |
 | [objlog][39]        | short-cut script for opening object log |
 | [project][40]       | project object for `project list` command  |
 | README.md           | *this document*  |
-| [serviceExample][8] | script for manipulating service example task  |
-| [serviceVM][13]     | script for controlling the serviceVM  |
-| [webServer][19]     | script for controlling the zinc web server  |
+| [serviceExample][8] | [script for manipulating service example task](#scheduling-service-tasks-serviceExample) |
+| [serviceVM][13]     | [script for controlling the serviceVM](#start=stop-service-vm-servicevm)   |
+| [webServer][19]     | [script for controlling the zinc web server](#start-stop-zinc-web-server-webserver)  |
 
-*        
-*** 
-* 
-* 
+### Start/Stop Service VM (*serviceVM*)
 
+The `--start` option starts the serviceVM in an external topaz session. The
+`--stop` options stops the serviceVM.
+Registration need only be done once in the image (the registration is persistent). 
+Use `./serviceVM --help` for additional options.
 
-
-Start serviceVM gem (at tODE command line):
-
-  ```Shell
-  cd /home/serviceVM
-  ./serviceVM --register # only done once
-  ./serviceVM --start
-  ```
+```Shell
+./serviceVM --register        # register the service vm (done once)
+./serviceVM --start           # start the service vm gem
+./serviceVM --stop            # stop the service vm gem
+```
 
 _**_*[`serviceVM --register`][11]
-[`serviceVM --start`][14]*
+[`serviceVM --start`][14]
+[`serviceVM --stop`][24]*
 
-**NOTE**: *If you are using tODE and you have opened this README.md file
-in tode, you can use the `tode it` menu item to run the tODE commands form the README.md
-file. If you
-are not using tODE, the link following the tODE commands
-takes you to the script source and highlights the code that is executed by
-the command.*
 
+
+###Start/Stop Zinc Web Server (*webServer*)
+The `--start` option starts the web server in an external topaz session. The
+`--stop` options stops the web server.
+Registration need only be done once in the image (the registration is persistent). 
+Use `./webServer --help` for additional options.
+
+```Shell
+  ./webServer --register=zinc   # register zinc as web server (done once)
+  ./webServer --start           # start web server gem
+  ./webServer --stop            # stop web server gem
+```
+
+_**_**[`webServer --register=zinc`][21]
+[`webServer --start`][22]
+[`webServer ----stop`][23]*
+
+###Scheduling Service Tasks (*serviceExample*)
 ####Service VM loop
 XXXXXXXXX
 You can view the state of service example with the `serviceExample` script. The following:
@@ -496,88 +501,10 @@ which will look something like the following:
 5@       -> 'service loop'->Service VM Loop
 ```
 
-####Seaside Example
-
-Here's the render method (*WAGemStoneInteractiveServiceExample>>renderContentOn:*)
-for the ServiceVm example Seaside component:
-
-```Smalltalk
-renderContentOn: html
-  workUnit hasError
-    ifTrue: [ 
-      html heading: 'Error'.
-      html text: workUnit errorFlag ]
-    ifFalse: [ 
-      workUnit ready
-        ifTrue: [ 
-          "task READY to start next step ==================="
-          html heading: 'Ready.'.
-          html anchor
-            callback: [ 
-                  "BLOCKING addToQueue  ====================
-                        ./serviceExample --task=1 --addToQueue --poll=10
-                                        ====================
-                     Control not returned to user until
-                     the task is finished"
-                  self blockingStep ];
-            with: 'Blocking ' , workUnit label.
-          html text: ', or '.
-          html anchor
-            callback: [ 
-                  "NON-BLOCKING addToQueue  ================
-                        ./serviceExample --task=1 --addToQueue
-                                            ================
-                     Control is immediately returned to user
-                     and the user must manually poll by
-                     refreshing the page, until the task is
-                     finished"
-                  self nonBlockingStep ];
-            with: 'Non-blocking ' , workUnit label ]
-        ifFalse: [ 
-          "task NOT READY to start next step ===============
-                        ./serviceExample --task=1 --poll=10
-                                             ===============
-             part of manual poll by user"
-          html heading: 'Not Ready '.
-          html text: workUnit label , '. Refresh to check status, or '.
-          html anchor
-            callback: [ self blockingStep ];
-            with: 'block until step is complete' ] ]
-```
-
-Start webServer gem:
-
-  ```Shell
-  ./webServer --register=zinc --port=8383 # only done once
-  ./webServer --start
-  ```
-
-_**_*[`webServer --register=zinc`][21]
-[`webServer --start`][22]*
-
-
-####Shut down the Service gems
-
-  ```Shell
-  # stop gems
-  ./webServer --stop
-  ./serviceVM --stop
-  ```
-
-_**_*[`webServer ----stop`][23]
-[`serviceVM --stop`][24]*
-
 ###Service VM Example
 
 Overview of tODE commands used in example:
   ```Shell
-  ./webServer --register=zinc   # register zinc as web server (done once)
-  ./webServer --start           # start web server gem
-  ./webServer --stop            # stop web server gem
-
-  ./serviceVM --register        # register the service vm (done once)
-  ./serviceVM --start           # start the service vm gem
-  ./serviceVM --stop            # stop the service vm gem
 
   ./serviceExample --reset                # clear service task queues and counters
   ./serviceExample --status               # state of service task engine
