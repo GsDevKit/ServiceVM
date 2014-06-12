@@ -3,13 +3,13 @@
 		"canBeRoot" : "dkh 06/09/2014 12:38",
 		"description" : "dkh 06/09/2014 12:38",
 		"handlerName" : "dkh 06/09/2014 12:38",
-		"initialize" : "dkh 06/09/2014 12:38" },
+		"initialize" : "dkh 06/12/2014 11:33" },
 	"instance" : {
 		"addTaskToQueue" : "dkh 06/09/2014 12:38",
 		"automaticPoll" : "dkh 06/09/2014 12:38",
 		"initialize" : "dkh 06/09/2014 12:38",
 		"newTask" : "dkh 06/09/2014 12:38",
-		"poll:" : "dkh 06/09/2014 12:38",
-		"renderContentOn:" : "dkh 06/09/2014 12:38",
+		"poll:" : "dkh 06/12/2014 12:20",
+		"renderContentOn:" : "dkh 06/12/2014 11:45",
 		"states" : "dkh 06/09/2014 12:38",
 		"task" : "dkh 06/09/2014 12:38" } }

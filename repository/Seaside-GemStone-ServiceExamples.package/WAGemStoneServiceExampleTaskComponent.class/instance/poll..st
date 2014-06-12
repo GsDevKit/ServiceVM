@@ -1,7 +1,5 @@
 actions
 poll: cycle
-  "poll until step is completed"
-
   self
     call:
       (WAComponent new
@@ -9,7 +7,5 @@ poll: cycle
         addDecoration: (WADelayedAnswerDecoration new delay: 2);
         yourself)
     onAnswer: [ 
-      task
-        ifTrue: [ 
-          task hasValue
-            ifFalse: [ self poll: cycle + 1 ] ] ]
+      task hasValue
+        ifFalse: [ self poll: cycle + 1 ] ]

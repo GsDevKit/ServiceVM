@@ -182,11 +182,9 @@ and then check the state of the task until it has been serviced:
 
 ```Smalltalk
 | task |
-task := WAGemStoneServiceExampleTask valuable: [ 
-  (HTTPSocket
-    httpGet: 'http://www.time.org/zones/Europe/London.php')
-    throughAll: 'Europe/London - ';
-    upTo: Character space ].
+task :=WAGemStoneServiceExampleTask 
+  valuable: (WAGemStoneServiceExampleTimeInLondon 
+           url: 'http://www.time.org/zones/Europe/London.php').
 task addToQueue.
 System commit.    "commit needed to that service vm can see the task"
 [ 
@@ -195,11 +193,91 @@ task hasValue ] whileFalse: [(Delay forSeconds: 1) wait ].
 ```
 
 ## Seaside integration
+For  Seaside the component we start with a task that has no value (yet) 
+and prompt the user to automatically poll for a result or to manually 
+pool for the result:
+
+![initial seaside page][20]
+
+Once we have a value we ask the user if they want to 
+try again:
+
+![try again seaside page][38]
+
+Here's the render method:
+
 
 ```Smalltalk
+renderContentOn: html
+  | autoLabel manualLabel createNewTask |
+  createNewTask := false.
+  task hasError
+    ifTrue: [ 
+      html heading: 'Error'.
+      html text: task exception description ]
+    ifFalse: [ 
+      task hasValue
+        ifTrue: [ 
+          html heading: 'The time in London is: ' , task value , '.'.
+          autoLabel := 'Try again and wait for result?'.
+          manualLabel := 'Try again and manually poll for result (refresh page)?'.
+          createNewTask := true ]
+        ifFalse: [ 
+          html heading: 'The time in London is not available, yet. '.
+          autoLabel := 'Get time in London and wait for result?'.
+          manualLabel := 'Get time in London and manually poll for result (refresh page)?' ].
+      html anchor
+        callback: [ 
+              createNewTask
+                ifTrue: [ task := self newTask ].
+              self automaticPoll ];
+        with: autoLabel.
+      html
+        break;
+        text: ' or ';
+        break.
+      html anchor
+        callback: [ 
+              createNewTask
+                ifTrue: [ task := self newTask ].
+              self addTaskToQueue ];
+        with: manualLabel ]
 ```
 
-## ServiceVM Example
+The automaticPoll method:
+
+```Smalltalk
+automaticPoll
+  self addTaskToQueue.
+  self poll: 1
+```
+
+The addTaskToQueue method:
+
+```Smalltalk
+addTaskToQueue
+  task addToQueue
+```
+
+and the poll: method:
+
+```Smalltalk
+poll: cycle
+  self
+    call:
+      (WAComponent new
+        addMessage: 'waiting  for time in London...(' , cycle printString , ')';
+        addDecoration: (WADelayedAnswerDecoration new delay: 2);
+        yourself)
+    onAnswer: [ 
+      task hasValue
+        ifFalse: [ self poll: cycle + 1 ] ]
+```
+
+## ServiceVM Development
+
+Describe start vms, enable remote debugging, work in tode ... create error on seaside
+page, debugging continuations with ol view ...
 
 Recently I've brought the original example code over to github, simplified it a bit, 
 made sure it works with [GemStone 3.2][28], [Seaside 3.1][29], [Zinc][30], and created a 
@@ -460,16 +538,6 @@ Start webServer gem:
 _**_*[`webServer --register=zinc`][21]
 [`webServer --start`][22]*
 
-Hit the service vm example page:
-
-```
-http://localhost:8383/examples/serviceInteractive
-```
-
-which should look something like this:
-
-![seaside service example browser picture][20]
-
 
 ####Shut down the Service gems
 
@@ -514,7 +582,7 @@ Nick went on to create
 [18]: docs/readme/serviceExample_todeScript.st#L42-58
 <!--[18] serviceExample --poll -->
 [19]: docs/readme/webServer_todeScript.st
-[20]: docs/readme/seasideServiceVMPage.png
+[20]: docs/readme/seasideServiceVMPage1.png
 [21]: docs/readme/webServer_todeScript.st#L32-49
 <!--[21] /webServer --register -->
 [22]: docs/readme/webServer_todeScript.st#L51-53
@@ -536,3 +604,4 @@ Nick went on to create
 [35]: bin/startSmalltalkServer
 [36]: https://code.google.com/p/glassdb/wiki/ControllingSeaside30Gems
 [37]: https://github.com/glassdb/Grease/blob/master/repository/Grease-GemStone-Core.package/GRGemStonePlatform.class/instance/doTransaction..st
+[38]: docs/readme/seasideServiceVMPage2.png

@@ -1,3 +1,5 @@
 initialization
 initialize
-	WAAdmin register: self asApplicationAt: self handlerName
+  "self initialize"
+
+  WAAdmin register: self asApplicationAt: self handlerName

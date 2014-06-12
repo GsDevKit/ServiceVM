@@ -1,6 +1,7 @@
 rendering
 renderContentOn: html
-  | autoLabel manualLabel |
+  | autoLabel manualLabel createNewTask |
+  createNewTask := false.
   task hasError
     ifTrue: [ 
       html heading: 'Error'.
@@ -10,15 +11,25 @@ renderContentOn: html
         ifTrue: [ 
           html heading: 'The time in London is: ' , task value , '.'.
           autoLabel := 'Try again and wait for result?'.
-          manualLabel := 'Try again and manually poll for result (refresh page)?' ]
+          manualLabel := 'Try again and manually poll for result (refresh page)?'.
+          createNewTask := true ]
         ifFalse: [ 
           html heading: 'The time in London is not available, yet. '.
           autoLabel := 'Get time in London and wait for result?'.
           manualLabel := 'Get time in London and manually poll for result (refresh page)?' ].
       html anchor
-        callback: [ self automaticPoll ];
+        callback: [ 
+              createNewTask
+                ifTrue: [ task := self newTask ].
+              self automaticPoll ];
         with: autoLabel.
-      html text: ', or '.
+      html
+        break;
+        text: ' or ';
+        break.
       html anchor
-        callback: [ self addTaskToQueue ];
+        callback: [ 
+              createNewTask
+                ifTrue: [ task := self newTask ].
+              self addTaskToQueue ];
         with: manualLabel ]
