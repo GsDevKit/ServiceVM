@@ -334,12 +334,19 @@ tode 1 > ls
 objlog*  project@/  README.md  serviceExample*  serviceVM*  webServer*
 ```
 
-* objlog
-* project
-* README.md
-* [serviceExample][8]
-* [serviceVM][13]
-* [webServer][19]
+| **Script**          | **Purpose** |
+| ------------------- | ------------- |
+| [objlog][39]        | short-cut script for opening object log |
+| [project][40]       | project object for `project list` command  |
+| README.md           | *this document*  |
+| [serviceExample][8] | script for manipulating service example task  |
+| [serviceVM][13]     | script for controlling the serviceVM  |
+| [webServer][19]     | script for controlling the zinc web server  |
+
+*        
+*** 
+* 
+* 
 
 
 
@@ -601,7 +608,6 @@ Nick went on to create
 [7]: https://github.com/dalehenrich/tode#tode-the-object-centric-development-environment-
 [8]: docs/readme/serviceExample_todeScript.st
 [9]: repository/Seaside-GemStone-ServiceExamples.package/WAGemStoneServiceExampleVM.class
-[10]: docs/readme/projectLoad.st#L2-14
 [11]: docs/readme/serviceVM_todeScript.st#L32-43                
 <!--[11] serviceVM --register -->
 [12]: docs/readme/serviceExample_todeScript.st#L69-81
@@ -639,3 +645,5 @@ Nick went on to create
 [36]: https://code.google.com/p/glassdb/wiki/ControllingSeaside30Gems
 [37]: https://github.com/glassdb/Grease/blob/master/repository/Grease-GemStone-Core.package/GRGemStonePlatform.class/instance/doTransaction..st
 [38]: docs/readme/seasideServiceVMPage2.png
+[39]: docs/readme/objlog
+[40]: docs/readme/project

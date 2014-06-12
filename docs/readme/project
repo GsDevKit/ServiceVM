@@ -1,0 +1,10 @@
+| project |
+project := TDProjectSpecEntryDefinition new
+  baseline: 'ServiceVM'
+  repository: 'github://glassdb/ServiceVM:master/repository'
+  loads: #('default').
+project
+  projectPath: self parent printString;
+  status: #(#'active');
+  yourself.
+^ project
