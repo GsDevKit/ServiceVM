@@ -279,6 +279,10 @@ poll: cycle
 
 ## Installation
 
+* [Install using Metacello](#install-using-metacello)
+* [Install using tODE](#install-using-tode)
+
+###Install using Metacello 
 Clone the https://github.com/glassdb/ServiceVM repository to your local disk and 
 install the scripts needed by the service vm in the $GEMSTONE product tree (make 
 sure you have $GEMSTONE defined before running the installScripts.sh step):
@@ -290,28 +294,25 @@ cd ServiceVM
 bin/installScripts.sh                           # $GEMSTONE must be defined
 ```
 
-###Install with tODE
-Install the service vm artifacts in tODE and load the example code (at the tODE 
-command prompt):
-
-```Shell
-mount /opt/git/ServiceVM/tode /home serviceVM  # mount tODE dir at /home/serviceVM
-edit README.md                                 # edit README (this file) in tODE
-project load @/home/serviceVM/project          # load the project into the image
-```
-
-###Install with Metacello (tODE not already installed)
-Use the following script to install into a freesh extent0.seaside.dbf extent:
+Use the following script to load Zinc and the ServiceVM project into a fresh 
+extent0.seaside.dbf:
 
 ```Smalltalk
-| projectName repoPath |
-projectName := 'ServiceVM'.
-repoPath := 'github://glassdb/ServiceVM:master/repository'. "Use this path if you haven't 
-                                                             cloned the GitHub repository"
-repoPath := 'filtree:///opt/git/ServiceVM/repository'.      "Edit and use this path if you 
+| svcRepo |
+svcRepo := 'github://glassdb/ServiceVM:master/repository'. "Use this path if you haven't 
+                                                             cloned the GitHub repository
+                                                             don't forget to install the
+                                                             scripts manually."
+svcRepo := 'filtree:///opt/git/ServiceVM/repository'.      "Edit and use this path if you 
                                                              have cloned the GitHub 
                                                              repository."
 GsDeployer bulkMigrate: [
+{
+  #('Zinc' 'github://glassdb/zinc:gemstone3.1/repository').
+  {'ServiceVM'. svcRepo} } do: [:ar |
+  | projectName repoPath |
+  projectName := ar at: 1.
+  repoPath := ar at: 2.
   Metacello new
     baseline: projectName;
     repository: repoPath;
@@ -320,11 +321,34 @@ GsDeployer bulkMigrate: [
     baseline: projectName;
     repository: repoPath;
     load.
-].
+  Metacello new
+    baseline: projectName;
+    repository: repoPath;
+    lock.
+  ] ].
 ```
 
-## ServiceVM Development Support for tODE
-If you are using tODE, there are several utiltiy scripts available in
+### Install using tODE
+Type the following commands at the tODE command prompt to
+load the Zinc and ServiceVM project:
+
+```Shell
+cd /home/projects/zinc
+project load @project                          # load Zinc from GitHub
+
+cd /home/projects/serviceVM
+project load @project                          # load the ServiceVM project from GitHub
+project clone @project                         # clone the github repository
+
+                                               # run installScripts script
+eval `System performOnServer: '/opt/git/ServiceVM/bin/installScripts.sh'`
+
+mount /opt/git/ServiceVM/tode /home serviceVM  # mount tODE dir at /home/serviceVM
+cd /home/serviceVM
+edit README.md                                 # edit README (this file) in tODE
+```
+
+There are several utiltiy scripts available in
 the `/home/serviceVM` directory:
 
 
