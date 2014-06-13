@@ -9,7 +9,7 @@ baseline: spec
           with: [ 
               spec
                 version: #'release3.1';
-                loads: #('Zinc' 'Seaside-GemStone-ServiceTask');
+                loads: #('default' 'Zinc' 'Seaside-GemStone-ServiceTask');
                 repository:
                     'http://www.smalltalkhub.com/mc/Seaside/MetacelloConfigurations/main' ];
         yourself.
@@ -20,7 +20,7 @@ baseline: spec
           with: [ spec requires: #('Seaside-GemStone-ServiceVM-Support') ];
         yourself.
       spec
-        group: 'default' with: #('Core');
+        group: 'default' with: #('Core' 'Example');
         group: 'Core' with: #('Seaside-GemStone-ServiceVM-Support');
         group: 'Example' with: #('Seaside-GemStone-ServiceExamples');
         group: 'Tests' with: #() yourself ]
