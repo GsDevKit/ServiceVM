@@ -36,8 +36,9 @@ For a service gem, we havetwo problems:
 
 ###Gem control
 Fortunately, Paul DeBruicker solved both of these problems
-Back in 2011. He created a [couple of classes (WAGemStoneRunSmalltalkServer &   
-WAGemStoneSmalltalkServer)][33] and wrote two bash scripts 
+Back in 2011. He created a 
+[couple of classes (WAGemStoneRunSmalltalkServer & WAGemStoneSmalltalkServer)][33] 
+and wrote two bash scripts 
 ([runSmalltalkServer][34] and [startSmalltalkServer][35]) that
 make it possible to start and run a ServiceVM gem for the purpose of executing long
 running operations. The idea is similar the one used to 
@@ -329,8 +330,8 @@ the `/home/serviceVM` directory:
 
 | **Script**          | **Purpose** |
 | ------------------- | ------------- |
-| [objlog][39]        | [short-cut script for opening object log](#open-oebject-log-viewer) |
-| [project][40]       | [project entry specifiecation](#project-entry) |
+| objlog        | [short-cut script for opening object log](#open-oebject-log-viewer) |
+| project       | [project entry specifiecation](#project-entry) |
 | [serviceExample][8] | [script for manipulating service example task](#scheduling-service-tasks-serviceExample) |
 | [serviceVM][13]     | [script for controlling the serviceVM](#startstop-service-vm-servicevm)   |
 | [webServer][19]     | [script for controlling the zinc web server](#startstop-zinc-web-server-webserver)  |
