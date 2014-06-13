@@ -26,6 +26,7 @@ That is quite a mouthful, so let's break it down:
 3. [Schedule task and Poll for result](#schedule-task-and-poll-for-result)
 4. [Seaside integration](#seaside-integration)
 5. [ServiceVM Project Installation](#servicevm-project-installation)
+7. [Basic Development Scenario](#basic-development-scenario)
 6. [ServiceVM Development Support for tODE](#serviceVM-development-support-for-tode)
 
 ## ServiceVM gem
@@ -322,8 +323,17 @@ GsDeployer bulkMigrate: [
 ].
 ```
 
-## ServiceVM Development Support for tODE
+##Basic Debug/Development Scenario
+##Remote Breakpoints
+Since this project involves two independent GemStone vms, it is a good opportunity
+to use [remote breakpoints][41]. With remote breakpoints you can set a breakpoint 
+in your development environment ([tODE][43] or [GemTools][42]) and the breakpoint 
+will be set in each of the gems launched by 
+[the startSmalltalkServer shell script][44]. When a breakpoint is encountered in
+one of the server gems, a continuation is snapped off and added to the Object Log,
+then the process is resumed.
 
+## ServiceVM Development Support for tODE
 If you are using tODE, there are several utiltiy scripts available in
 the `/home/serviceVM` directory:
 
@@ -334,13 +344,13 @@ the `/home/serviceVM` directory:
 | [project][40]       | project object for `project list` command  |
 | README.md           | *this document*  |
 | [serviceExample][8] | [script for manipulating service example task](#scheduling-service-tasks-serviceExample) |
-| [serviceVM][13]     | [script for controlling the serviceVM](#start=stop-service-vm-servicevm)   |
-| [webServer][19]     | [script for controlling the zinc web server](#start-stop-zinc-web-server-webserver)  |
+| [serviceVM][13]     | [script for controlling the serviceVM](#startstop-service-vm-servicevm)   |
+| [webServer][19]     | [script for controlling the zinc web server](#startstop-zinc-web-server-webserver)  |
 
 ### Start/Stop Service VM (*serviceVM*)
 
 The `--start` option starts the serviceVM in an external topaz session. The
-`--stop` options stops the serviceVM.
+`--stop` option stops the serviceVM.
 Registration need only be done once in the image (the registration is persistent). 
 Use `./serviceVM --help` for additional options.
 
@@ -354,18 +364,16 @@ _**_*[`serviceVM --register`][11]
 [`serviceVM --start`][14]
 [`serviceVM --stop`][24]*
 
-
-
 ###Start/Stop Zinc Web Server (*webServer*)
 The `--start` option starts the web server in an external topaz session. The
-`--stop` options stops the web server.
+`--stop` option stops the web server.
 Registration need only be done once in the image (the registration is persistent). 
 Use `./webServer --help` for additional options.
 
 ```Shell
-  ./webServer --register=zinc   # register zinc as web server (done once)
-  ./webServer --start           # start web server gem
-  ./webServer --stop            # stop web server gem
+./webServer --register=zinc   # register zinc as web server (done once)
+./webServer --start           # start web server gem
+./webServer --stop            # stop web server gem
 ```
 
 _**_**[`webServer --register=zinc`][21]
@@ -373,6 +381,23 @@ _**_**[`webServer --register=zinc`][21]
 [`webServer ----stop`][23]*
 
 ###Scheduling Service Tasks (*serviceExample*)
+
+```Shell
+,/serviceExample --status               # state of service task engine
+./serviceExample --task                 # create a new task
+./serviceExample --task=3               # access task #3
+./serviceExample --task=3 --addToQueue  # schedule task #3 to process next step
+./serviceExample --task=3 --poll=10     # poll for completion of task #3 (wait 10 seconds)
+```
+
+_**_*[`./serviceExample --status`][12]
+[`./serviceExample --task`][16]
+[`./serviceExample --addToQueue`][17]
+[`./serviceExample --poll`][18]*
+
+
+
+
 ####Service VM loop
 XXXXXXXXX
 You can view the state of service example with the `serviceExample` script. The following:
@@ -381,7 +406,6 @@ You can view the state of service example with the `serviceExample` script. The 
 ./serviceExample --status
 ```
 
-_**_*[`serviceExample --status`][12]*
 
 produces an inspector on the key state of the service vm:
 
@@ -428,7 +452,7 @@ Let's start by creating and viewing a task:
 ./serviceExample --task; edit
 ```
 
-_**_*[`./serviceExample --task`][16]*
+_**_**
 
 
 and here's the state of the freshly created task instance:
@@ -464,8 +488,7 @@ Now add the task to the serviceVM queue and wait for the task to be completed
 ```
 
 _**_*[`./serviceExample --task=1`][16]
-[`./serviceExample --addToQueue`][17]
-[`./serviceExample --poll`][18]*
+*
 
 and view the new state:
 
@@ -574,3 +597,7 @@ Nick went on to create
 [38]: docs/readme/seasideServiceVMPage2.png
 [39]: docs/readme/objlog
 [40]: docs/readme/project
+[41]: http://gemstonesoup.wordpress.com/2011/12/02/glass-101-remote-breakpoints-for-seaside-3-0/
+[42]: https://github.com/glassdb/webEditionHome/blob/master/dev/gemtools/gemtools.md#gemtools
+[43]: https://github.com/glassdb/webEditionHome/blob/master/docs/install/gettingStartedWithTode.md#getting-started-with-tode
+[44]: https://github.com/glassdb/ServiceVM/blob/master/bin/startSmalltalkServer#L62-71
