@@ -25,9 +25,8 @@ That is quite a mouthful, so let's break it down:
 2. [Service task](#service-task) 
 3. [Schedule task and Poll for result](#schedule-task-and-poll-for-result)
 4. [Seaside integration](#seaside-integration)
-5. [ServiceVM Project Installation](#servicevm-project-installation)
-7. [Basic Development Scenario](#basic-development-scenario)
-6. [ServiceVM Development Support for tODE](#serviceVM-development-support-for-tode)
+5. [Installation](#installation)
+6. [ServiceVM Development Support for tODE](#servicevm-development-support-for-tode)
 
 ## ServiceVM gem
 For a service gem, we havetwo problems:
@@ -277,7 +276,7 @@ poll: cycle
         ifFalse: [ self poll: cycle + 1 ] ]
 ```
 
-## ServiceVM Project Installation
+## Installation
 
 Clone the https://github.com/glassdb/ServiceVM repository to your local disk and 
 install the scripts needed by the service vm in the $GEMSTONE product tree (make 
@@ -290,10 +289,9 @@ cd ServiceVM
 bin/installScripts.sh                           # $GEMSTONE must be defined
 ```
 
+###Install with tODE
 Install the service vm artifacts in tODE and load the example code (at the tODE 
 command prompt):
-
-###Install with tODE
 
 ```Shell
 mount /opt/git/ServiceVM/tode /home serviceVM  # mount tODE dir at /home/serviceVM
@@ -302,6 +300,7 @@ project load @/home/serviceVM/project          # load the project into the image
 ```
 
 ###Install with Metacello (tODE not already installed)
+Use the following script to install into a freesh extent0.seaside.dbf extent:
 
 ```Smalltalk
 | projectName repoPath |
@@ -323,16 +322,6 @@ GsDeployer bulkMigrate: [
 ].
 ```
 
-##Basic Debug/Development Scenario
-##Remote Breakpoints
-Since this project involves two independent GemStone vms, it is a good opportunity
-to use [remote breakpoints][41]. With remote breakpoints you can set a breakpoint 
-in your development environment ([tODE][43] or [GemTools][42]) and the breakpoint 
-will be set in each of the gems launched by 
-[the startSmalltalkServer shell script][44]. When a breakpoint is encountered in
-one of the server gems, a continuation is snapped off and added to the Object Log,
-then the process is resumed.
-
 ## ServiceVM Development Support for tODE
 If you are using tODE, there are several utiltiy scripts available in
 the `/home/serviceVM` directory:
@@ -340,12 +329,45 @@ the `/home/serviceVM` directory:
 
 | **Script**          | **Purpose** |
 | ------------------- | ------------- |
-| [objlog][39]        | short-cut script for opening object log |
-| [project][40]       | project object for `project list` command  |
-| README.md           | *this document*  |
+| [objlog][39]        | [short-cut script for opening object log](#open-oebject-log-viewer) |
+| [project][40]       | [project entry specifiecation](#project-entry) |
 | [serviceExample][8] | [script for manipulating service example task](#scheduling-service-tasks-serviceExample) |
 | [serviceVM][13]     | [script for controlling the serviceVM](#startstop-service-vm-servicevm)   |
 | [webServer][19]     | [script for controlling the zinc web server](#startstop-zinc-web-server-webserver)  |
+
+### Open Object Log Viewer
+The objlog script executes the following tODE command:
+
+```Shell
+ol view --age=`5 minutes` --reverse
+```
+
+which opens an Object Log window on the last 5 minutes worth of object log entries and
+lists the entries in reverse order with the newest entries at the top of the window. Here
+is a sample window:
+
+![ol view][45]
+
+A debugger can be opened on the continuation.
+
+###Project Entry
+The project entry is a an object: 
+
+```Smalltalk
+^ TDProjectSpecEntryDefinition new
+    baseline: 'ServiceVM'
+      repository: 'github://glassdb/ServiceVM:master/repository'
+      loads: #('default');
+    projectPath: self parent printString;
+    status: #(#'active');
+    yourself
+```
+
+used by the `project list`:
+
+![project list][46]
+
+The `project list` provides an overview of all projects loaded into your image.
 
 ### Start/Stop Service VM (*serviceVM*)
 
@@ -394,160 +416,6 @@ _**_*[`./serviceExample --status`][12]
 [`./serviceExample --task`][16]
 [`./serviceExample --addToQueue`][17]
 [`./serviceExample --poll`][18]*
-
-
-
-
-####Service VM loop
-XXXXXXXXX
-You can view the state of service example with the `serviceExample` script. The following:
-
-```Shell
-./serviceExample --status
-```
-
-
-produces an inspector on the key state of the service vm:
-
-```
-.        -> aDictionary( 'instances'->aDictionary( ), 'high water'->0, 'queue'->anArray( ), 'inProcess'->anArray( ), 'service loop'->Service VM Loop)
-(class)@ -> Dictionary
-(oop)@   -> 329195777
-1@       -> 'high water'->0
-2@       -> 'inProcess'->anArray( )
-3@       -> 'instances'->aDictionary( )
-4@       -> 'queue'->anArray( )
-5@       -> 'service loop'->Service VM Loop
-```
-
-`high water` is the count of service vm tasks created. 
-
-`inProcess` is a list of service vm tasks that have been removed from queue and are being serviced, but 
-have not completed processing, yet. 
-
-'instances' is a dictionary in UserGlobals that keeps track of all of the tasks created by the serviceVM script. 
-
-`queue` is a list of the service vm tasks that 
-are stacked ubrp waiting to be processed. 
-
-`service loop` is the vm task instance.
-
-####Example Task Life Cycle
-In this example the [task][3] is going to get the time in London using the url: 
-*http://www.time.org/zones/Europe/London.php*:
-
-
-```Smalltalk
-WAGemStoneServiceExampleTask 
-  valuable: (WAGemStoneServiceExampleTimeInLondon 
-           url: 'http://www.time.org/zones/Europe/London.php').
-```
-
-Since the task is hitting the web, you aren't able to predict how quickly the time server
-will respond, so we will schedule the task to be executed in the [service vm][9]. 
-
-Let's start by creating and viewing a task:
-
-```Shell
-./serviceExample --task; edit
-```
-
-_**_**
-
-
-and here's the state of the freshly created task instance:
-
-```
-.             -> task: #1 (not finished)
-(class)@      -> WAGemStoneServiceExampleTask
-(oop)@        -> 329145089
-exception@    -> nil
-hasValue@     -> nil
-id@           -> 1
-taskValuable@ -> The time in London is not available, yet.
-taskValue@    -> nil
-```
-
-Shows that the *task #1* does not have a taskValue and the **taskValuable**
-prints as `The time in London is not available, yet.`. 
-Here's a peek at the **taskValuable** itself:
-
-```
-.             -> The time in London is not available, yet.
-..            -> task: #1 (not finished)
-(class)@      -> WAGemStoneServiceExampleTimeInLondon
-(oop)@        -> 329139457
-timeInLondon@ -> nil
-url@          -> 'http://www.time.org/zones/Europe/London.php'
-```
-
-Now add the task to the serviceVM queue and wait for the task to be completed
-
-```Shell
-./serviceExample --task=1 --addToQueue --poll; edit
-```
-
-_**_*[`./serviceExample --task=1`][16]
-*
-
-and view the new state:
-
-```
-.             -> task: #1 (hasValue: '4:21')
-(class)@      -> WAGemStoneServiceExampleTask
-(oop)@        -> 329145089
-exception@    -> nil
-hasValue@     -> true
-id@           -> 1
-taskValuable@ -> The time in London is '4:21'
-taskValue@    -> '4:21'
-```
-
-peek at the service vm state:
-
-```Shell
-./serviceExample --status
-```
-
-_**_*[`serviceExample --status`][12]*
-
-which will look something like the following:
-
-```
-.        -> aDictionary( 'instances'->aDictionary( 1->task: #1 (hasValue: '4:21')), 'high water'->1, 'queue'->anArray( ), 'inProcess'->anArray( ), 'serv...
-(class)@ -> Dictionary
-(oop)@   -> 329536513
-1@       -> 'high water'->1
-2@       -> 'inProcess'->anArray( )
-3@       -> 'instances'->aDictionary( 1->task: #1 (hasValue: '4:21'))
-4@       -> 'queue'->anArray( )
-5@       -> 'service loop'->Service VM Loop
-```
-
-###Service VM Example
-
-Overview of tODE commands used in example:
-  ```Shell
-
-  ./serviceExample --reset                # clear service task queues and counters
-  ./serviceExample --status               # state of service task engine
-  ./serviceExample --task                 # create a new task
-  ./serviceExample --task=3               # access task #3
-  ./serviceExample --task=3 --addToQueue  # schedule task #3 to process next step
-  ./serviceExample --task=3 --poll=10     # poll for completion of task #3 (wait 10 seconds)
-  ```
-See [webServer][19], [serviceVM][13], or [serviceExample][8] 
-for the Smalltalk source for each of the tODE scripts.
-
-
-
-## Futures work by Nick Ager
-Nick went on to create 
-[his Future implementation][25] based on Ramon Leon's article 
-[Smalltalk Concurrency, Playing With Futures][26]:
-
-* Pharo-Future-NickAger.3.mcz
-* Future-Seaside-Examples-NickAger.9.mcz
 
 [1]: repository/Seaside-GemStone-ServiceTask.package/WAGemStoneServiceExampleVMTask.class/class/serviceVMTaskServiceExample.st#L18
 [2]: repository/Seaside-GemStone-ServiceExamples.package/WAGemStoneServiceExampleVMTask.class/class/serviceLoop.st#L10
@@ -601,3 +469,5 @@ Nick went on to create
 [42]: https://github.com/glassdb/webEditionHome/blob/master/dev/gemtools/gemtools.md#gemtools
 [43]: https://github.com/glassdb/webEditionHome/blob/master/docs/install/gettingStartedWithTode.md#getting-started-with-tode
 [44]: https://github.com/glassdb/ServiceVM/blob/master/bin/startSmalltalkServer#L62-71
+[45]: docs/readme/olView.png
+[46]: docs/readme/projectListView.png
