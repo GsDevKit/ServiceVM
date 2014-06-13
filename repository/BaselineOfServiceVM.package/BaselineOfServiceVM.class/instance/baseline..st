@@ -8,7 +8,7 @@ baseline: spec
         configuration: 'Seaside3'
           with: [ 
               spec
-                version: #'release31';
+                version: #'release3.1';
                 loads: #('Zinc' 'Seaside-GemStone-ServiceTask');
                 repository:
                     'http://www.smalltalkhub.com/mc/Seaside/MetacelloConfigurations/main' ];
