@@ -72,17 +72,22 @@ run
 
 System transactionMode: #manualBegin.
 
-TransactionBacklog addDefaultHandler: [:ex |
-  "Run the abort in a lowPriority process, since we must acquire the
-   transactionMutex."
-  [
-    GRPlatform current transactionMutex
-      critical: [ GRPlatform current doAbortTransaction ].
-    TransactionBacklog enableSignalling.
-  ] forkAt: Processor lowestPriority.
-].
-TransactionBacklog enableSignalling.
-
+Exception
+  installStaticException:
+    [:ex :cat :num :args |
+      "Run the abort in a lowPriority process, since we must acquire the
+       transactionMutex."
+      [
+        GRPlatform current transactionMutex
+          critical: [
+            GRPlatform current doAbortTransaction ].
+        System enableSignaledAbortError.
+      ] forkAt: Processor lowestPriority.
+    ]
+  category: GemStoneError
+  number: 6009 "#rtErrSignalAbort"
+  subtype: nil.
+System enableSignaledAbortError.
 "This thread is needed to handle the SigAbort exception, when the primary
  thread is blocked. Assuming default 60 second STN_GEM_ABORT_TIMEOUT, wake
  up at 30 second intervals."
