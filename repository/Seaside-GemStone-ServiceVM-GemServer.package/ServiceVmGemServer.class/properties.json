@@ -1,0 +1,14 @@
+{
+	"category" : "Seaside-GemStone-ServiceVM-GemServer",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "",
+	"instvars" : [
+		 ],
+	"name" : "ServiceVmGemServer",
+	"pools" : [
+		 ],
+	"super" : "WAGemStoneAbstractTaskGemServer",
+	"type" : "normal" }

@@ -5,22 +5,25 @@ baseline: spec
     for: #'common'
     do: [ 
       spec
-        configuration: 'Seaside3'
+        baseline: 'Seaside3'
           with: [ 
               spec
-                version: #'release3.1';
-                loads: #('default' 'Zinc' 'Seaside-GemStone-ServiceTask');
-                repository:
-                    'http://www.smalltalkhub.com/mc/Seaside/MetacelloConfigurations/main' ];
+                loads:
+                    #('default' 'Zinc' 'Seaside-GemStone-ServiceTask' 'Seaside-GemStone-GemServer');
+                repository: 'github://GsDevKit/Seaside31:3.1.?/repository' ];
         yourself.
       spec
         package: 'Seaside-GemStone-ServiceVM-Support'
           with: [ spec requires: #('Seaside3') ];
         package: 'Seaside-GemStone-ServiceExamples'
           with: [ spec requires: #('Seaside-GemStone-ServiceVM-Support') ];
+        package: 'Seaside-GemStone-ServiceVM-GemServer'
+          with: [ spec requires: #('Seaside3') ];
         yourself.
       spec
         group: 'default' with: #('Core' 'Example');
-        group: 'Core' with: #('Seaside-GemStone-ServiceVM-Support');
+        group: 'Core'
+          with:
+            #('Seaside-GemStone-ServiceVM-Support' 'Seaside-GemStone-ServiceVM-GemServer');
         group: 'Example' with: #('Seaside-GemStone-ServiceExamples');
         group: 'Tests' with: #() yourself ]
