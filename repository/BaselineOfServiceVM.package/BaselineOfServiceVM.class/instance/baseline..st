@@ -11,12 +11,15 @@ baseline: spec
                 loads:
                     #('Core' 'Seaside-GemStone-ServiceTask' 'Seaside-GemStone-GemServer-Core');
                 repository: 'github://GsDevKit/Seaside31:issue_54/repository' ];
+        project: 'Seaside3 Zinc Adaptor'
+          copyFrom: 'Seaside3'
+          with: [ spec loads: #('Seaside-GemStone-Adaptors-Zinc') ];
         yourself.
       spec
         package: 'Seaside-GemStone-ServiceVM-Support'
           with: [ spec requires: #('Seaside3') ];
         package: 'Seaside-GemStone-ServiceExamples'
-          with: [ spec requires: #('Seaside-GemStone-ServiceVM-Support') ];
+          with: [ spec requires: #('Seaside-GemStone-ServiceVM-Support' 'Seaside3 Zinc Adaptor') ];
         package: 'Seaside-GemStone-ServiceVM-GemServer'
           with: [ spec requires: #('Seaside3') ];
         yourself.
