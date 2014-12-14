@@ -26,4 +26,6 @@ baseline: spec
           with:
             #('Seaside-GemStone-ServiceVM-Support' 'Seaside-GemStone-ServiceVM-GemServer');
         group: 'Example' with: #('Seaside-GemStone-ServiceExamples');
-        group: 'Tests' with: #() yourself ]
+        group: 'Tests' with: #();
+        group: 'CI' with: #('Core' 'Tests' 'Example');
+        yourself ]
