@@ -10,7 +10,7 @@ baseline: spec
               spec
                 loads:
                     #('default' 'Zinc' 'Seaside-GemStone-ServiceTask' 'Seaside-GemStone-GemServer');
-                repository: 'github://GsDevKit/Seaside31:3.1.?/repository' ];
+                repository: 'github://GsDevKit/Seaside31:issue_54/repository' ];
         yourself.
       spec
         package: 'Seaside-GemStone-ServiceVM-Support'
