@@ -1,0 +1,14 @@
+{
+	"category" : "Seaside-GemStone-ServiceExamples-Tests",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "",
+	"instvars" : [
+		"registry" ],
+	"name" : "ServiceExampleGemServerTests",
+	"pools" : [
+		 ],
+	"super" : "TestCase",
+	"type" : "normal" }
