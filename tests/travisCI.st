@@ -3,7 +3,7 @@
 Transcript cr; show: 'travis---->travisCI.st'.
 
 gitCache := 'git_cache'.
-gitPath := (fileDirectoryClass default directoryNamed: gitCache ) fullName.
+gitPath := (FileDirectory default directoryNamed: gitCache) fullName.
 
 "Upgrade Grease and Metacello"
 Gofer new
