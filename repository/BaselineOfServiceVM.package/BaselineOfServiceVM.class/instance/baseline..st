@@ -9,7 +9,7 @@ baseline: spec
           with: [ 
               spec
                 loads:
-                    #('Core' 'Development' 'Zinc' 'Seaside-GemStone-ServiceTask' 'Seaside-GemStone-GemServer');
+                    #('Core' 'Seaside-GemStone-ServiceTask' 'Seaside-GemStone-GemServer-Core');
                 repository: 'github://GsDevKit/Seaside31:issue_54/repository' ];
         yourself.
       spec
