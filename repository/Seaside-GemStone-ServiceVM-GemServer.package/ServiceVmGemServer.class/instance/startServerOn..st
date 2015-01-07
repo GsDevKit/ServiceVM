@@ -1,6 +1,6 @@
 service instance-server
-startServerOn: port
+startServerOn: portOrResourceName
   "start server in current vm. for gemstone, not expected to return."
 
   self taskClass vmStartup.
-  super startServerOn: port
+  super startServerOn: portOrResourceName
