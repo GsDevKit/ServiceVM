@@ -34,7 +34,7 @@ For a service gem, we havetwo problems:
 * [How do we start and stop a service vm?](#gem-control)
 * [How do we define the service vm service loop?](#service-loop)	
 
-###Gem control
+### Gem control
 Fortunately, Paul DeBruicker solved both of these problems
 Back in 2011. He created a 
 [couple of classes (WAGemStoneRunSmalltalkServer & WAGemStoneSmalltalkServer)][33] 
@@ -282,7 +282,7 @@ poll: cycle
 * [Install using Metacello](#install-using-metacello)
 * [Install using tODE](#install-using-tode)
 
-###Install using Metacello 
+### Install using Metacello 
 Clone the https://github.com/glassdb/ServiceVM repository to your local disk and 
 install the scripts needed by the service vm in the $GEMSTONE product tree (make 
 sure you have $GEMSTONE defined before running the installScripts.sh step):
@@ -375,7 +375,7 @@ is a sample window:
 
 A debugger can be opened on the continuation.
 
-###Project Entry
+### Project Entry
 The project entry is a an object: 
 
 ```Smalltalk
@@ -427,7 +427,7 @@ _**_**[`webServer --register=zinc`][21]
 [`webServer --start`][22]
 [`webServer ----stop`][23]*
 
-###Scheduling Service Tasks (*serviceExample*)
+### Scheduling Service Tasks (*serviceExample*)
 
 ```Shell
 ,/serviceExample --status               # state of service task engine
