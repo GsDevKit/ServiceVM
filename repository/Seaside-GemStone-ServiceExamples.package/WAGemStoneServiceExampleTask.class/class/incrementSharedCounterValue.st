@@ -1,4 +1,4 @@
 accessing
 incrementSharedCounterValue
 
-	System _sharedCounter: self sharedCounterIndex incrementBy: 1
+	System sharedCounter: self sharedCounterIndex incrementBy: 1
