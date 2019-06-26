@@ -283,13 +283,13 @@ poll: cycle
 * [Install using tODE](#install-using-tode)
 
 ### Install using Metacello 
-Clone the https://github.com/glassdb/ServiceVM repository to your local disk and 
+Clone the https://github.com/GsDevKit/ServiceVM repository to your local disk and 
 install the scripts needed by the service vm in the $GEMSTONE product tree (make 
 sure you have $GEMSTONE defined before running the installScripts.sh step):
 
 ```shell
 cd /opt/git                                     # root dir for git repository
-git clone git@github.com:glassdb/ServiceVM.git  # clone service vm
+git clone https://github.com/GsDevKit/ServiceVM.git  # clone service vm
 cd ServiceVM
 bin/installScripts.sh                           # $GEMSTONE must be defined
 ```
@@ -299,7 +299,7 @@ extent0.seaside.dbf:
 
 ```Smalltalk
 | svcRepo |
-svcRepo := 'github://glassdb/ServiceVM:master/repository'. "Use this path if you haven't 
+svcRepo := 'github://GsDevKit/ServiceVM:master/repository'. "Use this path if you haven't 
                                                              cloned the GitHub repository
                                                              don't forget to install the
                                                              scripts manually."
@@ -381,7 +381,7 @@ The project entry is a an object:
 ```Smalltalk
 ^ TDProjectSpecEntryDefinition new
     baseline: 'ServiceVM'
-      repository: 'github://glassdb/ServiceVM:master/repository'
+      repository: 'github://GsDevKit/ServiceVM:master/repository'
       loads: #('default');
     projectPath: self parent printString;
     status: #(#'active');
